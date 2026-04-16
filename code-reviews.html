@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Reviews &mdash; Craft &amp; Ownership</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="code-reviews.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Craft &amp; Ownership</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="requirements-design.html">Requirements &amp; Design</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="data-api.html">Data &amp; APIs</a>
+            <a href="testing-observability.html">Testing &amp; Observability</a>
+            <a href="code-reviews.html">Code Reviews</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Ownership</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+            <a href="mentoring-peers.html">Mentoring Peers</a>
+            <a href="influence-communication.html">Influence &amp; Communication</a>
+            <a href="communication-docs.html">Comms &amp; Docs</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Code Reviews</h1>
+    <p class="subtitle">Reviews are where the team&rsquo;s standard is set. Every review you submit or give quietly teaches the team what &ldquo;good&rdquo; looks like.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#self-review">1. Self-Review First</a></li>
+      <li><a href="#great-mrs">2. Writing MRs People Love to Review</a></li>
+      <li><a href="#teaching">3. Reviewing as Teaching</a></li>
+      <li><a href="#bar">4. Holding the Bar &mdash; Even for Juniors</a></li>
+      <li><a href="#pitfalls">5. Review Pitfalls to Avoid</a></li>
+      <li><a href="#responding">6. Responding Well to Feedback</a></li>
+      <li><a href="#standards">7. Standards by Example</a></li>
+    </ul>
+  </section>
+
+  <!-- 1. Self-review -->
+  <section class="fade-in" id="self-review">
+    <span class="section-num">01 &middot; Before Review</span>
+    <h2>Self-Review First</h2>
+    <p class="section-intro">Before you request a review, review your own PR as if it were somebody else&rsquo;s. You&rsquo;ll find roughly a third of the comments a reviewer would otherwise leave &mdash; and the remaining review becomes far more valuable, because it&rsquo;s focused on the substance you couldn&rsquo;t catch yourself.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Every comment a reviewer leaves on something you could have caught yourself is a small tax on their time and attention. Multiplied across a year and a team, that tax is huge. Self-review moves those catches upstream, where they cost you 10 minutes and save everybody else two days of round-tripping.</p>
+    </div>
+
+    <h3>A scenario</h3>
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128270;</span>
+      <div>
+        <p>You finish a 12-file change. You open the PR, and for 15 minutes you read your own diff as if you&rsquo;d never seen it. You find: a <code>console.log</code> you forgot to remove, a variable named <code>tmp2</code>, an unused import, a commented-out block you meant to delete, a test you stubbed and forgot to finish. Five issues &mdash; all trivial, all embarrassing if a teammate had to flag them. You fix them and request review. Your reviewer spends their time on the architectural question that actually matters.</p>
+      </div>
+    </div>
+
+    <div class="framework">
+      <h4>The self-review checklist</h4>
+      <ul>
+        <li>Read the diff end-to-end, not just the files you edited last.</li>
+        <li>Does the PR description match what the code actually does?</li>
+        <li>Is the scope clean &mdash; no unrelated changes sneaking in?</li>
+        <li>Do variable and function names still make sense on a fresh read?</li>
+        <li>Are tests included for the new behavior? Do they test behavior, not implementation?</li>
+        <li>Are logs, metrics, and error handling consistent with the rest of the codebase?</li>
+        <li>Did I leave any commented-out code, debug prints, or TODOs without a purpose?</li>
+        <li>Would I approve this PR if it came from a peer?</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2. Writing MRs -->
+  <section class="fade-in" id="great-mrs">
+    <span class="section-num">02 &middot; Authoring</span>
+    <h2>Writing MRs People Love to Review</h2>
+    <p class="section-intro">A great MR is small, scoped, and described well enough that a reviewer can tell you the intent before opening the diff. Those three qualities are what get a review done in 20 minutes instead of three days.</p>
+
+    <div class="framework">
+      <h4>The great-MR checklist</h4>
+      <ul>
+        <li><strong>Small.</strong> Aim for &lt;400 lines changed. Beyond that, review fatigue takes over &mdash; reviewers skim and miss things.</li>
+        <li><strong>Scoped.</strong> One logical change. If the description needs the word &ldquo;also&rdquo;, split the PR.</li>
+        <li><strong>Described.</strong> What problem, what approach, what alternatives you considered, how you tested. A few bullets are enough.</li>
+        <li><strong>Illustrated when useful.</strong> Screenshots for UI, a curl example for an API, a graph for a perf improvement.</li>
+        <li><strong>Self-reviewed.</strong> All the easy comments are already resolved before it arrives.</li>
+        <li><strong>Green.</strong> CI passes. If a test is flaky, fix or quarantine it in its own PR first.</li>
+      </ul>
+    </div>
+
+    <h3>The PR description that earns a fast review</h3>
+    <div class="tip">
+      <span class="tip-icon">&#128221;</span>
+      <div>
+        <p><strong>Template:</strong></p>
+        <p><strong>Why:</strong> one paragraph on the problem you&rsquo;re solving.<br>
+        <strong>What:</strong> the main moves &mdash; the new class, the refactor, the test.<br>
+        <strong>How:</strong> the approach, and one alternative you considered.<br>
+        <strong>Testing:</strong> what you ran, what passed, what still needs manual verification.<br>
+        <strong>Rollout:</strong> flag name if any; migrations; anything the reviewer should watch for on deploy.</p>
+        <p>A reviewer reading this knows what to focus on before they even open the diff. That is the gift.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>The &ldquo;big bang&rdquo; PR: 2,000 lines, eight concerns tangled, no description. The review request lands in Slack: <em>&ldquo;PR up, big one, let me know when you&rsquo;ve got time.&rdquo;</em> The reviewer opens it, closes it, promises themselves later, and three days go by. The author&rsquo;s context goes cold. Eventually somebody rubber-stamps it to unblock the branch.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>Split into a chain of small PRs, each with its own description. The request reads: <em>&ldquo;3-PR chain for the payment refactor &mdash; (1) extract domain model, (2) add retry handler, (3) wire into controller. Each is &lt;150 lines, reviewable in ~10 min. Best reviewed in order, but independent if you want to grab any one.&rdquo;</em> Reviewers approve in minutes, merges land daily, risk per PR is tiny.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3. Teaching -->
+  <section class="fade-in" id="teaching">
+    <span class="section-num">03 &middot; Giving Reviews</span>
+    <h2>Reviewing as Teaching</h2>
+    <p class="section-intro">A review is a conversation about code, not a verdict on a person. The best reviewers help the author arrive at the better design on their own &mdash; which means the author learns, the team&rsquo;s bar moves up, and the next PR starts closer to the finish line.</p>
+
+    <div class="framework">
+      <h4>Patterns that teach</h4>
+      <ul>
+        <li><strong>Ask, don&rsquo;t demand.</strong> &ldquo;What happens if this list is empty?&rdquo; beats &ldquo;handle empty.&rdquo; The question forces the author to think; the command makes them edit mechanically.</li>
+        <li><strong>Explain the &ldquo;why&rdquo;</strong> for any non-trivial suggestion. &ldquo;I&rsquo;d extract this helper because it&rsquo;s reused in two places and both callers would benefit from the same change.&rdquo;</li>
+        <li><strong>Praise genuine moves.</strong> When someone does a clean refactor, say so. Reviews that only criticise drift into discouragement.</li>
+        <li><strong>Separate &ldquo;must&rdquo; from &ldquo;nice-to-have.&rdquo;</strong> Tag comments: <code>blocking</code>, <code>suggestion</code>, <code>nit</code>. The author knows what&rsquo;s required vs. what&rsquo;s optional polish.</li>
+        <li><strong>Use code snippets when the idea is tricky.</strong> Showing a five-line alternative is kinder than a paragraph arguing for it.</li>
+        <li><strong>Do the whole review in one pass.</strong> Don&rsquo;t trickle comments over two days &mdash; the author can&rsquo;t respond well to a moving target.</li>
+      </ul>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#128218;</span>
+      <div>
+        <p><strong>Scenario:</strong> a junior has added a method that mutates a list passed to it. You could write &ldquo;don&rsquo;t mutate params.&rdquo; You could instead write: &ldquo;Mutating the caller&rsquo;s list here will bite us when anyone else uses this method &mdash; they&rsquo;ll get a surprise side effect. Can we return a new list instead? Same perf for this size, much safer.&rdquo; The first teaches a rule; the second teaches a principle. Pick the second.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4. Bar -->
+  <section class="fade-in" id="bar">
+    <span class="section-num">04 &middot; Standards</span>
+    <h2>Holding the Bar &mdash; Even for Juniors</h2>
+    <p class="section-intro">Kindness and rigor are not opposites. The kindest thing you can do for a junior is to review their code to the same standard as anyone else&rsquo;s &mdash; wrapped in warmth, with clear reasoning, but not softened.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>A waved-through review feels generous in the moment. Six months later, that junior is still making the same mistake, because nobody ever told them. The review that felt harsh was the one that helped them grow.</p>
+    </div>
+
+    <h3>What &ldquo;holding the bar&rdquo; looks like</h3>
+    <div class="framework">
+      <ul>
+        <li>If the code isn&rsquo;t good enough, say so &mdash; with the same reasoning you&rsquo;d give a senior.</li>
+        <li>If a test is missing, ask for it. Every time. &ldquo;It&rsquo;s a small change&rdquo; is not an exception.</li>
+        <li>If a name is unclear, flag it. Naming habits form early and last.</li>
+        <li>If the approach is off, explain why and suggest the better one &mdash; even when that means rework.</li>
+        <li>Offer to pair on the rework if it&rsquo;s substantial. Rigour paired with support is the whole package.</li>
+      </ul>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; &ldquo;soft review&rdquo;</h5>
+        <p>You approve with a few nits because they&rsquo;re new, they&rsquo;re trying hard, and you don&rsquo;t want to discourage them. The code lands. The pattern you didn&rsquo;t flag shows up in their next three PRs. You&rsquo;ve taught them it&rsquo;s fine.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach &mdash; &ldquo;kind rigor&rdquo;</h5>
+        <p>Say what&rsquo;s great. Say what needs to change and why. Offer to pair for 30 minutes if it helps. The review is high-bar; the delivery is warm. Both at once.</p>
+      </div>
+    </div>
+
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#128588;</span>
+      <div>
+        <p><strong>Why this matters:</strong> the team&rsquo;s standard is the lowest one you approved last week. If you wave things through for juniors, you&rsquo;ve set the floor where the waved-through work sits. Juniors don&rsquo;t want a lower bar &mdash; they want honest feedback and a chance to meet it.</p>
+      </div>
+    </div>
+
+    <div class="tip friction-tip">
+      <span class="tip-icon">&#9888;&#65039;</span>
+      <div>
+        <span class="friction-tip-label">When it&rsquo;s hard</span>
+        <p><strong>&ldquo;My review was honest and kind &mdash; but I can tell it bruised them.&rdquo;</strong> It happens, even with careful wording. Comment density reads differently from the receiving end than from yours. Don&rsquo;t retract the feedback &mdash; that teaches them you&rsquo;ll back off if they go quiet. Instead, catch them offline: &ldquo;Hey &mdash; I left a lot of comments on your PR because I think you&rsquo;re ready to hear them. None of it was about effort or capability. Want to pair for twenty minutes on the rework so I can show my thinking rather than type it?&rdquo; You&rsquo;ve named the volume, named the respect behind it, and offered presence. That combination almost always resets the relationship &mdash; and the next review lands better, because you&rsquo;ve proven the feedback was care, not critique.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 5. Pitfalls -->
+  <section class="fade-in" id="pitfalls">
+    <span class="section-num">05 &middot; Diagnosis</span>
+    <h2>Review Pitfalls to Avoid</h2>
+    <p class="section-intro">Giving a great review is partly about not doing the things that make reviews worse. These are the patterns to watch for in yourself.</p>
+
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>Nitpick pile-on</h4>
+        <p>Fifty comments: <em>&ldquo;trailing comma&rdquo;, &ldquo;two spaces not four&rdquo;, &ldquo;extra blank line&rdquo;</em>. The author spends two hours on what a linter would fix in a second, and the one real design question you had gets lost in the noise. Fix: let the linter enforce style; comment only on what the linter can&rsquo;t see.</p>
+      </div>
+      <div class="card">
+        <h4>&ldquo;While you&rsquo;re there&rdquo;</h4>
+        <p>Asking for an unrelated fix or refactor in someone else&rsquo;s PR. The PR&rsquo;s scope balloons; the author is frustrated. Open a follow-up ticket instead.</p>
+      </div>
+      <div class="card">
+        <h4>Ghosting</h4>
+        <p>Leaving a PR unreviewed for three days. The author&rsquo;s context goes cold; the branch drifts. Fix: review same-day where possible. If you can&rsquo;t, say so, and give an ETA.</p>
+      </div>
+      <div class="card">
+        <h4>Rubber stamp</h4>
+        <p>Approving without reading. A <em>&ldquo;LGTM 👍&rdquo;</em> in ninety seconds on a 400-line PR is worse than no review &mdash; the author thinks it&rsquo;s been scrutinised. If you didn&rsquo;t have time, say so: <em>&ldquo;Swamped today &mdash; can you get Priya on this one? I&rsquo;ll pick up your next.&rdquo;</em></p>
+      </div>
+      <div class="card">
+        <h4>Style debate</h4>
+        <p>Fifteen rounds on curly brace placement. Adopt a team style guide once, move on. Review your own taste against the agreed rule, not the other way around.</p>
+      </div>
+      <div class="card">
+        <h4>Cryptic comments</h4>
+        <p>&ldquo;This is wrong.&rdquo; Wrong how? The author has no way to fix it without asking you offline. Always include enough context to act on.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 6. Responding -->
+  <section class="fade-in" id="responding">
+    <span class="section-num">06 &middot; Receiving</span>
+    <h2>Responding Well to Feedback</h2>
+    <p class="section-intro">How you respond to review comments on your own PRs tells the team what kind of collaborator you are. The goal is the best outcome for the code, not a defence of what you wrote.</p>
+
+    <div class="framework">
+      <h4>Patterns that work</h4>
+      <ul>
+        <li><strong>Assume the reviewer is reasonable.</strong> Start from &ldquo;what are they seeing that I&rsquo;m missing?&rdquo;</li>
+        <li><strong>Make the change or explain why not.</strong> Both are fine; silence is not.</li>
+        <li><strong>When you disagree, disagree openly and briefly.</strong> &ldquo;I considered that &mdash; I went with this because of X. Happy to change if X doesn&rsquo;t hold.&rdquo;</li>
+        <li><strong>Don&rsquo;t argue the nit.</strong> If it&rsquo;s small, just do it. Spending 20 minutes defending a variable name costs more than renaming it.</li>
+        <li><strong>Thank specific useful feedback.</strong> A quick &ldquo;good catch&rdquo; makes the reviewer want to engage next time.</li>
+      </ul>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">&#128171;</span>
+      <div>
+        <p>The response that always impresses: &ldquo;You&rsquo;re right &mdash; I hadn&rsquo;t considered that.&rdquo; Engineers with strong opinions sometimes forget that updating one&rsquo;s view in public is a senior signal, not a weakness.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 7. Standards -->
+  <section class="fade-in" id="standards">
+    <span class="section-num">07 &middot; Influence</span>
+    <h2>Standards by Example</h2>
+    <p class="section-intro">Nobody reads a style guide. Everybody reads the recent merged PRs. Your reviews and your own PRs set the team&rsquo;s working standard far more than any written policy ever will.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Whatever you consistently hold the line on &mdash; test coverage, naming, scope of PRs, error handling &mdash; becomes what the team holds the line on. Whatever you let slide becomes what the team lets slide. You&rsquo;re teaching either way. Pick what you&rsquo;re teaching deliberately.</p>
+    </div>
+
+    <div class="framework">
+      <h4>Three habits that raise the team&rsquo;s standard</h4>
+      <ol>
+        <li><strong>Be reliable in review.</strong> Same-day turnaround, thorough reading, clear comments. Teammates will bring their best code to a reliable reviewer.</li>
+        <li><strong>Make your own PRs exemplary.</strong> Small, described, tested, observable. If yours are the template, the team&rsquo;s average creeps up.</li>
+        <li><strong>Call out drift, politely but clearly.</strong> When the team stops writing tests on rushed weeks, name it in the next huddle. Not as blame &mdash; as a collective re-commit.</li>
+      </ol>
+    </div>
+
+    <p class="section-intro" style="margin-top:40px;">Next: <a href="delivery-ownership.html">Delivery &amp; Ownership</a> &mdash; what &ldquo;done&rdquo; actually means after the code is merged.</p>
+  </section>
+
+  <div class="try-this">
+    <p><strong>Pick one this week:</strong></p>
+    <ul>
+      <li>Spend 15 minutes self-reviewing your next PR before requesting review. Count how many things you catch yourself.</li>
+      <li>On your next review of someone else&rsquo;s PR, turn at least one comment into a question that helps them think, instead of a directive.</li>
+      <li>Write your next PR description with Why / What / How / Testing / Rollout headings. Notice how quickly reviewers engage.</li>
+      <li>The next junior PR you review, find one thing that&rsquo;s genuinely worth praising specifically. Say it. Notice what it does for them.</li>
+    </ul>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="requirements-design.html">Requirements &amp; Design</a>
+      <a href="clean-code.html">Clean Code</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="data-api.html">Data &amp; APIs</a>
+      <a href="testing-observability.html">Testing &amp; Observability</a>
+      <a href="code-reviews.html">Code Reviews</a>
+      <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+      <a href="mentoring-peers.html">Mentoring Peers</a>
+      <a href="influence-communication.html">Influence &amp; Communication</a>
+      <a href="communication-docs.html">Comms &amp; Docs</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for senior engineers who own what they ship. One feature at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

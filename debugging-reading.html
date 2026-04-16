@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debugging &amp; Reading Code &mdash; Craft &amp; Ownership</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="debugging-reading.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Craft &amp; Ownership</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="requirements-design.html">Requirements &amp; Design</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="data-api.html">Data &amp; APIs</a>
+            <a href="testing-observability.html">Testing &amp; Observability</a>
+            <a href="code-reviews.html">Code Reviews</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Ownership</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+            <a href="mentoring-peers.html">Mentoring Peers</a>
+            <a href="influence-communication.html">Influence &amp; Communication</a>
+            <a href="communication-docs.html">Comms &amp; Docs</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Debugging &amp; Reading Code</h1>
+    <p class="subtitle">The skills seniors are quietly expected to have, and juniors are quietly expected to grow into. Debugging well and reading before changing are what separate engineers who fix things from engineers who keep breaking them.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#scientific">1. Debugging Is a Scientific Method</a></li>
+      <li><a href="#reproduce">2. Reproduce Before You Fix</a></li>
+      <li><a href="#bisect">3. Bisection &mdash; Halving the Haystack</a></li>
+      <li><a href="#stack-traces">4. Read the Stack Trace, Don&rsquo;t Guess</a></li>
+      <li><a href="#read-first">5. Read the Code Before You Change It</a></li>
+      <li><a href="#ramp-up">6. Ramping Up on a New Codebase</a></li>
+      <li><a href="#prod-debug">7. Debugging in Production</a></li>
+      <li><a href="#profiling">8. Profiling When It Matters</a></li>
+      <li><a href="#dont-know">9. &ldquo;I Don&rsquo;t Know&rdquo; Is a Senior Skill</a></li>
+    </ul>
+  </section>
+
+  <!-- 1. Scientific method -->
+  <section class="fade-in" id="scientific">
+    <span class="section-num">01 &middot; Method</span>
+    <h2>Debugging Is a Scientific Method</h2>
+    <p class="section-intro">A bug isn&rsquo;t mysterious. It&rsquo;s behavior produced by code, running on a machine, with inputs and state. When you treat debugging as guesswork, you get lucky sometimes. When you treat it as the scientific method &mdash; observe, hypothesise, test, repeat &mdash; you get fast reliably.</p>
+
+    <div class="framework">
+      <h4>The debugging loop</h4>
+      <ol>
+        <li><strong>Observe.</strong> What exactly is happening? Not &ldquo;it&rsquo;s broken.&rdquo; A specific input, producing a specific wrong output, in a specific environment.</li>
+        <li><strong>Hypothesise.</strong> What could cause this? List two or three candidates. Rank them by probability given what you know.</li>
+        <li><strong>Test one hypothesis cheaply.</strong> A log line, a breakpoint, a unit test, a query. Cheapest test first.</li>
+        <li><strong>Update your model.</strong> What did the test confirm or rule out? Eliminate branches.</li>
+        <li><strong>Repeat until you can point at the exact line.</strong> &ldquo;I think it&rsquo;s around here&rdquo; is not done. Found is found.</li>
+      </ol>
+      <p>The loop feels slow for the first few bugs. After ten bugs, it&rsquo;s faster than guessing &mdash; and you actually know why the bug was there, which means you can prevent the class, not just the instance.</p>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Most long-running bug hunts are really short hunts repeated &mdash; the debugger changed something, forgot what, changed something else, lost the thread. Keep a cheap log while you debug: what you tried, what you saw. Five lines in a scratch file saves hours of &ldquo;wait, did I test this already?&rdquo;</p>
+    </div>
+
+    <p class="section-intro" style="margin-top:20px;">This takes years to feel natural. Early in your career, you&rsquo;ll catch yourself guessing; name it when you do and switch back to the loop. The habit forms by doing.</p>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2. Reproduce -->
+  <section class="fade-in" id="reproduce">
+    <span class="section-num">02 &middot; Discipline</span>
+    <h2>Reproduce Before You Fix</h2>
+    <p class="section-intro">A bug you can&rsquo;t reproduce is a bug you can&rsquo;t be sure you fixed. Reproducing is the single most valuable step and the one most often skipped.</p>
+
+    <div class="framework">
+      <h4>The minimal repro ladder</h4>
+      <ul>
+        <li><strong>Reproduce in the original environment.</strong> The full app, the production-like data &mdash; confirm the behavior exists.</li>
+        <li><strong>Shrink the input.</strong> What&rsquo;s the smallest input that still triggers it? One user? One row? One request?</li>
+        <li><strong>Shrink the code path.</strong> Can you reproduce it in a unit test or a 20-line script? If yes, you&rsquo;ve isolated it.</li>
+        <li><strong>Lock the repro as a test.</strong> Before you fix anything, write the failing test. The fix is done when the test goes green.</li>
+      </ul>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128269;</span>
+      <div>
+        <p><strong>Scenario:</strong> &ldquo;Customers see wrong total at checkout&rdquo; &mdash; vague and scary. You open support tickets: three customers, one thing in common &mdash; all used a 20% discount code on an item that was already discounted. You try it: yes, reproduces. You shrink: same bug with a 10% code, any item, second-discount flow. You write a unit test that fails. Now you have a <em>named bug</em>, not a mystery. The fix takes 15 minutes; the confidence it&rsquo;s actually fixed is absolute.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>&ldquo;It&rsquo;s probably this.&rdquo; You change the code, can&rsquo;t reproduce the bug (because you never could), ship the fix, cross your fingers. Three weeks later the customer is back.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>If you can&rsquo;t reproduce, spend time getting a repro before spending time on the fix. Often the repro attempt is how you find the bug in the first place.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3. Bisect -->
+  <section class="fade-in" id="bisect">
+    <span class="section-num">03 &middot; Technique</span>
+    <h2>Bisection &mdash; Halving the Haystack</h2>
+    <p class="section-intro">When you know the bug wasn&rsquo;t there last week and is there today, bisection finds the commit that introduced it in log(N) steps, not N. It&rsquo;s one of the highest-leverage techniques you can learn.</p>
+
+    <div class="framework">
+      <h4>git bisect in 60 seconds</h4>
+      <pre class="code-block">git bisect start
+git bisect bad                 # current commit is broken
+git bisect good v1.4.0         # this tag was good
+# git checks out a midpoint; you test; then:
+git bisect good                # or: git bisect bad
+# repeat until git prints the offending commit
+git bisect reset</pre>
+      <p>If you have an automated test that reproduces the bug, <code>git bisect run ./repro.sh</code> does the whole thing for you in one command.</p>
+    </div>
+
+    <h3>Bisection as a habit, not just a command</h3>
+    <p>The habit extends beyond git. When something is broken: what&rsquo;s the smallest thing I can change to learn whether my model is right? Remove half the inputs. Comment out half the code. Query half the users. Eliminate halves until the problem narrows to a point. Almost every hard debug collapses into easy steps under bisection.</p>
+
+    <div class="tip">
+      <span class="tip-icon">&#9986;</span>
+      <div>
+        <p>When a library upgrade broke something, <code>git bisect</code> across the dependency&rsquo;s changelog is often faster than reading the release notes.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4. Stack traces -->
+  <section class="fade-in" id="stack-traces">
+    <span class="section-num">04 &middot; Reading</span>
+    <h2>Read the Stack Trace, Don&rsquo;t Guess</h2>
+    <p class="section-intro">Every error message and stack trace is a free tip from the runtime about where the bug lives. Most time spent &ldquo;debugging&rdquo; is really time spent not reading what was already written for you.</p>
+
+    <div class="framework">
+      <h4>How to read a stack trace</h4>
+      <ol>
+        <li><strong>Read the message.</strong> All of it. Twice. The type, the text, any context the framework added.</li>
+        <li><strong>Find the top frame that&rsquo;s in your code.</strong> Framework frames are usually noise; your code is usually where you can act.</li>
+        <li><strong>Understand the call path.</strong> Who called the failing function, with what? Sometimes the bug is three frames up.</li>
+        <li><strong>Note line numbers against the current commit.</strong> Traces from old deploys point at old line numbers &mdash; confirm which version produced the error.</li>
+        <li><strong>Look for patterns across multiple occurrences.</strong> One trace is a data point; five similar ones are a signal.</li>
+      </ol>
+    </div>
+
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#128270;</span>
+      <div>
+        <p><strong>Scenario:</strong> a teammate pings you: &ldquo;got this stack trace, any ideas?&rdquo; You open it. The message is a <code>NullPointerException</code> at line 42 of <code>OrderService</code>. Twenty seconds of reading: line 42 is <code>order.getPayment().getAmount()</code>. Either <code>order</code> or <code>getPayment()</code> returned null. Ask: &ldquo;can order exist without a payment?&rdquo; Yes. There&rsquo;s the bug. Two minutes of reading saved an afternoon of &ldquo;let me try adding some logs.&rdquo;</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 5. Read first -->
+  <section class="fade-in" id="read-first">
+    <span class="section-num">05 &middot; Before Changing</span>
+    <h2>Read the Code Before You Change It</h2>
+    <p class="section-intro">Blind changes cause regressions. Reading the code you&rsquo;re about to edit &mdash; the function, its callers, its tests, its recent history &mdash; takes minutes and often changes what you were going to write.</p>
+
+    <div class="framework">
+      <h4>A pre-change reading routine</h4>
+      <ol>
+        <li><strong>Read the function end-to-end.</strong> Not just the lines you intend to touch. What does it promise?</li>
+        <li><strong>Read its tests.</strong> What behavior is already guaranteed? What invariants might your change break?</li>
+        <li><strong>Read the callers.</strong> How is this used? Are there assumptions you&rsquo;d be breaking?</li>
+        <li><strong>Read the recent git log for the file.</strong> Why was it last changed? By whom? Any related commit messages that explain the current shape?</li>
+        <li><strong>Ask the author or recent committer if the change is significant.</strong> Five-minute conversation beats two days of undoing a subtle regression.</li>
+      </ol>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>The worst PR reviews I&rsquo;ve seen aren&rsquo;t wrong code &mdash; they&rsquo;re correct changes made in ignorance of invariants the code was quietly upholding. Reading the surrounding 50 lines before touching the 5 you came for prevents most of those.</p>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>Jumping straight to the line number the IDE took you to, typing your change, submitting. The change works in isolation; it breaks something the surrounding code depended on.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>Before you type, scroll up and down. Read the function. Run the tests. Skim git blame. Often you&rsquo;ll spot a better place to make the change, or realise the change isn&rsquo;t needed at all.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 6. Ramp up -->
+  <section class="fade-in" id="ramp-up">
+    <span class="section-num">06 &middot; New Codebase</span>
+    <h2>Ramping Up on a New Codebase</h2>
+    <p class="section-intro">Joining a new project is a repeatable skill. Senior engineers have a routine: 30 days to go from stranger to confident contributor, done the same way every time.</p>
+
+    <div class="framework">
+      <h4>The 30-day ramp-up</h4>
+      <ol>
+        <li><strong>Day 1&ndash;3: run it.</strong> Clone, build, start the service, run the tests. If any step fails, improve the README or ask &mdash; don&rsquo;t suffer in silence. Your fresh eyes will spot friction veterans no longer see.</li>
+        <li><strong>Day 4&ndash;7: read the top-level structure.</strong> The main module, the key entry points, the domain model. Draw the module graph on a napkin if it helps.</li>
+        <li><strong>Day 8&ndash;14: trace one user journey end-to-end.</strong> Sign-in, or a core feature, or a cron job. Follow the request from HTTP to DB to response. Note what surprised you.</li>
+        <li><strong>Day 15&ndash;21: small PR.</strong> A typo fix, a tiny bug, a missing test. Get through the review process. Learn the team&rsquo;s rhythm.</li>
+        <li><strong>Day 22&ndash;30: own something small.</strong> A story, a refactor, a bug class. Drive it from request to deploy. You&rsquo;re ramped.</li>
+      </ol>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#128218;</span>
+      <div>
+        <p><strong>Scenario:</strong> you join a new team. On day 2, <code>make dev</code> fails because of a missing env var not in the README. The old-timers know about it and shrug. You spend 20 minutes, document it, open a PR to the README. Everyone who joins after you is saved those 20 minutes. <em>Day 2 contribution, lasting.</em></p>
+      </div>
+    </div>
+
+    <h3>Ask questions that earn you respect</h3>
+    <p>Good ramp-up questions are specific, show you&rsquo;ve done the homework, and respect the other person&rsquo;s time:</p>
+    <ul style="margin:0 0 20px 24px;">
+      <li>&ldquo;I see <code>OrderRouter</code> dispatches to three handlers. Is there a reason <code>RefundHandler</code> isn&rsquo;t one of them?&rdquo;</li>
+      <li>&ldquo;The README says to run <code>make seed</code>, but that target doesn&rsquo;t exist. Has it been renamed?&rdquo;</li>
+      <li>&ldquo;Can you walk me through how a payment flow reaches the gateway? I&rsquo;ve traced the happy path but want to understand the retry logic.&rdquo;</li>
+    </ul>
+    <p>Versus: &ldquo;How does this work?&rdquo; &mdash; which asks someone else to do your first three hours of reading.</p>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 7. Prod debug -->
+  <section class="fade-in" id="prod-debug">
+    <span class="section-num">07 &middot; Live</span>
+    <h2>Debugging in Production</h2>
+    <p class="section-intro">Production is where the real bugs live. The skills differ from local debugging: you can&rsquo;t pause execution, you can&rsquo;t change state, you have to reason from traces of what already happened. Good observability (baked in during <a href="testing-observability.html#observability">build</a>) makes this tractable; poor observability makes it impossible.</p>
+
+    <div class="framework">
+      <h4>The production investigation order</h4>
+      <ol>
+        <li><strong>Check the dashboard first.</strong> Is there a graph that already shows the story? Error rate, latency, throughput &mdash; which one moved and when?</li>
+        <li><strong>Find a single failing request.</strong> One correlation ID, one user, one timestamp. One concrete example beats ten aggregated reports.</li>
+        <li><strong>Trace it across services.</strong> Which hop failed? Which call was slow? Distributed traces exist for exactly this.</li>
+        <li><strong>Read the relevant logs for that correlation ID.</strong> Structured logs make this one query; unstructured logs make it an archaeology expedition.</li>
+        <li><strong>Form a hypothesis; verify with another example.</strong> Did a second failing request show the same pattern? Third? Confidence grows.</li>
+      </ol>
+    </div>
+
+    <div class="tip danger-tip">
+      <span class="tip-icon">&#128680;</span>
+      <div>
+        <p><strong>Under load, mitigate first, diagnose second.</strong> If users are affected: kill-switch, shift traffic, roll back. <em>Then</em> investigate calmly from the logs. Debugging heroically in the middle of an incident is how incidents get longer.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 8. Profiling -->
+  <section class="fade-in" id="profiling">
+    <span class="section-num">08 &middot; Measure</span>
+    <h2>Profiling When It Matters</h2>
+    <p class="section-intro">Engineering intuition about performance is usually wrong. The part you think is slow isn&rsquo;t, and the part that is never occurred to you. Profile before you optimise, always.</p>
+
+    <div class="framework">
+      <h4>When to reach for a profiler</h4>
+      <ul>
+        <li>A latency target is being missed and the code is non-trivial.</li>
+        <li>A service is spending money in ways that feel high for the workload.</li>
+        <li>A feature works but is &ldquo;kind of slow&rdquo; and users are starting to notice.</li>
+        <li>You&rsquo;re about to make a &ldquo;surely this will be faster&rdquo; change &mdash; measure first so you can prove it.</li>
+      </ul>
+    </div>
+
+    <h3>Flame graphs &mdash; what to look for</h3>
+    <p>A flame graph shows which functions burned CPU. The widest boxes are where the time went. You look for: one surprisingly wide frame (the hot spot), unexpectedly tall stacks (deep call paths), or broad flat areas where many calls each took a little (often database or network).</p>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128200;</span>
+      <div>
+        <p><strong>Scenario:</strong> a checkout endpoint P95 has climbed from 200ms to 1.2s. The team suspects the new loyalty-points code. You take a flame graph: turns out the loyalty code is 40ms; the actual hot spot is a JSON serialiser pulling in fields it never uses. A two-line fix cuts P95 to 240ms. You ship. Nobody would have guessed.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>Optimising the code you suspect. Often you spend a day on a 2% improvement while a 40% improvement sits in code you never looked at.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>Spend 20 minutes measuring. Optimise the biggest contributor. Re-measure. Stop when you&rsquo;ve hit the target; don&rsquo;t polish for its own sake.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 9. I don't know -->
+  <section class="fade-in" id="dont-know">
+    <span class="section-num">09 &middot; Honesty</span>
+    <h2>&ldquo;I Don&rsquo;t Know&rdquo; Is a Senior Skill</h2>
+    <p class="section-intro">One of the surest signals of a truly senior engineer: they say &ldquo;I don&rsquo;t know&rdquo; quickly, without embarrassment, and then go find out. Confident pretending is a junior trap that some engineers carry for a decade before noticing.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Your teammates can usually tell when you&rsquo;re fogging. They don&rsquo;t call it out because it&rsquo;s awkward. Your credibility slowly leaks anyway. Saying &ldquo;I&rsquo;m not sure &mdash; I&rsquo;ll dig in and come back&rdquo; costs nothing in the short run and pays compound interest in trust.</p>
+    </div>
+
+    <div class="framework">
+      <h4>A template that works</h4>
+      <ul>
+        <li><strong>&ldquo;I don&rsquo;t know &mdash; I&rsquo;d guess X, but let me verify.&rdquo;</strong> Honest, useful, ends with a commitment.</li>
+        <li><strong>&ldquo;I&rsquo;ve seen this kind of thing before, but not this exact situation. My lean is X.&rdquo;</strong> Calibrated confidence.</li>
+        <li><strong>&ldquo;Nobody I know has a confident answer on this. Let&rsquo;s run an experiment.&rdquo;</strong> Turns the unknown into a plan.</li>
+      </ul>
+    </div>
+
+    <div class="tip purple-tip">
+      <span class="tip-icon">&#127919;</span>
+      <div>
+        <p>Close the loop. If you said &ldquo;I&rsquo;ll find out&rdquo; on Monday, come back Tuesday with an answer. The credibility comes from the follow-through, not from the original admission.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <div class="try-this">
+    <p><strong>Pick one this week:</strong></p>
+    <ul>
+      <li>On the next bug you&rsquo;re assigned, write the failing test <em>before</em> you fix anything. Notice the difference in your confidence when the test goes green.</li>
+      <li>Try <code>git bisect</code> on a real regression this week. Learn the command before you need it in anger.</li>
+      <li>Before your next meaningful PR, spend 15 minutes reading around the code you&rsquo;re changing &mdash; callers, tests, git log. Notice what changes in your approach.</li>
+    </ul>
+  </div>
+
+  <section class="fade-in">
+    <p class="section-intro">Next: <a href="data-api.html">Data &amp; APIs</a> &mdash; the craft of modelling data and designing interfaces that are hard to misuse.</p>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="requirements-design.html">Requirements &amp; Design</a>
+      <a href="clean-code.html">Clean Code</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="data-api.html">Data &amp; APIs</a>
+      <a href="testing-observability.html">Testing &amp; Observability</a>
+      <a href="code-reviews.html">Code Reviews</a>
+      <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+      <a href="mentoring-peers.html">Mentoring Peers</a>
+      <a href="influence-communication.html">Influence &amp; Communication</a>
+      <a href="communication-docs.html">Comms &amp; Docs</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for senior engineers who own what they ship. One feature at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

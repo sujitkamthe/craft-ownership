@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mentoring Peers &mdash; Craft &amp; Ownership</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="mentoring-peers.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Craft &amp; Ownership</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="requirements-design.html">Requirements &amp; Design</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="data-api.html">Data &amp; APIs</a>
+            <a href="testing-observability.html">Testing &amp; Observability</a>
+            <a href="code-reviews.html">Code Reviews</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Ownership</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+            <a href="mentoring-peers.html">Mentoring Peers</a>
+            <a href="influence-communication.html">Influence &amp; Communication</a>
+            <a href="communication-docs.html">Comms &amp; Docs</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Mentoring Peers</h1>
+    <p class="subtitle">Growing the engineers around you &mdash; without being their manager. This is about lifting the team through daily practice, not through authority.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#pairing">1. Pairing Well</a></li>
+      <li><a href="#prompting">2. Prompting Questions over Answers</a></li>
+      <li><a href="#growing">3. Growing Juniors through Reviews</a></li>
+      <li><a href="#high-bar">4. A High Bar, Kindly Held</a></li>
+      <li><a href="#sharing">5. Knowledge Sharing</a></li>
+      <li><a href="#feedback">6. Frequent Feedback &mdash; Giving and Receiving</a></li>
+      <li><a href="#receiving">7. Open Mind &mdash; the Non-Defensive Habit</a></li>
+      <li><a href="#mentor">8. Finding a Mentor for Yourself</a></li>
+    </ul>
+  </section>
+
+  <!-- 1. Pairing -->
+  <section class="fade-in" id="pairing">
+    <span class="section-num">01 &middot; Together</span>
+    <h2>Pairing Well</h2>
+    <p class="section-intro">Pairing is not &ldquo;two engineers using one keyboard.&rdquo; Done well, it&rsquo;s the fastest way a junior learns how a senior thinks, and the fastest way a senior discovers blind spots in their own assumptions.</p>
+
+    <div class="framework">
+      <h4>The driver / navigator split &mdash; with rotation</h4>
+      <ul>
+        <li><strong>Driver</strong> writes the code. One keyboard. One screen.</li>
+        <li><strong>Navigator</strong> thinks one step ahead &mdash; the structure, the next test, the boundary case.</li>
+        <li><strong>Rotate roles every 10&ndash;20 minutes.</strong> If the junior never drives, they never learn. If they always drive, you&rsquo;re not shaping anything.</li>
+        <li><strong>Talk out loud.</strong> Both of you. Silent pairing is just one person coding with an audience.</li>
+      </ul>
+    </div>
+
+    <h3>Pairing with a junior, specifically</h3>
+    <div class="framework">
+      <ul>
+        <li><strong>Let them drive the parts they can.</strong> Resist the urge to grab the keyboard at every stumble. Watching them struggle for three minutes and then land it is the lesson.</li>
+        <li><strong>Ask more than you answer.</strong> &ldquo;What happens if this list is empty?&rdquo; teaches. &ldquo;Add an empty check here&rdquo; doesn&rsquo;t.</li>
+        <li><strong>Name the pattern you&rsquo;re using.</strong> &ldquo;I&rsquo;m extracting this into a helper because the two callers would benefit from the same change. This is the <em>extract method</em> refactoring.&rdquo;</li>
+        <li><strong>Stop often enough to reflect.</strong> Every 30 minutes, pause and ask: what&rsquo;s one thing we learned here?</li>
+      </ul>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128172;</span>
+      <div>
+        <p><strong>Scenario:</strong> you&rsquo;re pairing with a newer engineer on a payment bug. They want to add a try/catch to make the failure go away. You pause. &ldquo;What do you think the caller should see when this fails?&rdquo; They think. &ldquo;Oh &mdash; they should see the real error, not a generic one.&rdquo; &ldquo;So where should we handle it?&rdquo; They go to the right layer. You didn&rsquo;t write a line &mdash; you asked two questions. They won&rsquo;t forget that.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2. Prompting -->
+  <section class="fade-in" id="prompting">
+    <span class="section-num">02 &middot; Teaching</span>
+    <h2>Prompting Questions over Answers</h2>
+    <p class="section-intro">The senior who hands out answers creates dependencies. The senior who asks the right question creates a thinker. Over a year, the second compounds far more than the first.</p>
+
+    <div class="framework">
+      <h4>A small library of prompting questions</h4>
+      <ul>
+        <li>&ldquo;What would happen if this input were &lt;edge case&gt;?&rdquo;</li>
+        <li>&ldquo;Who else would read this code in six months?&rdquo;</li>
+        <li>&ldquo;What does this function promise the caller?&rdquo;</li>
+        <li>&ldquo;What&rsquo;s the simplest version of this that would still work?&rdquo;</li>
+        <li>&ldquo;What&rsquo;s the riskiest assumption here?&rdquo;</li>
+        <li>&ldquo;How would you verify this is working in production?&rdquo;</li>
+        <li>&ldquo;What&rsquo;s one thing you considered and rejected &mdash; and why?&rdquo;</li>
+      </ul>
+      <p>Pick one that fits the moment. The purpose is to move the thinking from your head to theirs.</p>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>A team of strong thinkers needs very little senior intervention. A team of &ldquo;please tell me what to do&rdquo; engineers needs constant intervention. You build the first team one prompting question at a time.</p>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3. Growing via reviews -->
+  <section class="fade-in" id="growing">
+    <span class="section-num">03 &middot; Review</span>
+    <h2>Growing Juniors through Reviews</h2>
+    <p class="section-intro">The code review is the highest-leverage mentoring surface you have. It&rsquo;s daily, it&rsquo;s concrete, and it lives in the code itself &mdash; where the learning sticks best.</p>
+
+    <div class="framework">
+      <h4>Turn reviews into teaching without slowing them down</h4>
+      <ul>
+        <li><strong>Explain the why, once.</strong> Not in every comment &mdash; but once per concept per person. &ldquo;Pulling this into a helper because it&rsquo;ll be easier to test the logic in isolation.&rdquo;</li>
+        <li><strong>Link to references.</strong> When the concept is general, point to a book, a talk, a doc. Saves you repeating it; gives them depth.</li>
+        <li><strong>Praise specifically.</strong> &ldquo;Love the clarity of these test names &mdash; they read like a spec.&rdquo; Generic praise (&ldquo;nice work&rdquo;) doesn&rsquo;t teach anyone anything.</li>
+        <li><strong>Offer to pair on rework.</strong> When a junior&rsquo;s PR needs substantial changes, a 30-minute pair afterwards beats ten review rounds.</li>
+      </ul>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">&#127942;</span>
+      <div>
+        <p><strong>Scenario:</strong> a junior submits a PR that works but violates the dependency direction &mdash; domain code importing the HTTP framework. You comment once explaining why, link to the <a href="clean-code.html#boundaries">boundaries section</a>, and offer to pair for 15 minutes to fix it. Next month, their PRs consistently respect the boundary. That&rsquo;s one review, one concept, lasting.</p>
+      </div>
+    </div>
+
+    <div class="tip friction-tip">
+      <span class="tip-icon">&#9888;&#65039;</span>
+      <div>
+        <span class="friction-tip-label">When it&rsquo;s hard</span>
+        <p><strong>&ldquo;I&rsquo;ve invested three months in this junior &mdash; pairing, careful reviews, links, explanations &mdash; and they&rsquo;re still making the same class of mistake.&rdquo;</strong> First, check whether you&rsquo;ve actually been specific about the <em>pattern</em>, not just the instance. &ldquo;This method&rsquo;s doing too much&rdquo; ten times in a row is noise; &ldquo;Every time I see this, it&rsquo;s because you&rsquo;re mixing what-to-do with how-to-do-it &mdash; try separating those and the shape usually falls out&rdquo; is a pattern. If the pattern has been named and they&rsquo;re still not moving, have the offline conversation: &ldquo;I&rsquo;ve flagged responsibility-mixing in five of your last eight PRs. I want to understand what&rsquo;s in the way &mdash; is the concept clicking? Is time pressure pushing you through it? Something else?&rdquo; Often they know they&rsquo;re doing it and feel stuck; sometimes the concept genuinely hasn&rsquo;t clicked and needs a different explanation. Either way, you&rsquo;ve stopped shouting into reviews. If after that it still doesn&rsquo;t move, loop in their lead &mdash; calibration and growth pace at that point is the leader&rsquo;s problem, not yours.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4. High bar -->
+  <section class="fade-in" id="high-bar">
+    <span class="section-num">04 &middot; Standards</span>
+    <h2>A High Bar, Kindly Held</h2>
+    <p class="section-intro">The kindest thing you can do for a junior is hold them to a high standard &mdash; with warmth, with clear reasoning, with offered help. The softest thing you can do &mdash; waving work through because they&rsquo;re new &mdash; is also the most damaging over time.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Juniors know when you&rsquo;ve softened your review for them. They feel the growth gap in their career two years later, and they wonder why nobody told them sooner. The senior who told them kindly but clearly is the one they remember thanking.</p>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; the &ldquo;they&rsquo;re learning&rdquo; excuse</h5>
+        <p>You approve a rushed PR with <em>&ldquo;LGTM, small nit on the variable name, not blocking 👍&rdquo;</em> because the junior&rsquo;s been under pressure and you don&rsquo;t want to pile on. The missing test doesn&rsquo;t get added. The unclear naming stays. Three months later they write the same patterns again &mdash; because the last three reviewers didn&rsquo;t flag them either.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach &mdash; hold, help, ship</h5>
+        <p>&ldquo;This PR needs a test for the empty-list case and the variable naming&rsquo;s a bit unclear &mdash; want to pair for 20 minutes to nail it? I know it&rsquo;s been a tough week.&rdquo; You&rsquo;ve held the bar, offered support, acknowledged the context. Everybody wins.</p>
+      </div>
+    </div>
+
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#128588;</span>
+      <div>
+        <p><strong>The team&rsquo;s standard is the lowest one you shipped last week.</strong> If you let a rushed week define the floor, next week&rsquo;s &ldquo;normal&rdquo; starts there. Keep the floor where it needs to be, every week.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 5. Sharing -->
+  <section class="fade-in" id="sharing">
+    <span class="section-num">05 &middot; Spread</span>
+    <h2>Knowledge Sharing</h2>
+    <p class="section-intro">Knowledge hoarded in one head is a single point of failure. Knowledge shared across the team is the team&rsquo;s most durable asset. A senior engineer invests 10% of their time into spreading what they know.</p>
+
+    <div class="framework">
+      <h4>Low-cost, high-return formats</h4>
+      <ul>
+        <li><strong>15-minute lightning talk.</strong> &ldquo;Here&rsquo;s the thing I learned last week, and where you&rsquo;d use it.&rdquo; One slide or none. Shared in the huddle or a dedicated slot.</li>
+        <li><strong>Show-and-tell PR.</strong> Walk the team through a PR you wrote that demonstrates a pattern &mdash; what you did and why.</li>
+        <li><strong>Book or article summary.</strong> &ldquo;Here&rsquo;s what Kleppmann says about idempotency, in 5 minutes.&rdquo; Make the external depth accessible.</li>
+        <li><strong>Write a short internal blog post.</strong> 400 words, one concept, one example. Pin it where people will see it.</li>
+        <li><strong>Office hours.</strong> A 30-minute open slot a week where anyone can bring a tough problem. Sometimes nobody comes; sometimes the right person comes with the right problem.</li>
+      </ul>
+    </div>
+
+    <div class="tip purple-tip">
+      <span class="tip-icon">&#128218;</span>
+      <div>
+        <p>The content doesn&rsquo;t have to be original. The act of summarising something well &mdash; a library you evaluated, a talk you watched, a pattern you used &mdash; is enormously valuable to teammates who don&rsquo;t have the hours. You&rsquo;re saving them the ramp.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 6. Feedback both ways -->
+  <section class="fade-in" id="feedback">
+    <span class="section-num">06 &middot; Growth Loop</span>
+    <h2>Frequent Feedback &mdash; Giving and Receiving</h2>
+    <p class="section-intro">Feedback is the fastest growth loop in software engineering &mdash; and the only one that works in both directions at once. The senior engineer who grows fastest is the one who gives a lot, receives a lot, asks for more, and treats it as normal conversation rather than a rare, formal event. The habit goes stale the moment you let it become annual.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Annual reviews are not feedback &mdash; they are an archive. Real feedback happens within days of the behavior: specific, short, kind, and useful. Two months late, feedback is just a complaint with a timestamp.</p>
+    </div>
+
+    <h3>Giving feedback &mdash; the SBI framework</h3>
+    <div class="framework">
+      <h4>Situation &middot; Behavior &middot; Impact</h4>
+      <ul>
+        <li><strong>Situation</strong> &mdash; when and where. Anchor it in time and place so the receiver can remember the moment.</li>
+        <li><strong>Behavior</strong> &mdash; what you saw, not your interpretation. &ldquo;You interrupted three times in the meeting&rdquo; &mdash; not &ldquo;you&rsquo;re domineering.&rdquo;</li>
+        <li><strong>Impact</strong> &mdash; what the effect was. &ldquo;The junior stopped contributing for the rest of the call&rdquo; &mdash; concrete, not moral.</li>
+      </ul>
+      <p>Keep it to three or four sentences. SBI removes the judgment language that makes feedback land as an attack.</p>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">&#128172;</span>
+      <div>
+        <p><strong>Scenario &mdash; feedback down:</strong> &ldquo;In yesterday&rsquo;s dev huddle (<em>situation</em>), you presented the migration plan without walking through the rollback (<em>behavior</em>). The team didn&rsquo;t have the signal they needed to weigh in on risk &mdash; the call moved on without proper review (<em>impact</em>). Next time, include rollback up front. Want to rehearse it with me before Friday?&rdquo;</p>
+        <p><strong>Scenario &mdash; feedback up:</strong> &ldquo;In last week&rsquo;s planning (<em>situation</em>), when I raised the concern about the timeline, you pushed back without asking the data behind it (<em>behavior</em>). I stopped raising concerns for the rest of the call (<em>impact</em>). I&rsquo;d value it if you ask &lsquo;what&rsquo;s the evidence?&rsquo; before closing a thread.&rdquo;</p>
+      </div>
+    </div>
+
+    <h3>Feedback flows in three directions</h3>
+    <div class="framework">
+      <h4>The senior engineer&rsquo;s feedback map</h4>
+      <ul>
+        <li><strong>Down &mdash; to juniors.</strong> Often, specifically, in the moment. Both positive and developmental. Waiting for the mid-year review is abandonment.</li>
+        <li><strong>Sideways &mdash; to peers.</strong> &ldquo;That review you did on my PR was really sharp &mdash; thanks.&rdquo; &ldquo;In standup, when you cut off the PM, I think we lost the thread.&rdquo; Peer feedback builds trust.</li>
+        <li><strong>Up &mdash; to your leader.</strong> The hardest direction, but the one that makes you genuinely senior. &ldquo;This week I felt micromanaged on the payment work &mdash; can we align on where you want me to check in and where I own it?&rdquo;</li>
+      </ul>
+      <p>If you only give feedback down, you&rsquo;re in a teacher role, not a peer. Seniors give in all three directions.</p>
+    </div>
+
+    <h3>Asking for feedback &mdash; actively</h3>
+    <p>Don&rsquo;t wait for feedback to come to you. Ask specifically, and ask often:</p>
+    <ul style="margin:0 0 20px 24px;">
+      <li>&ldquo;What&rsquo;s one thing I could have done better on this project?&rdquo;</li>
+      <li>&ldquo;Was the design doc useful, or did it slow you down?&rdquo;</li>
+      <li>&ldquo;On a scale from 1&ndash;10, how was that review for you? What would have made it a 10?&rdquo;</li>
+      <li>&ldquo;What&rsquo;s the feedback you haven&rsquo;t given me that you&rsquo;ve thought about giving?&rdquo;</li>
+    </ul>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#128257;</span>
+      <div>
+        <p><strong>Why this matters:</strong> the engineers who grow fastest are not the smartest &mdash; they are the ones who hear the most honest feedback, most often. Making it safe for people to give you feedback is how you accelerate your own growth for the next decade.</p>
+      </div>
+    </div>
+
+    <h3>Capture feedback &mdash; don&rsquo;t rely on memory</h3>
+    <p>Both the feedback you give and the feedback you receive will slip out of your head within days if you don&rsquo;t write it down. Keep a lightweight log; future-you will thank you at review season, and the people you&rsquo;re growing will notice the consistency.</p>
+
+    <div class="framework">
+      <h4>A simple feedback log</h4>
+      <ul>
+        <li><strong>Per person you mentor</strong> &mdash; one note in your personal wiki or notebook: date, situation, what you observed, what you told them, how they responded. Three lines per entry is plenty.</li>
+        <li><strong>Per feedback you receive</strong> &mdash; log the date, who, what they said, what you plan to change. Revisit monthly. Patterns emerge you&rsquo;d otherwise miss.</li>
+        <li><strong>Shared with your mentee (optional)</strong> &mdash; a shared doc where you both capture growth themes. Makes review conversations specific instead of vague.</li>
+      </ul>
+      <p>Tools don&rsquo;t matter &mdash; a text file, a Notion page, a markdown note, the back of a paper notebook. The habit of writing it down matters.</p>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">&#128221;</span>
+      <div>
+        <p><strong>Scenario:</strong> end of year, it&rsquo;s review season. Last year you wrote nothing down. You remember vague impressions. Your feedback is full of &ldquo;generally&rdquo; and &ldquo;sometimes&rdquo;. This year you kept a one-line log per interaction. Your feedback is concrete: &ldquo;On March 14, when we paired on the payment bug, you spotted the off-by-one that I missed. On July 2, in the huddle you let the design discussion drift &mdash; you could have cut in sooner.&rdquo; The difference in usefulness is enormous. Same with feedback you received.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 7. Receiving -->
+  <section class="fade-in" id="receiving">
+    <span class="section-num">07 &middot; Open Mind</span>
+    <h2>Open Mind &mdash; the Non-Defensive Habit</h2>
+    <p class="section-intro">How you receive feedback determines how much of it you&rsquo;ll get in the future. Defend in the moment and the tap gets turned off &mdash; quietly, permanently, and nobody will tell you it happened. Receive with an open mind and the tap stays open; that openness is where most of your senior-level growth comes from.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Defensiveness is almost always unconscious. You don&rsquo;t notice you&rsquo;re doing it; the other person notices and silently decides you&rsquo;re not safe to tell hard things to. The only reliable fix is to adopt a default posture of curiosity &mdash; &ldquo;what are they seeing that I&rsquo;m missing?&rdquo; &mdash; and practice it until it&rsquo;s reflexive.</p>
+    </div>
+
+    <h3>The open-mind posture</h3>
+    <div class="framework">
+      <h4>What it looks like, in the moment</h4>
+      <ul>
+        <li><strong>Default to &ldquo;they might be right.&rdquo;</strong> Not because they always are &mdash; but because starting from there costs nothing and lets you actually hear.</li>
+        <li><strong>Assume generous intent.</strong> The giver is investing time in you. That&rsquo;s rare. Even clumsy feedback comes from care.</li>
+        <li><strong>Separate content from delivery.</strong> The feedback may be poorly delivered and still be true. Don&rsquo;t dismiss the signal because you didn&rsquo;t like the packaging.</li>
+        <li><strong>Name the emotion if it&rsquo;s in the room.</strong> &ldquo;I notice I&rsquo;m feeling a bit defensive &mdash; can you give me a second to catch up?&rdquo; Naming it disarms it, for you and for them.</li>
+        <li><strong>Thank them genuinely.</strong> Especially when it was hard to say. You&rsquo;re not thanking them for being right &mdash; you&rsquo;re thanking them for caring enough to tell you.</li>
+      </ul>
+    </div>
+
+    <div class="framework">
+      <h4>Four moves that keep feedback flowing</h4>
+      <ol>
+        <li><strong>Listen first.</strong> Don&rsquo;t interrupt to explain your side until they&rsquo;ve finished. Write the key points down if it helps.</li>
+        <li><strong>Thank them genuinely.</strong> &ldquo;Thanks &mdash; that&rsquo;s useful, I&rsquo;ll think about it.&rdquo; Even if you disagree. Especially if you disagree.</li>
+        <li><strong>Sit with it for a day.</strong> Don&rsquo;t react from the first emotional read. Often what felt unfair on Monday reads honest on Wednesday. Write it in your <a href="#feedback">feedback log</a>; revisit it.</li>
+        <li><strong>Close the loop.</strong> Come back in a week with what you&rsquo;ll do (or won&rsquo;t, and why). The feedback was an investment; closing the loop is the return.</li>
+      </ol>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Defensive reflexes that turn the tap off</h5>
+        <p>&ldquo;Actually, the reason I did that was&hellip;&rdquo; &ldquo;That&rsquo;s not what happened.&rdquo; &ldquo;You weren&rsquo;t there, so&hellip;&rdquo; &ldquo;Yeah, but the deadline&hellip;&rdquo; Any of these, in the moment, says: <em>don&rsquo;t bring me feedback anymore.</em> You may be factually right in the content; you&rsquo;ve lost the relationship and the next three pieces of feedback they would have given you.</p>
+      </div>
+      <div class="better">
+        <h5>Open-mind reflexes that keep the tap on</h5>
+        <p>&ldquo;That&rsquo;s interesting &mdash; tell me more about what you saw.&rdquo; &ldquo;Let me think about it; can we talk again tomorrow?&rdquo; &ldquo;You&rsquo;re right that I hadn&rsquo;t considered that.&rdquo; &ldquo;Thanks for telling me &mdash; I know that wasn&rsquo;t easy.&rdquo; Each one buys you more feedback, not less.</p>
+      </div>
+    </div>
+
+    <div class="tip purple-tip">
+      <span class="tip-icon">&#128173;</span>
+      <div>
+        <p><strong>Scenario:</strong> a teammate tells you their experience on your last PR review felt &ldquo;harsh.&rdquo; Your first thought is &ldquo;I was just being thorough.&rdquo; That&rsquo;s the defensive reflex. The open-mind alternative: &ldquo;I&rsquo;m sorry you felt that way &mdash; I didn&rsquo;t intend it. Can you tell me which parts landed harsh? I want to know so I can adjust next time.&rdquo; Two sentences. You&rsquo;ve turned a confrontation into a learning moment. Your next review will be better because you actually know.</p>
+      </div>
+    </div>
+
+    <h3>Asking for feedback &mdash; the posture you send signals with</h3>
+    <p>How you ask for feedback telegraphs how you&rsquo;ll receive it. &ldquo;Any feedback?&rdquo; often gets &ldquo;nope, all good&rdquo; &mdash; because people have learned you might get defensive. Specific, inviting questions get specific, useful answers:</p>
+    <ul style="margin:0 0 20px 24px;">
+      <li>&ldquo;What&rsquo;s one thing I could have done better on this?&rdquo;</li>
+      <li>&ldquo;What&rsquo;s the feedback you haven&rsquo;t given me that you&rsquo;ve thought about giving?&rdquo;</li>
+      <li>&ldquo;If you were me, what would you change about how I ran that huddle?&rdquo;</li>
+    </ul>
+    <p>Asking this way, over and over, with a non-defensive response each time, is how you become someone people tell hard truths to. That&rsquo;s the unlock.</p>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 8. Mentor -->
+  <section class="fade-in" id="mentor">
+    <span class="section-num">08 &middot; Your Own Growth</span>
+    <h2>Finding a Mentor for Yourself</h2>
+    <p class="section-intro">Being senior doesn&rsquo;t mean you&rsquo;ve outgrown mentorship &mdash; it means you know better what to look for in a mentor and how to use the relationship. Engineers who invest in finding a mentor for themselves compound their growth in ways that self-study rarely matches.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>The reason mentorship works: a mentor has already made the mistakes you&rsquo;re about to make. An hour with them every month can save you months of learning the same lessons the hard way. You are not too experienced for this. If anything, being senior makes you <em>better</em> at learning from a good mentor &mdash; you know which questions to ask.</p>
+    </div>
+
+    <h3>What a mentor is (and isn&rsquo;t)</h3>
+    <div class="framework">
+      <h4>Distinguishing the roles</h4>
+      <ul>
+        <li><strong>A mentor</strong> is someone further along the path you want to walk, who cares enough to help you think. They don&rsquo;t have authority over you; they have <em>experience</em> over you.</li>
+        <li><strong>A manager</strong> is responsible for your work and your growth within the company. Useful, often excellent &mdash; but not a substitute. Their goals are partly the team&rsquo;s goals, which occasionally diverge from yours.</li>
+        <li><strong>A coach</strong> helps you work through how you operate &mdash; how you think, lead, handle conflict. Overlaps with mentorship but asks questions more than gives answers.</li>
+        <li><strong>A peer</strong> understands your current stage deeply but may not have seen the next stage yet. Valuable; not a mentor.</li>
+      </ul>
+      <p>Many of the best engineers have 2&ndash;3 different mentors for different facets &mdash; technical craft, career, communication. Not all in one person.</p>
+    </div>
+
+    <h3>How to find one</h3>
+    <div class="framework">
+      <h4>Where mentors actually come from</h4>
+      <ul>
+        <li><strong>Inside your company.</strong> A staff engineer or principal whose work you admire. Reach out specifically: &ldquo;I&rsquo;ve been watching how you run design reviews &mdash; can I buy you a coffee to ask how you got there?&rdquo; The worst they say is no; most say yes.</li>
+        <li><strong>A former colleague</strong> you worked with, who&rsquo;s now somewhere ahead of you. These relationships are easier because the trust is already there.</li>
+        <li><strong>Your wider community.</strong> Meetups, conferences, open-source projects. Contribute; notice who gives great feedback; build from there.</li>
+        <li><strong>Online / remote.</strong> Newsletters, Slack communities, Discord servers for your language/framework. Some senior engineers are happy to mentor asynchronously over email.</li>
+        <li><strong>A formal program.</strong> Some companies have them; some professional networks (e.g. ADPList, MentorCruise) do too. Pre-curated pool, clear expectations.</li>
+      </ul>
+    </div>
+
+    <h3>How to ask</h3>
+    <p>The ask that works: specific, small, with a clear out for them.</p>
+    <div class="tip">
+      <span class="tip-icon">&#128172;</span>
+      <div>
+        <p><strong>Weak ask:</strong> &ldquo;Will you be my mentor?&rdquo; &mdash; huge commitment, undefined scope, most people freeze.</p>
+        <p><strong>Strong ask:</strong> &ldquo;I&rsquo;m trying to get better at design reviews, and you&rsquo;re the best at them I&rsquo;ve seen. Would you be open to a 30-minute chat once a month? I&rsquo;ll come with specific questions; if it stops being useful, we just stop. No pressure either way.&rdquo;</p>
+        <p>The second ask respects their time, defines what you want, and gives them an exit. People say yes to that.</p>
+      </div>
+    </div>
+
+    <h3>Being worth mentoring</h3>
+    <div class="framework">
+      <h4>What makes a mentee worth the mentor&rsquo;s time</h4>
+      <ul>
+        <li><strong>Come with questions, not vibes.</strong> &ldquo;Here&rsquo;s the situation, here&rsquo;s what I tried, here&rsquo;s what I think the options are, here&rsquo;s where I&rsquo;m stuck.&rdquo; Not &ldquo;what should I do about my career?&rdquo;</li>
+        <li><strong>Act on advice.</strong> If you ask and don&rsquo;t act, mentors notice. They stop investing. Report back: &ldquo;I tried X, here&rsquo;s what happened.&rdquo;</li>
+        <li><strong>Respect their time.</strong> Show up on time. End on time. Don&rsquo;t reschedule twice in a row.</li>
+        <li><strong>Bring something back.</strong> A mentor relationship doesn&rsquo;t have to be purely one-directional. Share what you&rsquo;re learning, what&rsquo;s happening in your corner of the industry, an interesting article you read.</li>
+        <li><strong>Graduate the relationship gracefully.</strong> If you outgrow it or life changes, say thank you and move on cleanly. Don&rsquo;t let it limp.</li>
+      </ul>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#128260;</span>
+      <div>
+        <p><strong>Scenario:</strong> you reach out to a staff engineer two teams away whose design docs you&rsquo;ve studied. Monthly coffee. First month, you bring a design doc of your own that you&rsquo;re unsure about &mdash; they tear it apart gently, show you three things you hadn&rsquo;t seen. Second month, a question about pushing back on unrealistic deadlines &mdash; they share three scripts that have worked for them. Third month, they recommend a book that changes how you think about APIs. Over a year, you&rsquo;ve accelerated more than you would have by reading on your own, because their feedback was <em>pointed at you</em>. <em>That&rsquo;s what a mentor gives that books can&rsquo;t.</em></p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>Waiting for a mentor to be assigned, or deciding you&rsquo;re &ldquo;too senior&rdquo; for mentorship. Neither belief ages well. The engineers who keep growing in year 10 and year 15 are overwhelmingly the ones who kept finding mentors.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>Identify one person this quarter. Send the email: <em>&ldquo;Hi &mdash; I&rsquo;ve admired your work on [specific thing]. I&rsquo;m trying to grow in [specific area]. Would you be open to a 30-minute chat once a month? I&rsquo;ll come with specific questions; if it stops being useful for either of us, we just stop.&rdquo;</em> If they say no, ask someone else. If they say yes, show up prepared.</p>
+      </div>
+    </div>
+
+    <p class="section-intro" style="margin-top:40px;">Next: <a href="influence-communication.html">Influence &amp; Communication</a> &mdash; how to move ideas, people, and teams without a title.</p>
+  </section>
+
+  <div class="try-this">
+    <p><strong>Pick one this week:</strong></p>
+    <ul>
+      <li>Keep a feedback log for seven days &mdash; write down every piece of feedback you gave and received. Review it at the end of the week.</li>
+      <li>Ask one teammate: &ldquo;What&rsquo;s one thing I could do better?&rdquo; Receive the answer without defending. Sit with it for a day. Come back with what you&rsquo;ll try.</li>
+      <li>Identify one person in or near your company whose work you admire. Send them a short, specific email asking for a 30-minute chat. See what happens.</li>
+    </ul>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="requirements-design.html">Requirements &amp; Design</a>
+      <a href="clean-code.html">Clean Code</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="data-api.html">Data &amp; APIs</a>
+      <a href="testing-observability.html">Testing &amp; Observability</a>
+      <a href="code-reviews.html">Code Reviews</a>
+      <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+      <a href="mentoring-peers.html">Mentoring Peers</a>
+      <a href="influence-communication.html">Influence &amp; Communication</a>
+      <a href="communication-docs.html">Comms &amp; Docs</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for senior engineers who own what they ship. One feature at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

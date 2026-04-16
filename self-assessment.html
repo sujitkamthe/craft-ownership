@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Self-Assessment &mdash; Craft &amp; Ownership</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="self-assessment.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Craft &amp; Ownership</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="requirements-design.html">Requirements &amp; Design</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="data-api.html">Data &amp; APIs</a>
+            <a href="testing-observability.html">Testing &amp; Observability</a>
+            <a href="code-reviews.html">Code Reviews</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Ownership</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+            <a href="mentoring-peers.html">Mentoring Peers</a>
+            <a href="influence-communication.html">Influence &amp; Communication</a>
+            <a href="communication-docs.html">Comms &amp; Docs</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Self-Assessment</h1>
+    <p class="subtitle">An honest checklist to see where you are today. No grades, no scores reported anywhere, no manager watching. Pick this up every few months and watch yourself grow.</p>
+  </div>
+
+  <section class="fade-in">
+    <div class="section-intro">
+      <p>Check what&rsquo;s true for you <em>today</em> &mdash; not what you intend to do, not what you did once last year. Your ticks are saved in your browser so you can come back to this page over time. Nothing is sent anywhere.</p>
+      <p>When you&rsquo;re done, the summary at the bottom will point you at the sections of the guide most worth your next hour.</p>
+    </div>
+
+    <div class="progress-label" id="progressLabel">0 of 0 (0%)</div>
+    <div class="progress-bar-container"><div class="progress-bar-fill" id="progressFill"></div></div>
+  </section>
+
+  <!-- Foundations -->
+  <section class="fade-in">
+    <span class="section-num">01</span>
+    <h2>Foundations</h2>
+    <p class="section-intro">Ownership, end-to-end thinking, the scan, initiative, working with your lead, exploration. See <a href="foundations.html">Foundations</a>.</p>
+
+    <div class="checklist">
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-01">
+        <label for="sa-01">I <strong>own features end-to-end</strong> &mdash; from requirements through design, delivery, operations, and learning &mdash; not just the stories assigned to me.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-02">
+        <label for="sa-02">I <strong>actively scan</strong> the code, observability, product, operations, and CI/CD pipeline for pain points &mdash; and I write them down.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-03">
+        <label for="sa-03">I <strong>drive improvement initiatives to completion</strong> &mdash; propose, commit, drive, land, report. I don&rsquo;t leave them stalled.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-04">
+        <label for="sa-04">My lead <strong>doesn&rsquo;t need to chase me</strong> &mdash; I drive my own senior work and bring them in only when I genuinely need their time.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-05">
+        <label for="sa-05">I spend <strong>1&ndash;2 hours a week exploring</strong> libraries, tools, and approaches outside my current ticket &mdash; and I tie what I learn back to real team problems.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-05a">
+        <label for="sa-05a">I use <strong>AI coding tools fluently</strong> for boilerplate, tests, and drafts &mdash; reading everything they produce, and knowing where they help vs. hurt.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-05b">
+        <label for="sa-05b">I have a <strong>named depth area</strong> I&rsquo;m deliberately building mastery in &mdash; and I&rsquo;m maintaining working breadth across the rest of the stack.</label>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Requirements & Design -->
+  <section class="fade-in">
+    <span class="section-num">02</span>
+    <h2>Requirements &amp; Design</h2>
+    <p class="section-intro">Clarifying, asking, breaking down, writing down. See <a href="requirements-design.html">Requirements &amp; Design</a>.</p>
+    <div class="checklist">
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-06">
+        <label for="sa-06">Before coding, I can state the <strong>real problem</strong> I&rsquo;m solving and the <strong>acceptance criteria</strong> in my own words.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-07">
+        <label for="sa-07">I break features into <strong>vertical slices</strong> that allow parallel work and incremental demos &mdash; not horizontal layers.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-08">
+        <label for="sa-08">For non-trivial work, I write a <strong>lightweight design doc</strong> and share it before I&rsquo;ve fallen in love with the design.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-09">
+        <label for="sa-09">My estimates are <strong>honest and banded</strong> (best / realistic / worst), including the risks &mdash; not optimistic numbers I know I won&rsquo;t hit.</label>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Clean Code -->
+  <section class="fade-in">
+    <span class="section-num">03</span>
+    <h2>Clean Code</h2>
+    <p class="section-intro">Readability, naming, refactoring, modern features, the six-month test. See <a href="clean-code.html">Clean Code</a>.</p>
+    <div class="checklist">
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-10">
+        <label for="sa-10">I <strong>name variables, functions, and classes</strong> for a tired reader &mdash; not for the compiler and not for myself-at-write-time.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-11">
+        <label for="sa-11">I <strong>refactor as I go</strong>, leaving each area I touch slightly better than I found it &mdash; without bloating my PRs.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-12">
+        <label for="sa-12">I use <strong>modern idiomatic features</strong> of the language (records, pattern matching, optional chaining, type hints) &mdash; not the dialect I learned years ago.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-13">
+        <label for="sa-13">My code passes the <strong>six-month test</strong> &mdash; I&rsquo;d thank past-me for it, not curse them.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-13a">
+        <label for="sa-13a">I apply <strong>DRY, KISS, YAGNI, and Tell-Don&rsquo;t-Ask</strong> as lenses, not laws &mdash; and know when each one should hold and when to bend it.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-13b">
+        <label for="sa-13b">My domain classes have <strong>behavior, not just getters and setters</strong> &mdash; I recognise anemic models and move rules onto the data that owns them.</label>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Debugging & Data -->
+  <section class="fade-in">
+    <span class="section-num">04</span>
+    <h2>Debugging &amp; Data Craft</h2>
+    <p class="section-intro">Debugging, reading code before changing, data modelling, SQL literacy, distributed-systems gotchas. See <a href="debugging-reading.html">Debugging &amp; Reading</a> and <a href="data-api.html">Data &amp; APIs</a>.</p>
+    <div class="checklist">
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-13c">
+        <label for="sa-13c">I debug <strong>as a scientific method</strong> &mdash; observe, hypothesise, test cheaply, update my model &mdash; rather than guess until something changes.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-13d">
+        <label for="sa-13d">I <strong>reproduce bugs before fixing them</strong> and lock the repro as a failing test.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-13e">
+        <label for="sa-13e">I <strong>read the surrounding code</strong> (tests, callers, recent git log) before changing it &mdash; I don&rsquo;t make blind edits.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-13f">
+        <label for="sa-13f">I can read a <strong>query plan</strong>, spot an N+1, and design indexes around the queries that matter &mdash; not as an afterthought when things get slow.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-13g">
+        <label for="sa-13g">Every network call I write has a <strong>timeout</strong>, and writes that may be retried use <strong>idempotency keys</strong>.</label>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Testing & Observability -->
+  <section class="fade-in">
+    <span class="section-num">05</span>
+    <h2>Testing &amp; Observability</h2>
+    <p class="section-intro">Test strategy, testable code, observability, security. See <a href="testing-observability.html">Testing &amp; Observability</a>.</p>
+    <div class="checklist">
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-14">
+        <label for="sa-14">I put <strong>tests at the layer where the risk actually lives</strong> &mdash; not all at the top, not all at the bottom.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-15">
+        <label for="sa-15">My code is <strong>testable by design</strong>: dependencies injected, time/randomness/IO explicit, pure logic separated from side effects.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-16">
+        <label for="sa-16">Every feature I ship has <strong>observability baked in</strong>: metrics, a dashboard, an alert, correlation IDs that flow end-to-end.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-17">
+        <label for="sa-17">I treat <strong>security basics</strong> (input validation at boundaries, authZ on actions, secrets handled cleanly, deps patched) as table stakes on every feature.</label>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Code Reviews -->
+  <section class="fade-in">
+    <span class="section-num">06</span>
+    <h2>Code Reviews</h2>
+    <p class="section-intro">Self-review, great MRs, reviewing as teaching, holding the bar. See <a href="code-reviews.html">Code Reviews</a>.</p>
+    <div class="checklist">
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-18">
+        <label for="sa-18">I <strong>self-review</strong> my own PRs before requesting review &mdash; catching the nits, the debug prints, the unclear names.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-19">
+        <label for="sa-19">My PRs are <strong>small, scoped, and described</strong> &mdash; reviewers know what to focus on before opening the diff.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-20">
+        <label for="sa-20">I hold <strong>the same bar in reviews for juniors as for seniors</strong> &mdash; with warmth, with reasoning, without softening.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-21">
+        <label for="sa-21">I <strong>review as teaching</strong>: I ask questions instead of commanding, explain the why, and praise what&rsquo;s genuinely good.</label>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Delivery -->
+  <section class="fade-in">
+    <span class="section-num">07</span>
+    <h2>Delivery &amp; Ownership</h2>
+    <p class="section-intro">Tracking, the six dimensions, CI/CD, waste, automation, cost, tech debt, incidents. See <a href="delivery-ownership.html">Delivery &amp; Ownership</a>.</p>
+    <div class="checklist">
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-22">
+        <label for="sa-22">I measure my delivery across <strong>all six dimensions</strong> &mdash; correctness, quality, performance, security, observability, operability &mdash; not just &ldquo;on time, no bugs.&rdquo;</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-23">
+        <label for="sa-23">I <strong>watch the CI/CD pipeline</strong> and propose fixes when it&rsquo;s slow, flaky, or fragile &mdash; even when it&rsquo;s not &ldquo;my&rdquo; pipeline.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-24">
+        <label for="sa-24">I <strong>identify waste</strong> in the dev loop (slow builds, slow tests, slow startup, flaky CI, missing observability, badly written code) and remove it.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-25">
+        <label for="sa-25">I <strong>automate</strong> things I&rsquo;d otherwise do twice &mdash; scripts, CI steps, make targets, diagnostic tools.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-26">
+        <label for="sa-26">I <strong>flag risks early</strong>. No surprises to my leader or stakeholders about delivery, scope, or quality.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-26a">
+        <label for="sa-26a">I have a rough sense of what my features <strong>cost to run</strong> and I notice cost regressions the way I notice latency regressions.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-26b">
+        <label for="sa-26b">I <strong>track tech debt actively</strong> &mdash; TODOs link to tickets, tickets have cost-to-carry and cost-to-fix, and the team talks about debt in regular conversations, not hallway grumbles.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-26c">
+        <label for="sa-26c">I run <strong>blameless post-mortems</strong> that produce tracked action items &mdash; and I revisit the list until the actions actually close.</label>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Mentoring -->
+  <section class="fade-in">
+    <span class="section-num">08</span>
+    <h2>Mentoring, Feedback &amp; Your Own Growth</h2>
+    <p class="section-intro">Pairing, feedback both ways with an open mind, finding a mentor for yourself. See <a href="mentoring-peers.html">Mentoring Peers</a>.</p>
+    <div class="checklist">
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-27">
+        <label for="sa-27">I <strong>pair with juniors</strong> in a way that grows them &mdash; rotating the keyboard, asking prompting questions, naming the patterns I use.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-28">
+        <label for="sa-28">I give <strong>timely, specific feedback</strong> up (to my leader), sideways (to peers), and down (to juniors) &mdash; in the moment, not saved for reviews.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-29">
+        <label for="sa-29">I <strong>actively ask for feedback</strong> from my team &mdash; and I receive it with an open mind, without defending in the moment.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-29a">
+        <label for="sa-29a">I <strong>capture feedback</strong> (given and received) in a simple log &mdash; and revisit it, so patterns don&rsquo;t slip out of memory.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-29b">
+        <label for="sa-29b">I have <strong>at least one mentor</strong> of my own &mdash; someone I meet with regularly, bring specific questions to, and act on the advice from.</label>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Influence -->
+  <section class="fade-in">
+    <span class="section-num">09</span>
+    <h2>Influence &amp; Communication</h2>
+    <p class="section-intro">Dev huddles, advocacy, proposals, written artifacts. See <a href="influence-communication.html">Influence &amp; Communication</a>.</p>
+    <div class="checklist">
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-30">
+        <label for="sa-30">I am the <strong>main voice in dev huddles</strong> &mdash; I drive the technical discussion, raise issues, invite quieter voices, and drive to decisions.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-31">
+        <label for="sa-31">I <strong>passionately advocate</strong> for quality, observability, and craft when they&rsquo;re missing &mdash; specifically, warmly, and often enough that it lands.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-32">
+        <label for="sa-32">When I see a problem, I <strong>propose an improvement</strong> (scope + effort + benefit + owner) rather than just complaining &mdash; and I own the fix.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-33">
+        <label for="sa-33">I <strong>say no with data</strong> &mdash; offering trade-offs, not just blocking &mdash; and I give the decision back to the stakeholder to make informedly.</label>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Comms & Docs -->
+  <section class="fade-in">
+    <span class="section-num">10</span>
+    <h2>Comms &amp; Docs Craft</h2>
+    <p class="section-intro">Client communication, structured communication (Pyramid / SCR), docs people read, product sense. See <a href="communication-docs.html">Comms &amp; Docs</a>.</p>
+    <div class="checklist">
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-33a">
+        <label for="sa-33a">I communicate with clients and stakeholders <strong>predictably and warmly</strong> &mdash; updates on a cadence, risks flagged early, impact translated into their language.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-33b">
+        <label for="sa-33b">I write <strong>conclusion-first</strong> &mdash; Pyramid Principle for longer writing, SCR (Situation-Complication-Resolution) for short updates.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-33c">
+        <label for="sa-33c">I write documentation <strong>for a named reader doing a named task</strong> &mdash; and I update docs when I change the thing they describe.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-33d">
+        <label for="sa-33d">I know <strong>who my feature is for</strong>, what problem it solves, and what success looks like &mdash; I partner with the PM rather than take orders.</label>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Craft Mindset -->
+  <section class="fade-in">
+    <span class="section-num">11</span>
+    <h2>Craft Mindset</h2>
+    <p class="section-intro">Disagreeing well, sharing knowledge, operability.</p>
+    <div class="checklist">
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-34">
+        <label for="sa-34">I <strong>disagree well</strong> &mdash; openly, specifically, once &mdash; and then commit if the team decides otherwise, without re-litigating.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-35">
+        <label for="sa-35">I <strong>share knowledge</strong> at least monthly &mdash; a lightning talk, a summary doc, a walk-through PR, an office hour.</label>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" id="sa-36">
+        <label for="sa-36">My teammates can <strong>operate my features at 2am</strong> without calling me &mdash; because the runbook, dashboard, and alerts are in place.</label>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Scoring -->
+  <section class="fade-in">
+    <h2>Reading Your Score</h2>
+    <div class="section-intro">
+      <p>There are 54 items across 11 areas. Treat the number as a map, not a verdict. Nobody ticks all of them &mdash; including engineers you admire. The goal is to know where you are and pick one thing to work on next.</p>
+    </div>
+    <div class="tip success-tip">
+      <span class="tip-icon">&#127942;</span>
+      <div>
+        <p><strong>45&ndash;54:</strong> You&rsquo;re the engineer teams fight to keep. Your next growth is probably in scope &mdash; more ambitious initiatives, wider influence, or preparing for the step beyond this guide. See the <a href="https://sujitkamthe.github.io/" target="_blank" rel="noopener">Beyond IC</a> companion guide when you&rsquo;re ready for people leadership.</p>
+      </div>
+    </div>
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128200;</span>
+      <div>
+        <p><strong>32&ndash;44:</strong> Solid. You&rsquo;re already operating as a senior engineer across most areas. Pick the three items you didn&rsquo;t tick that feel most relevant, and work on one each month. The &ldquo;influence&rdquo; and &ldquo;delivery&rdquo; sections are usually where the next unlock lives.</p>
+      </div>
+    </div>
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#9881;&#65039;</span>
+      <div>
+        <p><strong>18&ndash;31:</strong> You&rsquo;re a capable IC, growing toward senior. The next step is less about coding skill and more about ownership, voice, and the scan-propose-drive loop. Start with <a href="foundations.html">Foundations</a> and <a href="code-reviews.html">Code Reviews</a>; pick one page a week.</p>
+      </div>
+    </div>
+    <div class="tip purple-tip">
+      <span class="tip-icon">&#128161;</span>
+      <div>
+        <p><strong>0&ndash;17:</strong> This guide is for you. Don&rsquo;t try everything at once &mdash; that&rsquo;s how people abandon growth plans. Read <a href="foundations.html">Foundations</a> this week. Pick one behavior to change. Come back in a month and re-take this.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Next Moves (computed from checkbox state) -->
+  <section class="fade-in">
+    <h2>Your Three Smallest Next Steps</h2>
+    <div class="section-intro">
+      <p>54 checkboxes and a number are a map, not a plan. Below, the guide picks out three concrete things &mdash; pulled straight from the areas where you&rsquo;ve ticked the fewest items &mdash; to try next. They update as you tick things above.</p>
+    </div>
+    <div class="framework" id="nextMoves">
+      <p style="font-size:0.95rem;margin:0;">Tick some items above to see your three smallest next steps appear here.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="requirements-design.html">Requirements &amp; Design</a>
+      <a href="clean-code.html">Clean Code</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="data-api.html">Data &amp; APIs</a>
+      <a href="testing-observability.html">Testing &amp; Observability</a>
+      <a href="code-reviews.html">Code Reviews</a>
+      <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+      <a href="mentoring-peers.html">Mentoring Peers</a>
+      <a href="influence-communication.html">Influence &amp; Communication</a>
+      <a href="communication-docs.html">Comms &amp; Docs</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for senior engineers who own what they ship. One feature at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

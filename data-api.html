@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data &amp; APIs &mdash; Craft &amp; Ownership</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="data-api.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Craft &amp; Ownership</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="requirements-design.html">Requirements &amp; Design</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="data-api.html">Data &amp; APIs</a>
+            <a href="testing-observability.html">Testing &amp; Observability</a>
+            <a href="code-reviews.html">Code Reviews</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Ownership</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+            <a href="mentoring-peers.html">Mentoring Peers</a>
+            <a href="influence-communication.html">Influence &amp; Communication</a>
+            <a href="communication-docs.html">Comms &amp; Docs</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Data &amp; APIs</h1>
+    <p class="subtitle">The backbone of most features you&rsquo;ll ship. How to model data so it holds up under change, design APIs that are hard to misuse, and handle the realities of distributed systems.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#data-model">1. Data Modelling as a Design Decision</a></li>
+      <li><a href="#sql">2. SQL Literacy for Engineers</a></li>
+      <li><a href="#migrations">3. Migrations That Ship Safely</a></li>
+      <li><a href="#api-design">4. API Design &mdash; Hard to Misuse</a></li>
+      <li><a href="#compat">5. Backward Compatibility &amp; Deprecation</a></li>
+      <li><a href="#distributed">6. Distributed Systems Gotchas</a></li>
+      <li><a href="#caching">7. Caching &mdash; When, Where, and the Two Hard Things</a></li>
+    </ul>
+  </section>
+
+  <!-- 1. Data model -->
+  <section class="fade-in" id="data-model">
+    <span class="section-num">01 &middot; Modelling</span>
+    <h2>Data Modelling as a Design Decision</h2>
+    <p class="section-intro">Your data model is the longest-lived thing you&rsquo;ll ship. Code gets rewritten; schemas carry on for years with data nobody wants to lose. Treat the model as a first-class design decision, not something to rush past on the way to the &ldquo;real&rdquo; work.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Read queries come much more often than writes for most systems. If your model is easy to write and painful to read, you&rsquo;ll feel it every day. Design for the questions the system needs to answer, not just the shape of the entities.</p>
+    </div>
+
+    <h3>Questions to ask before you design a table</h3>
+    <div class="framework">
+      <ul>
+        <li><strong>What queries will this serve?</strong> List them. Model around them.</li>
+        <li><strong>What uniqueness, referential, and value constraints are real?</strong> Encode them &mdash; the database will catch bugs your code won&rsquo;t.</li>
+        <li><strong>What&rsquo;s the expected row count in a year?</strong> Thousand, million, billion? The answer changes indexes, partitioning, and lifecycle.</li>
+        <li><strong>What&rsquo;s the access pattern?</strong> Bulk read, point lookup, range scan, full scan? Different patterns want different designs.</li>
+        <li><strong>What will change?</strong> Columns you expect to evolve; columns you never want to evolve.</li>
+      </ul>
+    </div>
+
+    <h3>Normalise until it hurts, denormalise until it works</h3>
+    <p>The rule of thumb is real: start normalised; introduce denormalisation deliberately when measurement shows the read cost justifies it. Premature denormalisation is how data gets inconsistent and stays that way.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>A <code>JSONB</code> column called <code>metadata</code> that becomes the dumping ground for every field nobody wanted to think about. Within a year, nobody knows what&rsquo;s in there, queries over it are slow, and changes are scary.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>Reserve loose columns for genuinely variable data (user-defined fields). For known fields, name them, type them, constrain them. Your future self and your reports will thank you.</p>
+      </div>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">&#128269;</span>
+      <div>
+        <p><strong>Indexes are design</strong>, not an afterthought. &ldquo;We&rsquo;ll add it when queries get slow&rdquo; often means &ldquo;we&rsquo;ll add it during an outage.&rdquo; At design time, list the queries, list the indexes that serve them, agree the plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2. SQL -->
+  <section class="fade-in" id="sql">
+    <span class="section-num">02 &middot; Craft</span>
+    <h2>SQL Literacy for Engineers</h2>
+    <p class="section-intro">Most senior backend engineers touch SQL regularly. Being comfortable reading a query plan, spotting an N+1, and choosing between a join and two queries is the difference between a service that scales and one that quietly brownouts at 2pm.</p>
+
+    <h3>Read the query plan</h3>
+    <p>Every database shows you how it plans to execute a query: <code>EXPLAIN</code> in Postgres and MySQL, <code>EXPLAIN ANALYZE</code> for the real numbers. You should be able to look at one and see the major shapes: sequential scan (reads the whole table) vs index scan vs index-only scan; nested loop vs hash join vs merge join; estimated rows vs actual rows.</p>
+
+    <div class="framework">
+      <h4>Plan-reading signals that deserve attention</h4>
+      <ul>
+        <li><strong>Sequential scan on a large table.</strong> Usually means a missing index or a query that can&rsquo;t use one.</li>
+        <li><strong>Estimated rows very different from actual.</strong> Stats are stale or the planner is wrong &mdash; maybe needs <code>ANALYZE</code> or a query rewrite.</li>
+        <li><strong>Nested loop over a big outer.</strong> You probably want a hash or merge join; the planner may need more memory or better statistics.</li>
+        <li><strong>Sort after limit.</strong> Often fixable with a matching index.</li>
+      </ul>
+    </div>
+
+    <h3>The N+1 problem, explained once</h3>
+    <div class="code-pair">
+      <div>
+        <span class="label bad">Bad &mdash; N+1 queries</span>
+        <pre class="code-block">orders = db.query("SELECT * FROM orders WHERE user_id=?", uid)
+for order in orders:
+    order.items = db.query(
+      "SELECT * FROM items WHERE order_id=?", order.id
+    )</pre>
+      </div>
+      <div>
+        <span class="label good">Good &mdash; one join, or two batched queries</span>
+        <pre class="code-block">rows = db.query("""
+  SELECT o.*, i.*
+  FROM orders o
+  LEFT JOIN items i ON i.order_id = o.id
+  WHERE o.user_id = ?
+""", uid)
+# or: fetch orders, then items WHERE order_id IN (...)</pre>
+      </div>
+    </div>
+
+    <p>N+1 is the single most common performance mistake in ORM-heavy codebases. Know the shape, spot it in PRs, log it in the <a href="code-reviews.html#pitfalls">reviews you give</a>.</p>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128200;</span>
+      <div>
+        <p>Turn on query logging in your local and test environments. Seeing every SQL statement your code produces &mdash; and the count &mdash; is how you catch N+1 before a customer does.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3. Migrations -->
+  <section class="fade-in" id="migrations">
+    <span class="section-num">03 &middot; Safety</span>
+    <h2>Migrations That Ship Safely</h2>
+    <p class="section-intro">A bad migration can lock a table, fail mid-run, or leave prod in a state you can&rsquo;t roll back from. Senior engineers treat migrations with the care they&rsquo;d give a payment change.</p>
+
+    <h3>The expand-contract pattern</h3>
+    <div class="framework">
+      <h4>How to change a schema without downtime</h4>
+      <ol>
+        <li><strong>Expand:</strong> add the new column, table, or relation. Nothing reads it yet.</li>
+        <li><strong>Backfill:</strong> populate the new shape from existing data. In batches, with pause points.</li>
+        <li><strong>Dual-write:</strong> code writes both old and new while readers still read old.</li>
+        <li><strong>Shift reads:</strong> readers switch to the new shape, feature-flagged. Old shape still consistent.</li>
+        <li><strong>Contract:</strong> once readers are all on the new shape and stable, stop writing the old, then drop it.</li>
+      </ol>
+      <p>Feels tedious. Takes a few deploys. In exchange, you never have to schedule downtime and you can roll back at any step.</p>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; the locking migration</h5>
+        <p><code>ALTER TABLE large_table ADD COLUMN foo NOT NULL DEFAULT 'x'</code>. On a big table in Postgres or MySQL, this can lock the table for minutes. The service goes down while you wait.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach &mdash; split the migration</h5>
+        <p><code>ADD COLUMN foo</code> (nullable, no default) &rarr; backfill in batches &rarr; <code>SET NOT NULL</code> as a separate step once data is populated. No lock, no outage.</p>
+      </div>
+    </div>
+
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#9888;&#65039;</span>
+      <div>
+        <p>Every migration should be <strong>rollback-compatible</strong> with the previous version of the app. If rolling back the code breaks because of a migration already applied, you&rsquo;ve trapped yourself in the new state. Expand-contract is mostly about avoiding this.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4. API design -->
+  <section class="fade-in" id="api-design">
+    <span class="section-num">04 &middot; Interface</span>
+    <h2>API Design &mdash; Hard to Misuse</h2>
+    <p class="section-intro">A well-designed API guides callers toward correct use and makes incorrect use obvious. A poorly designed API invites the mistakes you&rsquo;ll debug six months later.</p>
+
+    <div class="framework">
+      <h4>Principles that compound</h4>
+      <ul>
+        <li><strong>Model the domain, not the database.</strong> Your API is a contract about what the system does, not a thin veneer over tables.</li>
+        <li><strong>Name endpoints around resources, actions around verbs.</strong> REST, RPC, or GraphQL &mdash; the caller should know what they&rsquo;re doing from the name.</li>
+        <li><strong>Make invalid states unrepresentable.</strong> If a field only applies when another is set, encode that in the type, not in &ldquo;documentation please read.&rdquo;</li>
+        <li><strong>Fail loudly with useful errors.</strong> A 400 with &ldquo;invalid request&rdquo; teaches nothing. A 400 with <em>which field, what was wrong, what&rsquo;s allowed</em> teaches.</li>
+        <li><strong>Design for pagination from day one.</strong> Any endpoint that returns a list will one day return a lot. Cursor-based pagination beats offset for anything high-churn.</li>
+        <li><strong>Make side effects obvious.</strong> A <code>GET</code> that mutates is a trap. A <code>POST</code> that pretends to be idempotent when it isn&rsquo;t is worse.</li>
+      </ul>
+    </div>
+
+    <h3>Two small examples, one big difference</h3>
+    <div class="code-pair">
+      <div>
+        <span class="label bad">Easy to misuse</span>
+        <pre class="code-block">POST /users/update
+{ "id": 42, "email": "x@y.com",
+  "admin": true }    // anyone can set?
+// Errors: 500 "oops" on anything wrong</pre>
+      </div>
+      <div>
+        <span class="label good">Guides the caller</span>
+        <pre class="code-block">PATCH /users/42
+{ "email": "x@y.com" }   // only allowed fields
+// 403 if not permitted, 400 with per-field
+// validation: {"email": "must be valid"}</pre>
+      </div>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">&#128214;</span>
+      <div>
+        <p><strong>Before you expose an endpoint</strong>, write the three clients that will call it first &mdash; at least in your head. What&rsquo;s awkward for them? What will they get wrong? The feedback often reshapes the API into something simpler and safer.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 5. Compat -->
+  <section class="fade-in" id="compat">
+    <span class="section-num">05 &middot; Change</span>
+    <h2>Backward Compatibility &amp; Deprecation</h2>
+    <p class="section-intro">Once an API has real callers, it&rsquo;s no longer yours alone. Every change is a contract change. Senior engineers treat compatibility with the care it deserves &mdash; not as red tape, but as respect for the people who depend on you.</p>
+
+    <div class="framework">
+      <h4>Compatibility-safe changes</h4>
+      <ul>
+        <li>Adding a new optional field.</li>
+        <li>Adding a new endpoint.</li>
+        <li>Relaxing validation that wasn&rsquo;t strict enough.</li>
+        <li>Returning additional data in a response (if callers are not strictly schema-checking).</li>
+      </ul>
+    </div>
+
+    <div class="framework">
+      <h4>Breaking changes &mdash; require a versioning path</h4>
+      <ul>
+        <li>Removing or renaming a field.</li>
+        <li>Changing the type of an existing field.</li>
+        <li>Making an optional field required.</li>
+        <li>Tightening validation in a way existing callers violate.</li>
+        <li>Changing response shape or status code semantics.</li>
+      </ul>
+    </div>
+
+    <h3>The deprecation path</h3>
+    <ol style="margin:0 0 20px 24px;">
+      <li>Announce the change, with a date. Log deprecation warnings from the server.</li>
+      <li>Build the new version alongside the old.</li>
+      <li>Migrate known callers. Track them.</li>
+      <li>Monitor usage of the old version until it drops to near zero.</li>
+      <li>Remove. Communicate loudly before the removal date.</li>
+    </ol>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>Silent breaking change. A PR renames a field, ships, and five downstream teams see mysterious failures Monday morning. The explanation is in the git log &mdash; but none of them will read it.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>Flag breaking changes early in design review. Tag them in changelogs. Version them explicitly. A breaking change is a conversation, not a push.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 6. Distributed -->
+  <section class="fade-in" id="distributed">
+    <span class="section-num">06 &middot; Reality</span>
+    <h2>Distributed Systems Gotchas</h2>
+    <p class="section-intro">Once your feature talks to another service over a network, the rules of single-machine programming stop applying. Networks fail partially. Calls time out. The &ldquo;at most once&rdquo; message is actually &ldquo;at least once&rdquo;. Senior engineers design for this, or pay for it later.</p>
+
+    <div class="framework">
+      <h4>The short list of gotchas every senior should have internalised</h4>
+      <ul>
+        <li><strong>Timeouts on every network call.</strong> No timeout = hang forever under partial failure. Default timeouts from your HTTP client are often too long.</li>
+        <li><strong>Retries with exponential backoff and jitter.</strong> Naked retries during an outage amplify the outage. Jitter prevents synchronised stampedes.</li>
+        <li><strong>Idempotency keys on writes.</strong> If a retry might arrive, make it safe. The caller passes a unique key; the server de-duplicates. Non-negotiable for payments, messages, and any action you don&rsquo;t want to double.</li>
+        <li><strong>At-least-once &gt; exactly-once.</strong> Most message systems guarantee at-least-once. Design consumers to be idempotent; exactly-once is a fairy tale at the infrastructure level.</li>
+        <li><strong>Circuit breakers</strong> for calls to services that can fail or slow down. Fail fast and recover deliberately beats queue-until-death.</li>
+        <li><strong>Read-after-write isn&rsquo;t guaranteed</strong> in most distributed stores. Don&rsquo;t write then immediately read and expect the new value &mdash; unless you know the consistency model says so.</li>
+        <li><strong>Clocks drift.</strong> Don&rsquo;t compare timestamps across machines for ordering; use logical clocks or the database.</li>
+        <li><strong>Queues can back up.</strong> A slow consumer becomes a huge consumer backlog. Monitor queue depth as a first-class signal.</li>
+      </ul>
+    </div>
+
+    <div class="tip danger-tip">
+      <span class="tip-icon">&#128680;</span>
+      <div>
+        <p><strong>Scenario:</strong> your service calls a payment provider. No timeout. The provider has a bad Friday afternoon. Your threads pile up waiting; your thread pool fills; healthy traffic stops being served. What started as their problem is now yours, for everyone. <em>A two-second timeout and a circuit breaker would have contained it.</em></p>
+      </div>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Distributed systems punish optimism. Every call that might fail, will; eventually. Build as if that&rsquo;s true. Kleppmann&rsquo;s <em>Designing Data-Intensive Applications</em> (see <a href="resources.html#architecture">resources</a>) is the best single book on why these gotchas matter; read it when you can.</p>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 7. Caching -->
+  <section class="fade-in" id="caching">
+    <span class="section-num">07 &middot; Last Resort</span>
+    <h2>Caching &mdash; When, Where, and the Two Hard Things</h2>
+    <p class="section-intro">Caching is often reached for too early, placed in the wrong layer, and sized by feeling. Done well, it removes real load. Done badly, it becomes its own source of bugs no dashboard shows.</p>
+
+    <div class="framework">
+      <h4>Before you reach for a cache, ask:</h4>
+      <ol>
+        <li><strong>Have you measured?</strong> Is the database actually the bottleneck? Often it isn&rsquo;t.</li>
+        <li><strong>Could the query be made faster?</strong> A proper index, a rewrite, or a materialised view is simpler than a cache.</li>
+        <li><strong>What is the cache invalidation rule?</strong> Time-based, event-based, version-based? If you can&rsquo;t state it clearly, you&rsquo;ll ship stale data to users.</li>
+        <li><strong>What does the system do when the cache is cold, full, slow, or unavailable?</strong> Cache failures should degrade gracefully, not cascade.</li>
+      </ol>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">&#128513;</span>
+      <div>
+        <p>&ldquo;There are only two hard things in computer science: cache invalidation and naming things.&rdquo; The joke is older than most teams and still correct. Take both seriously.</p>
+      </div>
+    </div>
+
+    <h3>Patterns that work</h3>
+    <div class="framework">
+      <ul>
+        <li><strong>Cache-aside for reads.</strong> Check cache; on miss, read from DB, populate cache, return. Simple, predictable.</li>
+        <li><strong>TTL with stampede protection.</strong> Expiry + jitter + single-flight so you don&rsquo;t get N simultaneous misses when the key expires.</li>
+        <li><strong>Event-driven invalidation</strong> when you control the writes. The write publishes, cache subscribes, stale data is prevented.</li>
+        <li><strong>Version in the key</strong> when you need immediate flip &mdash; change the version, the old key is abandoned.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <div class="try-this">
+    <p><strong>Pick one this week:</strong></p>
+    <ul>
+      <li>Pick a slow query in your service. Run <code>EXPLAIN ANALYZE</code>. Understand the plan. Decide whether it&rsquo;s a missing index, a rewrite, or actually fine.</li>
+      <li>Find a network call in your code with no timeout. Add one. Think about what the caller should see when the timeout fires.</li>
+      <li>Pick an internal API you&rsquo;ve shipped. Read its error messages as if you were a new caller. Rewrite one to be more useful.</li>
+    </ul>
+  </div>
+
+  <section class="fade-in">
+    <p class="section-intro">Next: <a href="testing-observability.html">Testing &amp; Observability</a> &mdash; confidence in what you shipped.</p>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="requirements-design.html">Requirements &amp; Design</a>
+      <a href="clean-code.html">Clean Code</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="data-api.html">Data &amp; APIs</a>
+      <a href="testing-observability.html">Testing &amp; Observability</a>
+      <a href="code-reviews.html">Code Reviews</a>
+      <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+      <a href="mentoring-peers.html">Mentoring Peers</a>
+      <a href="influence-communication.html">Influence &amp; Communication</a>
+      <a href="communication-docs.html">Comms &amp; Docs</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for senior engineers who own what they ship. One feature at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

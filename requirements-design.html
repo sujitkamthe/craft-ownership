@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Requirements &amp; Design &mdash; Craft &amp; Ownership</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="requirements-design.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Craft &amp; Ownership</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="requirements-design.html">Requirements &amp; Design</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="data-api.html">Data &amp; APIs</a>
+            <a href="testing-observability.html">Testing &amp; Observability</a>
+            <a href="code-reviews.html">Code Reviews</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Ownership</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+            <a href="mentoring-peers.html">Mentoring Peers</a>
+            <a href="influence-communication.html">Influence &amp; Communication</a>
+            <a href="communication-docs.html">Comms &amp; Docs</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Requirements &amp; Design</h1>
+    <p class="subtitle">Understanding the real problem before you write a line. How to clarify what&rsquo;s being asked, break it down, and capture the decisions that matter.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#clarify">1. Clarify the Real Problem</a></li>
+      <li><a href="#questions">2. Asking Good Questions</a></li>
+      <li><a href="#breakdown">3. Breaking Features into Stories</a></li>
+      <li><a href="#design-doc">4. Lightweight Design Docs</a></li>
+      <li><a href="#adr">5. ADRs &mdash; When a Decision Deserves a Record</a></li>
+      <li><a href="#spike">6. Spike vs. Build</a></li>
+      <li><a href="#estimation">7. Estimation without Over-Committing</a></li>
+    </ul>
+  </section>
+
+  <!-- ─── 1. Clarify ─── -->
+  <section class="fade-in" id="clarify">
+    <span class="section-num">01 &middot; Problem</span>
+    <h2>Clarify the Real Problem</h2>
+    <p class="section-intro">The cheapest bug to fix is the one you find before you start coding. The cheapest rework is the requirement you clarified before the design. Clarification is not a junior task you&rsquo;re too senior for &mdash; it&rsquo;s where the leverage is.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>A Jira ticket is a suggestion, not a specification. The words on it are a compressed version of a conversation somebody had weeks ago. Your job is to decompress &mdash; find out what problem is actually being solved, for whom, and what &ldquo;done&rdquo; looks like in their eyes.</p>
+    </div>
+
+    <h3>The 5 Whys on requirements</h3>
+    <div class="framework">
+      <h4>Before you start, answer these five</h4>
+      <ol>
+        <li><strong>Why is this being asked?</strong> &mdash; What&rsquo;s the underlying user or business problem?</li>
+        <li><strong>Why now?</strong> &mdash; What changed that made this a priority? Is there a real deadline or an imagined one?</li>
+        <li><strong>Why this shape?</strong> &mdash; Is the proposed solution the right one, or has &ldquo;we&rsquo;ve always done it this way&rdquo; locked in a weak design?</li>
+        <li><strong>Why can&rsquo;t we do less?</strong> &mdash; What&rsquo;s the smallest thing that would still make the user happier?</li>
+        <li><strong>Why is this our team&rsquo;s work?</strong> &mdash; Is this the right layer of the stack? Is another team better placed?</li>
+      </ol>
+      <p>You don&rsquo;t need to ask all five out loud. You do need to have an answer to each before you start.</p>
+    </div>
+
+    <h3>Edge cases before code</h3>
+    <p>Spend 20 minutes listing failure modes before you implement. What happens on an empty list? A very large list? A duplicate submission? A slow network? An unexpected null? A user who refreshes mid-flow? A retry that arrives twice?</p>
+
+    <div class="tip">
+      <span class="tip-icon">&#128269;</span>
+      <div>
+        <p>Most &ldquo;edge case&rdquo; bugs in production are cases the team forgot to think about, not cases they thought about and got wrong. Thinking is cheap. Forgetting is expensive.</p>
+      </div>
+    </div>
+
+    <h3>&ldquo;Done&rdquo; in measurable terms</h3>
+    <p>Before you start: can you state the acceptance criteria in one paragraph that a peer could verify without asking you anything? If not, you don&rsquo;t yet understand the ask well enough to start.</p>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 2. Questions ─── -->
+  <section class="fade-in" id="questions">
+    <span class="section-num">02 &middot; Communication</span>
+    <h2>Asking Good Questions</h2>
+    <p class="section-intro">Senior engineers ask better questions, not more of them. A well-framed question saves the PM an hour of back-and-forth and shows you&rsquo;ve actually thought about the problem.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Low-effort questions</h5>
+        <p>&ldquo;What should happen if the input is invalid?&rdquo; &mdash; The answer is always &ldquo;show a helpful error.&rdquo; You&rsquo;re making the PM do the thinking for you.</p>
+      </div>
+      <div class="better">
+        <h5>High-effort questions</h5>
+        <p>&ldquo;On invalid input, my default would be: validate inline and block submit until resolved. Alternative would be allow submit, show errors on the next screen. The first is stricter but disrupts flow. Which do we want?&rdquo;</p>
+      </div>
+    </div>
+
+    <div class="framework">
+      <h4>The question template that respects everyone&rsquo;s time</h4>
+      <ol>
+        <li>State the question in one sentence.</li>
+        <li>Share your default / recommendation.</li>
+        <li>Share the alternative(s) you considered.</li>
+        <li>State the trade-off as you see it.</li>
+        <li>Ask for a decision.</li>
+      </ol>
+      <p>If you can&rsquo;t do steps 2&ndash;4 yet, you may be asking too early &mdash; think a bit more first.</p>
+    </div>
+
+    <div class="tip purple-tip">
+      <span class="tip-icon">&#127919;</span>
+      <div>
+        <p>Write your questions down as you work, not as they come up. Batch them. One thoughtful message with five questions is far kinder to a PM than five interruptions over a day.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 3. Breakdown ─── -->
+  <section class="fade-in" id="breakdown">
+    <span class="section-num">03 &middot; Planning</span>
+    <h2>Breaking Features into Stories</h2>
+    <p class="section-intro">A feature broken down well feels effortless to build and easy to show progress on. A feature broken down poorly becomes a 3-week mystery with a big demo at the end.</p>
+
+    <h3>Vertical slices over horizontal layers</h3>
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Horizontal slicing</h5>
+        <p>Story 1: DB schema. Story 2: API. Story 3: UI. Story 4: integration. You can&rsquo;t demo anything until all four are done; the feature exists in pieces nobody can use.</p>
+      </div>
+      <div class="better">
+        <h5>Vertical slicing</h5>
+        <p>Story 1: happy path end-to-end, minimal UI, one record only. Story 2: validation + errors. Story 3: edit &amp; delete. Story 4: pagination + search. Every story ends with something you can demo.</p>
+      </div>
+    </div>
+
+    <div class="framework">
+      <h4>The INVEST heuristic for stories</h4>
+      <ul>
+        <li><strong>Independent</strong> &mdash; each story can ship on its own schedule where possible.</li>
+        <li><strong>Negotiable</strong> &mdash; the scope can move without re-writing the story.</li>
+        <li><strong>Valuable</strong> &mdash; on its own, it does something a user or operator would notice.</li>
+        <li><strong>Estimable</strong> &mdash; you can size it without a full day of investigation.</li>
+        <li><strong>Small</strong> &mdash; fits comfortably in a sprint, ideally a few days.</li>
+        <li><strong>Testable</strong> &mdash; there&rsquo;s a clear way to verify done.</li>
+      </ul>
+    </div>
+
+    <h3>Parallelisation &mdash; so the team isn&rsquo;t bottlenecked on you</h3>
+    <p>When you slice, think about who on the team can pick up which slice. If every story goes through your hands sequentially, you are the bottleneck. A good breakdown has stories that two or three people can work in parallel.</p>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#128200;</span>
+      <div>
+        <p><strong>Why this matters:</strong> Features that parallelise well finish 30&ndash;50% faster and distribute knowledge across the team. The breakdown is not busywork &mdash; it&rsquo;s the schedule.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 4. Design Doc ─── -->
+  <section class="fade-in" id="design-doc">
+    <span class="section-num">04 &middot; Artifact</span>
+    <h2>Lightweight Design Docs</h2>
+    <p class="section-intro">A design doc is a short written sketch of how you&rsquo;ll build something, shared before you start. It&rsquo;s not a thesis, and it&rsquo;s not an approval gate. It&rsquo;s a cheap way to catch design mistakes while they still cost minutes, not weeks.</p>
+
+    <h3>When to write one</h3>
+    <ul style="margin:0 0 20px 24px;">
+      <li>The feature touches more than two services or two major modules.</li>
+      <li>A reasonable engineer could disagree with your approach.</li>
+      <li>There&rsquo;s a non-trivial trade-off (performance vs. simplicity, consistency vs. availability, etc.).</li>
+      <li>The work will take more than a week to build.</li>
+      <li>You want structured feedback before you commit.</li>
+    </ul>
+    <p>For a one-story change with no ambiguity, a design doc is overhead. Skip it.</p>
+
+    <div class="framework">
+      <h4>A design doc template that fits on two pages</h4>
+      <ol>
+        <li><strong>Context</strong> &mdash; what problem, for whom, why now.</li>
+        <li><strong>Goals &amp; non-goals</strong> &mdash; what this will and won&rsquo;t do. Non-goals are as important as goals.</li>
+        <li><strong>Proposed design</strong> &mdash; the approach, a sketch diagram, the data model, the API shape.</li>
+        <li><strong>Alternatives considered</strong> &mdash; the two or three other things you thought about and why you didn&rsquo;t pick them.</li>
+        <li><strong>Trade-offs &amp; risks</strong> &mdash; what you&rsquo;re giving up, what could go wrong.</li>
+        <li><strong>Rollout &amp; observability</strong> &mdash; how it ships, how you&rsquo;ll know it&rsquo;s working.</li>
+        <li><strong>Open questions</strong> &mdash; what you want reviewers to weigh in on.</li>
+      </ol>
+      <p>Two pages. Written in 2&ndash;3 hours. Reviewed in 30 minutes. Saves days.</p>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">&#128221;</span>
+      <div>
+        <p>Share the doc for review before you&rsquo;ve fallen in love with the design. If you&rsquo;ve already coded half of it, the feedback comes in as &ldquo;too late&rdquo; and reviewers stop being honest.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 5. ADR ─── -->
+  <section class="fade-in" id="adr">
+    <span class="section-num">05 &middot; Artifact</span>
+    <h2>ADRs &mdash; When a Decision Deserves a Record</h2>
+    <p class="section-intro">An Architecture Decision Record is a one-page note that captures a significant technical decision: what you chose, why, and what you ruled out. The future reader &mdash; often future-you &mdash; will thank you.</p>
+
+    <h3>When to write an ADR</h3>
+    <p>Not for every decision. Write one when:</p>
+    <ul style="margin:0 0 20px 24px;">
+      <li>The decision is hard to reverse (a database choice, a protocol, a vendor lock-in).</li>
+      <li>The decision will surprise a future reader who doesn&rsquo;t know the history.</li>
+      <li>You considered alternatives that might look obvious later but weren&rsquo;t available then.</li>
+      <li>The decision was made after real debate, and you want to preserve the conclusions.</li>
+    </ul>
+
+    <div class="framework">
+      <h4>ADR template (one page)</h4>
+      <ol>
+        <li><strong>Title</strong> &mdash; a short statement of the decision (&ldquo;Use Postgres JSONB for event payload storage&rdquo;).</li>
+        <li><strong>Status</strong> &mdash; proposed, accepted, superseded, deprecated.</li>
+        <li><strong>Context</strong> &mdash; what situation forced the decision.</li>
+        <li><strong>Decision</strong> &mdash; what was chosen, in plain language.</li>
+        <li><strong>Consequences</strong> &mdash; the good, the bad, and the &ldquo;we&rsquo;ll have to revisit this if.&rdquo;</li>
+        <li><strong>Alternatives considered</strong> &mdash; what else was on the table.</li>
+      </ol>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>The test of a good ADR isn&rsquo;t how it reads today. It&rsquo;s whether, 18 months from now, someone wondering &ldquo;why did we do it this way?&rdquo; can get their answer in a minute. If they can, you&rsquo;ve saved the team days of re-debate.</p>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 6. Spike ─── -->
+  <section class="fade-in" id="spike">
+    <span class="section-num">06 &middot; Risk</span>
+    <h2>Spike vs. Build</h2>
+    <p class="section-intro">When the work has a real unknown &mdash; a library you haven&rsquo;t used, a performance question you can&rsquo;t answer by reasoning, an integration with an unfamiliar system &mdash; the right first move is often a timeboxed spike, not a full build.</p>
+
+    <h3>What a good spike looks like</h3>
+    <div class="framework">
+      <h4>The spike contract</h4>
+      <ul>
+        <li><strong>Question</strong> &mdash; one specific unknown you&rsquo;re answering.</li>
+        <li><strong>Timebox</strong> &mdash; half a day, one day, two days. Name it.</li>
+        <li><strong>Output</strong> &mdash; a short write-up or a throwaway prototype, not production code.</li>
+        <li><strong>Stopping rule</strong> &mdash; when the time is up, you stop, even if the answer is only 70% certain. Then you decide.</li>
+      </ul>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>The spike quietly becomes the implementation. Prototype code gets promoted to production &ldquo;because it already works.&rdquo; You inherit its shortcuts forever.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>When the spike answers the question, stop. Throw away the prototype code (or mark it &ldquo;spike &mdash; do not promote&rdquo;). Start the real build fresh, informed by what you learned.</p>
+      </div>
+    </div>
+
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#9201;&#65039;</span>
+      <div>
+        <p>If a spike is running past its box by more than 50%, pause and ask why. Usually the question was too big. Split it: answer the narrower sub-question first.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 7. Estimation ─── -->
+  <section class="fade-in" id="estimation">
+    <span class="section-num">07 &middot; Commitment</span>
+    <h2>Estimation without Over-Committing</h2>
+    <p class="section-intro">Estimation is a commitment with a confidence band. Senior engineers give honest estimates including the risk, not optimistic numbers they know they won&rsquo;t hit.</p>
+
+    <h3>Three estimates, not one</h3>
+    <div class="framework">
+      <h4>The 3-point estimate</h4>
+      <ul>
+        <li><strong>Best case</strong> &mdash; if everything goes right, the environment behaves, and there are no surprises.</li>
+        <li><strong>Realistic case</strong> &mdash; the number you&rsquo;d actually bet on, knowing this team and this codebase.</li>
+        <li><strong>Worst case</strong> &mdash; if known risks materialise, but not catastrophes.</li>
+      </ul>
+      <p>A one-number estimate lies by omission. Three numbers tell the truth: here is the range, and here is what moves it.</p>
+    </div>
+
+    <h3>The 1.5&times; buffer rule</h3>
+    <p>For any feature where you&rsquo;re touching code you don&rsquo;t know well, integrating with a system you haven&rsquo;t integrated with before, or solving a problem you haven&rsquo;t solved before &mdash; multiply your gut estimate by 1.5. That is the one you commit to. The original is your best case, not your expected case.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>The cost of missing an estimate is not just the slippage &mdash; it&rsquo;s the trust hit. Stakeholders remember the engineer who said &ldquo;two weeks&rdquo; and took five. Stakeholders also remember the engineer who said &ldquo;three weeks, maybe four&rdquo; and delivered in three and a half. Predictability beats optimism.</p>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>Estimating only the coding time. The review round-trips, the test writing, the integration work, the unknowns, the meetings, the context-switching &mdash; all of those live outside &ldquo;coding time&rdquo; and together often double the real duration.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>Estimate the complete path to shipped: design, build, test, review cycles, integration, deploy, observe. That&rsquo;s the number you owe the team.</p>
+      </div>
+    </div>
+
+    <h3>Reference stories</h3>
+    <p>The fastest way to improve estimates is to build a small mental library of reference stories: &ldquo;that payments refactor was X days, this is similar shape, therefore similar order of magnitude.&rdquo; You&rsquo;ll be wrong less often than by guessing from scratch.</p>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <div class="try-this">
+    <p><strong>Pick one this week:</strong></p>
+    <ul>
+      <li>Before your next meaningful story, run the &ldquo;5 Whys on requirements&rdquo; with your PM &mdash; even informally. See what shifts.</li>
+      <li>Write a lightweight two-page design doc for something you were about to code directly. Share it for review before you start.</li>
+      <li>On your next estimate, give three numbers (best / realistic / worst) instead of one. Notice how the conversation with your leader or PM changes.</li>
+    </ul>
+  </div>
+
+  <section class="fade-in">
+    <p class="section-intro">Next: <a href="clean-code.html">Clean Code</a> &mdash; the daily craft of code you&rsquo;d want to read in six months.</p>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="requirements-design.html">Requirements &amp; Design</a>
+      <a href="clean-code.html">Clean Code</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="data-api.html">Data &amp; APIs</a>
+      <a href="testing-observability.html">Testing &amp; Observability</a>
+      <a href="code-reviews.html">Code Reviews</a>
+      <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+      <a href="mentoring-peers.html">Mentoring Peers</a>
+      <a href="influence-communication.html">Influence &amp; Communication</a>
+      <a href="communication-docs.html">Comms &amp; Docs</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for senior engineers who own what they ship. One feature at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clean Code &mdash; Craft &amp; Ownership</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="clean-code.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Craft &amp; Ownership</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="requirements-design.html">Requirements &amp; Design</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="data-api.html">Data &amp; APIs</a>
+            <a href="testing-observability.html">Testing &amp; Observability</a>
+            <a href="code-reviews.html">Code Reviews</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Ownership</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+            <a href="mentoring-peers.html">Mentoring Peers</a>
+            <a href="influence-communication.html">Influence &amp; Communication</a>
+            <a href="communication-docs.html">Comms &amp; Docs</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Clean Code</h1>
+    <p class="subtitle">The daily craft. Readability, principles that hold up, domain modelling, SOLID in practice, refactoring, smells, and the code you&rsquo;d want to read in six months.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#readability">1. Readability First</a></li>
+      <li><a href="#naming">2. Naming as a Design Decision</a></li>
+      <li><a href="#principles">3. Principles Worth Holding &mdash; DRY, KISS, YAGNI, Tell Don&rsquo;t Ask</a></li>
+      <li><a href="#solid">4. SOLID in Practice</a></li>
+      <li><a href="#domain">5. Domain Modelling &mdash; Rich Models, DDD Lite</a></li>
+      <li><a href="#refactoring">6. Refactoring as a Habit</a></li>
+      <li><a href="#modern">7. Use What the Language Gives You</a></li>
+      <li><a href="#smells">8. Code Smells Catalog</a></li>
+      <li><a href="#boundaries">9. Boundaries &amp; Layering</a></li>
+      <li><a href="#six-month">10. The Six-Month Test</a></li>
+    </ul>
+  </section>
+
+  <!-- 1. Readability -->
+  <section class="fade-in" id="readability">
+    <span class="section-num">01 &middot; Principle</span>
+    <h2>Readability First</h2>
+    <p class="section-intro">Your code will be read far more times than it&rsquo;s written. Every minute you spend making it easier to read pays back many times over in the reads, reviews, and changes that follow.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>&ldquo;I can figure it out if I read it carefully enough&rdquo; is the voice of someone paying interest on bad code. A senior engineer writes code that a tired teammate can read on a Friday afternoon.</p>
+    </div>
+
+    <h3>What readable code actually looks like</h3>
+    <div class="framework">
+      <ul>
+        <li><strong>Short functions</strong> &mdash; one responsibility, ideally fits on a screen.</li>
+        <li><strong>Clear names</strong> &mdash; the reader shouldn&rsquo;t have to look up what a variable or function means.</li>
+        <li><strong>Boring structure</strong> &mdash; the least clever solution that works. Surprising code is a tax on every future reader.</li>
+        <li><strong>Local reasoning</strong> &mdash; a function does what its name says, without hidden side effects far away.</li>
+        <li><strong>Obvious flow</strong> &mdash; the happy path reads top to bottom; errors are handled clearly; nothing important hides in a callback five levels deep.</li>
+      </ul>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">&#128214;</span>
+      <div>
+        <p><strong>Test for yourself:</strong> read your own code tomorrow morning before your first coffee. If you stumble on a line, that line will confuse your teammate too. Fix it before you submit.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2. Naming -->
+  <section class="fade-in" id="naming">
+    <span class="section-num">02 &middot; Craft</span>
+    <h2>Naming as a Design Decision</h2>
+    <p class="section-intro">A good name removes the need for a comment. A bad name forces every future reader to rebuild your intent from scratch. Naming is not cosmetic &mdash; it is design.</p>
+
+    <h3>Name patterns worth practicing</h3>
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>Domain over implementation</h4>
+        <p><code>cancelSubscription()</code> beats <code>updateStatus(true)</code>. The first tells the reader what the business is doing. The second only tells them what the code is doing.</p>
+      </div>
+      <div class="card">
+        <h4>Booleans that read as questions</h4>
+        <p><code>isEligible</code>, <code>hasExpired</code>, <code>canRefund</code>. Not <code>active</code> or <code>flag</code>. The reader should know from the name what <code>true</code> means.</p>
+      </div>
+      <div class="card">
+        <h4>Verbs for actions</h4>
+        <p><code>sendInvoice</code>, <code>fetchUser</code>, <code>retryWithBackoff</code>. A function is a verb; a variable is a noun. Keep the parts of speech straight and the code reads like prose.</p>
+      </div>
+      <div class="card">
+        <h4>No filler words</h4>
+        <p><code>UserManager</code>, <code>OrderHelper</code>, <code>DataProcessor</code> are names that mean nothing. If you can&rsquo;t say what it does without hedging, you haven&rsquo;t found its real responsibility yet.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Name smells</h5>
+        <p><code>data</code>, <code>info</code>, <code>obj</code>, <code>temp</code>, <code>stuff</code>. Single-letter names outside a very tight loop. Names that require the reader to remember context from three files away.</p>
+      </div>
+      <div class="better">
+        <h5>Better names</h5>
+        <p>Names that answer &ldquo;what is this and why is it here?&rdquo; on their own. Names that survive a code reviewer reading only the patch, without the surrounding file.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3. Principles -->
+  <section class="fade-in" id="principles">
+    <span class="section-num">03 &middot; Principles</span>
+    <h2>Principles Worth Holding</h2>
+    <p class="section-intro">These are the short principles senior engineers quote to each other. Each one is a lens, not a law. Used as a lens they make you sharper; used as a law they become cargo cult. Know the why behind each.</p>
+
+    <h3>DRY &mdash; Don&rsquo;t Repeat Yourself</h3>
+    <div class="framework">
+      <p><strong>What it means:</strong> every piece of knowledge should have a single, unambiguous home. Duplicated <em>knowledge</em> drifts out of sync; duplicated <em>structure</em> is often fine.</p>
+      <p><strong>Why:</strong> when the same business rule lives in three places, every change to that rule requires finding and editing three places &mdash; and missing one is the bug.</p>
+      <p><strong>The misuse:</strong> extracting a helper the first time two lines look alike. Two methods that <em>happen</em> to do similar things today but will diverge tomorrow are better left duplicated. Sandi Metz: &ldquo;Duplication is far cheaper than the wrong abstraction.&rdquo; Wait for the third duplicate before abstracting.</p>
+    </div>
+
+    <h3>KISS &mdash; Keep It Simple</h3>
+    <div class="framework">
+      <p><strong>What it means:</strong> prefer the simplest thing that could possibly work. Complexity has to earn its place.</p>
+      <p><strong>Why:</strong> simple code is easier to read, change, debug, and test. Every piece of complexity you add is a small tax on every future reader and every future change.</p>
+      <p><strong>The misuse:</strong> &ldquo;simple&rdquo; becoming an excuse for under-engineering. A simple solution that silently corrupts data is not simple &mdash; it&rsquo;s cheap. Simple means <em>as simple as the problem allows</em>, not simpler.</p>
+    </div>
+
+    <h3>YAGNI &mdash; You Aren&rsquo;t Gonna Need It</h3>
+    <div class="framework">
+      <p><strong>What it means:</strong> don&rsquo;t build for hypothetical future requirements. Build for the ones that actually exist today.</p>
+      <p><strong>Why:</strong> most &ldquo;we might need this later&rdquo; extension points are never used. They add complexity now in exchange for flexibility you never spend. When the real need arrives, you&rsquo;ll design it better with real information &mdash; and the old speculation will already be in the way.</p>
+      <p><strong>The misuse:</strong> using YAGNI to dodge obvious near-term needs. If you know a second type of payment provider is arriving next sprint, building the one-provider interface as if it were permanent is not YAGNI &mdash; it&rsquo;s wilful ignorance. YAGNI is about resisting speculation, not about resisting foresight.</p>
+    </div>
+
+    <h3>Tell, Don&rsquo;t Ask</h3>
+    <div class="framework">
+      <p><strong>What it means:</strong> tell objects what to do; don&rsquo;t ask them for their state and make decisions on their behalf. The behavior belongs with the data that supports it.</p>
+      <p><strong>Why:</strong> when you &ldquo;ask and decide&rdquo;, the same decision tends to happen in many callers &mdash; and drift. When you &ldquo;tell&rdquo;, the rule lives inside the object, enforced everywhere the object is used.</p>
+    </div>
+
+    <div class="code-pair">
+      <div>
+        <span class="label bad">Ask &mdash; knowledge leaks out</span>
+        <pre class="code-block">if (order.getStatus() == PAID
+    &amp;&amp; !order.isShipped()
+    &amp;&amp; order.getPayment() != null) {
+  shippingService.ship(order);
+}</pre>
+      </div>
+      <div>
+        <span class="label good">Tell &mdash; knowledge lives with order</span>
+        <pre class="code-block">if (order.isReadyToShip()) {
+  shippingService.ship(order);
+}
+// Order owns the rule;
+// callers don't re-derive it.</pre>
+      </div>
+    </div>
+
+    <h3>Law of Demeter &mdash; Don&rsquo;t Talk to Strangers</h3>
+    <div class="framework">
+      <p><strong>What it means:</strong> an object should only call methods on: itself, its parameters, objects it creates, or its direct fields. Not on things it reached through another object.</p>
+      <p><strong>Why:</strong> <code>order.getCustomer().getAddress().getCity()</code> couples the caller to the entire chain. A change to <code>Customer</code>&rsquo;s internals ripples to everyone who reached through it. Expose <code>order.getShippingCity()</code> instead.</p>
+      <p><strong>The misuse:</strong> treating it as a blanket ban on chained calls. Fluent APIs (<code>stream().filter().map()</code>) chain because each call returns the same abstraction; that&rsquo;s not a Demeter violation. The law is about <em>reaching through different objects</em>, not about method chains per se.</p>
+    </div>
+
+    <h3>Composition over inheritance</h3>
+    <div class="framework">
+      <p><strong>What it means:</strong> default to building behavior by assembling smaller objects, not by extending a base class.</p>
+      <p><strong>Why:</strong> inheritance is a very strong coupling &mdash; it commits you to the parent&rsquo;s interface, state, and invariants forever. Composition lets you mix-and-match capabilities and change them without rewriting a type hierarchy. Most long-lived codebases regret deep inheritance hierarchies; few regret composition.</p>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">&#128161;</span>
+      <div>
+        <p>These principles contradict each other in any specific code review. DRY says &ldquo;extract this!&rdquo; and YAGNI says &ldquo;don&rsquo;t!&rdquo; &mdash; both reasonable. Judgment is knowing which one applies <em>here</em>, and being honest when the answer is &ldquo;I don&rsquo;t know yet; let&rsquo;s defer.&rdquo;</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4. SOLID -->
+  <section class="fade-in" id="solid">
+    <span class="section-num">04 &middot; Principles</span>
+    <h2>SOLID in Practice</h2>
+    <p class="section-intro">SOLID is often taught as five rules to memorise. Better to hold it as five questions you ask while designing a module.</p>
+
+    <div class="accordion">
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>S &mdash; Single Responsibility: does this class have one reason to change?</span>
+          <span class="arrow">&#9662;</span>
+        </div>
+        <div class="accordion-body">
+          <p>If two different kinds of business change both force edits to the same class, the class is doing two jobs. Split them. The test isn&rsquo;t &ldquo;does it do one thing?&rdquo; &mdash; it&rsquo;s &ldquo;does it have one reason someone would change it?&rdquo;</p>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>O &mdash; Open/Closed: can I extend this without editing it?</span>
+          <span class="arrow">&#9662;</span>
+        </div>
+        <div class="accordion-body">
+          <p>If every new kind of thing requires adding a new <code>if</code> branch in the same switch statement, the design resists extension. Use polymorphism or a strategy pattern so the core stays stable and new cases live in their own classes.</p>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>L &mdash; Liskov: can a subclass stand in for its parent without surprises?</span>
+          <span class="arrow">&#9662;</span>
+        </div>
+        <div class="accordion-body">
+          <p>A subclass that throws where its parent doesn&rsquo;t, or rejects arguments the parent accepts, breaks the contract. If your subtype is fundamentally different, don&rsquo;t inherit &mdash; compose or use a separate interface.</p>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>I &mdash; Interface Segregation: is this interface asking callers to depend on things they don&rsquo;t use?</span>
+          <span class="arrow">&#9662;</span>
+        </div>
+        <div class="accordion-body">
+          <p>A 20-method interface where each caller uses three of them creates false coupling. Prefer several small, focused interfaces over one god-interface.</p>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>D &mdash; Dependency Inversion: does high-level code depend on abstractions or concrete details?</span>
+          <span class="arrow">&#9662;</span>
+        </div>
+        <div class="accordion-body">
+          <p>Business logic should depend on abstractions (a <code>PaymentGateway</code> interface), not on a specific library (<code>StripeSDK</code>). This isn&rsquo;t about testability alone &mdash; it&rsquo;s about keeping the domain isolated from churn in the adapter layer.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#9888;&#65039;</span>
+      <div>
+        <p>SOLID is a prompt, not a cage. Over-abstracting to satisfy a principle creates more complexity than the smell it was fixing. Apply the principles when the design starts to hurt &mdash; not pre-emptively on every three-line helper.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 5. Domain modelling -->
+  <section class="fade-in" id="domain">
+    <span class="section-num">05 &middot; Modelling</span>
+    <h2>Domain Modelling &mdash; Rich Models, DDD Lite</h2>
+    <p class="section-intro">The most important thing most backends do is represent a <em>domain</em>: orders, users, payments, bookings. How faithfully your code mirrors that domain is how easy (or impossible) it will be to change the business rules three years from now. Senior engineers treat the domain model as a first-class artifact &mdash; not as a thin layer over the database.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Domain classes that only hold data &mdash; no behavior, just getters and setters &mdash; look &ldquo;clean&rdquo; but are the most common anti-pattern in enterprise code. The business rules end up scattered across services, repeated, drifting. Put behavior where the data lives.</p>
+    </div>
+
+    <h3>The Anemic Domain Model &mdash; the trap to avoid</h3>
+    <div class="framework">
+      <p><strong>What it looks like:</strong> <code>Order</code> has <code>getStatus()</code>, <code>setStatus()</code>, <code>getItems()</code>, <code>setItems()</code>, and no methods that <em>do</em> anything. The real logic &mdash; &ldquo;can this order be shipped?&rdquo;, &ldquo;what&rsquo;s the total?&rdquo;, &ldquo;apply this discount&rdquo; &mdash; lives in <code>OrderService</code> or scattered across layers.</p>
+      <p><strong>Why it&rsquo;s a trap:</strong> the object loses its meaning. It&rsquo;s no longer an <em>Order</em>; it&rsquo;s a bag of fields the services fight over. Every caller has to know which service to go to for which behavior, and those services end up duplicating checks that should live once on the object.</p>
+      <p><strong>What Martin Fowler calls it:</strong> &ldquo;contrary to the basic idea of object-oriented design, which is to combine data and process together.&rdquo; Read his <em>AnemicDomainModel</em> bliki entry when you have 10 minutes.</p>
+    </div>
+
+    <div class="code-pair">
+      <div>
+        <span class="label bad">Anemic</span>
+        <pre class="code-block">class Order {
+  List&lt;Item&gt; items;
+  Status status;
+  // only getters/setters
+}
+
+class OrderService {
+  boolean canShip(Order o) {
+    return o.getStatus() == PAID
+      &amp;&amp; !o.getItems().isEmpty()
+      &amp;&amp; o.getPayment() != null;
+  }
+  Money totalOf(Order o) { /* ... */ }
+}</pre>
+      </div>
+      <div>
+        <span class="label good">Rich &mdash; behavior on the data</span>
+        <pre class="code-block">class Order {
+  List&lt;Item&gt; items;
+  Status status;
+
+  boolean canShip() {
+    return status == PAID
+      &amp;&amp; !items.isEmpty()
+      &amp;&amp; payment != null;
+  }
+  Money total() { /* ... */ }
+}
+// OrderService orchestrates;
+// Order knows itself.</pre>
+      </div>
+    </div>
+
+    <h3>DDD Lite &mdash; the useful parts of Domain-Driven Design</h3>
+    <p>You don&rsquo;t need to adopt the full Evans blue book to benefit from DDD. A few ideas land almost every feature:</p>
+    <div class="framework">
+      <h4>Four DDD ideas worth carrying</h4>
+      <ul>
+        <li><strong>Ubiquitous language.</strong> Use the business&rsquo;s words in the code. If PMs say &ldquo;subscription&rdquo;, the class is called <code>Subscription</code>, not <code>RecurringBillingItem</code>. Translation layers between code and conversation are where misunderstanding breeds.</li>
+        <li><strong>Entities vs. value objects.</strong> An entity has identity that persists (<code>User</code>, <code>Order</code>). A value object is defined by its contents (<code>Money</code>, <code>Address</code>, <code>DateRange</code>). Value objects should be immutable; it simplifies almost everything downstream.</li>
+        <li><strong>Aggregates.</strong> A cluster of objects treated as one for change purposes. You modify the aggregate through its root (<code>Order</code>), which enforces invariants. Prevents &ldquo;someone reached in and broke a rule&rdquo; bugs.</li>
+        <li><strong>Bounded contexts.</strong> The same word means different things in different parts of the business. &ldquo;Customer&rdquo; in sales is not the same as &ldquo;Customer&rdquo; in billing. Don&rsquo;t force one shared model; let each bounded context own its version.</li>
+      </ul>
+    </div>
+
+    <div class="tip purple-tip">
+      <span class="tip-icon">&#128202;</span>
+      <div>
+        <p><strong>Scenario:</strong> you&rsquo;re modelling a booking system. The anemic move: <code>Booking</code> is a dataclass; <code>BookingService</code> has <code>cancel(booking)</code>, <code>extend(booking, hours)</code>, <code>isActive(booking)</code>. The rich move: <code>Booking</code> itself knows how to <code>cancel()</code>, <code>extend(hours)</code>, answer <code>isActive()</code> &mdash; and enforce &ldquo;can&rsquo;t extend a cancelled booking&rdquo; in the method itself. The rich model makes bad calls impossible; the anemic one makes you wish you&rsquo;d caught them in review.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>Full DDD kit (aggregates, repositories, domain events, CQRS, event sourcing) applied to a CRUD app. The ceremony overwhelms the domain; the team spends more time on infrastructure than on the business.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>Start with rich domain objects and ubiquitous language &mdash; the two highest-value ideas. Reach for aggregates when invariants span multiple objects. Reach for bounded contexts when your &ldquo;Customer&rdquo; means five different things in five places. Don&rsquo;t adopt the full method unless the problem needs it.</p>
+      </div>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128214;</span>
+      <div>
+        <p>Deeper reading: Evans&rsquo;s <em>Domain-Driven Design</em> is the canonical text but dense. Vernon&rsquo;s <em>Implementing Domain-Driven Design</em> is more practical. Fowler&rsquo;s <em>Patterns of Enterprise Application Architecture</em> covers Anemic vs. Rich models and the standard domain-layer patterns. See <a href="resources.html#patterns">resources</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 6. Refactoring -->
+  <section class="fade-in" id="refactoring">
+    <span class="section-num">06 &middot; Habit</span>
+    <h2>Refactoring as a Habit</h2>
+    <p class="section-intro">Refactoring is not a quarterly project. It&rsquo;s a daily habit: each change leaves the area slightly better than you found it. The compound is what keeps a codebase healthy for years.</p>
+
+    <div class="framework">
+      <h4>The Boy Scout rule, applied</h4>
+      <ul>
+        <li>Rename a misleading variable while you&rsquo;re passing through.</li>
+        <li>Extract a helper when a function grows past the screen.</li>
+        <li>Delete the commented-out block you just confirmed isn&rsquo;t needed.</li>
+        <li>Replace a magic number with a named constant.</li>
+        <li>Move a misplaced method to the class that actually owns it.</li>
+      </ul>
+      <p>None of these should bloat your PR. Keep them tight, keep them scoped, and call them out in the description so reviewers see them intentionally.</p>
+    </div>
+
+    <h3>Refactor first, then change</h3>
+    <p>When a change is hard, the honest move is often to refactor the surrounding code into a shape where the change becomes easy, then make the easy change. Kent Beck&rsquo;s version: &ldquo;Make the change easy, then make the easy change.&rdquo;</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>Mixing a big refactor and a feature change in the same PR. Reviewers can&rsquo;t separate what&rsquo;s behavior change from what&rsquo;s moving chairs around. Both halves get rubber-stamped or both get rejected.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>Land the refactor as its own PR (ideally behavior-preserving, with tests green before and after). Then land the feature on top. Each PR is small, each is reviewable.</p>
+      </div>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#128295;</span>
+      <div>
+        <p><strong>Refactor-to-understand:</strong> when you&rsquo;re struggling to follow a piece of code, rewrite it for yourself. Don&rsquo;t commit the rewrite; the goal is to force clarity into your own head. Often you&rsquo;ll see the real bug in the process.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 7. Modern features -->
+  <section class="fade-in" id="modern">
+    <span class="section-num">07 &middot; Tooling</span>
+    <h2>Use What the Language Gives You</h2>
+    <p class="section-intro">Languages evolve. A senior engineer writes modern idiomatic code &mdash; not the version of the language they learned in college. The modern forms are almost always shorter, safer, and more familiar to new team members.</p>
+
+    <div class="tabs">
+      <div class="tab-headers">
+        <div class="tab-header active" onclick="switchTab(event, 'tab-java')">Java</div>
+        <div class="tab-header" onclick="switchTab(event, 'tab-ts')">TypeScript</div>
+        <div class="tab-header" onclick="switchTab(event, 'tab-py')">Python</div>
+      </div>
+      <div class="tab-content active" id="tab-java">
+        <h4>Java modern forms worth adopting</h4>
+        <ul>
+          <li><code>record</code> for immutable data carriers instead of verbose POJOs.</li>
+          <li><code>var</code> for local variables with obvious types, to reduce noise.</li>
+          <li>Switch expressions with pattern matching &mdash; no more fallthrough bugs.</li>
+          <li>Text blocks (<code>"""</code>) for multi-line strings instead of concatenation.</li>
+          <li><code>Optional</code> at API boundaries; never <code>Optional</code> as a field.</li>
+          <li><code>Stream</code> for transformations, but fall back to a simple loop when the pipeline becomes harder to read than the loop.</li>
+          <li>Sealed classes for closed type hierarchies &mdash; exhaustive switch checks at compile time.</li>
+        </ul>
+      </div>
+      <div class="tab-content" id="tab-ts">
+        <h4>TypeScript patterns to reach for</h4>
+        <ul>
+          <li>Discriminated unions over <code>any</code> or enum-with-payload patterns.</li>
+          <li><code>const</code> by default; <code>let</code> only where reassignment is real.</li>
+          <li>Optional chaining (<code>?.</code>) and nullish coalescing (<code>??</code>) over defensive <code>if</code> chains.</li>
+          <li>Narrow types at the boundary (Zod, a parser); trust them inside.</li>
+          <li>Readonly arrays and objects where mutation isn&rsquo;t intended.</li>
+          <li><code>satisfies</code> for config objects where you want a widening check without losing literal types.</li>
+        </ul>
+      </div>
+      <div class="tab-content" id="tab-py">
+        <h4>Python features that keep code modern</h4>
+        <ul>
+          <li>Type hints throughout &mdash; <code>mypy</code> or <code>pyright</code> in CI.</li>
+          <li><code>dataclass</code> and <code>TypedDict</code> over dicts-of-anything.</li>
+          <li>Structural pattern matching (<code>match</code>/<code>case</code>) where branching on shape.</li>
+          <li><code>pathlib</code> over string-based path munging.</li>
+          <li>f-strings for formatting; log with <code>logging</code>&rsquo;s lazy <code>%s</code> form.</li>
+          <li><code>async</code>/<code>await</code> for concurrent IO; comprehensions for transformations.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tip purple-tip">
+      <span class="tip-icon">&#128302;</span>
+      <div>
+        <p><strong>Why this matters:</strong> when the codebase uses modern idioms consistently, new hires ramp faster, senior devs from other teams contribute without friction, and the gap between your code and industry norms stays small. Drift is expensive.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 8. Smells -->
+  <section class="fade-in" id="smells">
+    <span class="section-num">08 &middot; Diagnosis</span>
+    <h2>Code Smells Catalog</h2>
+    <p class="section-intro">A smell isn&rsquo;t a bug. It&rsquo;s a hint that something may be off &mdash; worth pausing over. Seasoned engineers develop a nose for these and address them while they&rsquo;re small. The canonical catalogue is Fowler&rsquo;s <em>Refactoring</em>; <a href="https://refactoring.guru/refactoring/smells" target="_blank" rel="noopener">refactoring.guru</a> and <a href="https://sourcemaking.com/refactoring/smells" target="_blank" rel="noopener">sourcemaking.com</a> have excellent illustrated versions, free online.</p>
+
+    <h3>Bloaters &mdash; things that grew too big</h3>
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>Long method</h4>
+        <p>Scrolls past a screen. Usually doing more than one thing.<br><strong>Why it matters:</strong> hard to read, hard to test, hard to change without breaking something else.<br><strong>Move:</strong> Extract Method into named helpers &mdash; each helper&rsquo;s name documents its chunk.</p>
+      </div>
+      <div class="card">
+        <h4>Large class</h4>
+        <p>A class doing too much. A thousand-line class with 40 methods almost always wants to be two or three smaller classes.<br><strong>Move:</strong> Extract Class; split by responsibility or by the subset of fields a group of methods uses.</p>
+      </div>
+      <div class="card">
+        <h4>Long parameter list</h4>
+        <p>More than four or five parameters. Hard to call correctly; easy to get the order wrong.<br><strong>Move:</strong> Introduce Parameter Object or Preserve Whole Object. Often the parameters have a natural grouping.</p>
+      </div>
+      <div class="card">
+        <h4>Primitive obsession</h4>
+        <p>Raw strings and ints everywhere.<br><strong>Why:</strong> <code>String email</code> and <code>String firstName</code> are the same type &mdash; the compiler won&rsquo;t catch you mixing them up.<br><strong>Move:</strong> Replace Primitive with Value Object &mdash; a <code>UserId</code>, <code>Money</code>, <code>EmailAddress</code> with validation on construction.</p>
+      </div>
+      <div class="card">
+        <h4>Data clumps</h4>
+        <p>The same three fields keep appearing together (<code>street</code>, <code>city</code>, <code>zip</code>). They want to be one type.<br><strong>Move:</strong> Extract Class; give the clump a name.</p>
+      </div>
+    </div>
+
+    <h3>Object-orientation abusers</h3>
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>Switch statements on type</h4>
+        <p>A switch that branches on the type or role of an object. Usually polymorphism is trying to get out.<br><strong>Move:</strong> Replace Conditional with Polymorphism or Strategy.</p>
+      </div>
+      <div class="card">
+        <h4>Refused bequest</h4>
+        <p>A subclass that doesn&rsquo;t use (or actively contradicts) its parent&rsquo;s methods. A Liskov violation waiting to bite.<br><strong>Move:</strong> Replace Inheritance with Delegation; often the subclass shouldn&rsquo;t inherit at all.</p>
+      </div>
+      <div class="card">
+        <h4>Temporary field</h4>
+        <p>A field only used in certain operations; empty the rest of the time.<br><strong>Move:</strong> Extract Class for the operation; put the field there, where it belongs.</p>
+      </div>
+    </div>
+
+    <h3>Change preventers &mdash; make change harder than it should be</h3>
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>Shotgun surgery</h4>
+        <p>A single conceptual change forces edits in 5&ndash;10 files.<br><strong>Why:</strong> related knowledge is scattered.<br><strong>Move:</strong> Move Method / Move Field to consolidate; aim for &ldquo;one reason to change touches one place.&rdquo;</p>
+      </div>
+      <div class="card">
+        <h4>Divergent change</h4>
+        <p>A single class changes for many different reasons &mdash; the inverse of shotgun surgery. The class is doing too many jobs.<br><strong>Move:</strong> Extract Class; each resulting class has one reason to change.</p>
+      </div>
+      <div class="card">
+        <h4>Parallel inheritance hierarchies</h4>
+        <p>Every time you add a subclass in hierarchy A, you also have to add one in hierarchy B.<br><strong>Move:</strong> Merge Hierarchies or replace one with composition.</p>
+      </div>
+    </div>
+
+    <h3>Dispensables &mdash; things that add nothing</h3>
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>Duplication</h4>
+        <p>The same three lines in four places. Real duplication &mdash; knowledge duplicated, not just similar shapes.<br><strong>Move:</strong> Extract Method / Extract Class / Pull Up Method &mdash; <em>after</em> you&rsquo;ve seen the third duplicate and the abstraction feels right.</p>
+      </div>
+      <div class="card">
+        <h4>Dead code</h4>
+        <p>Unused method, unreachable branch, commented-out block.<br><strong>Why:</strong> it costs reader attention and hides real behavior. Git remembers; your teammates don&rsquo;t.<br><strong>Move:</strong> delete it.</p>
+      </div>
+      <div class="card">
+        <h4>Speculative generality</h4>
+        <p>Interfaces, base classes, and extension points for needs that haven&rsquo;t arrived.<br><strong>Move:</strong> collapse. When the need arrives you&rsquo;ll design it better with real information &mdash; and the speculation will already be in the way.</p>
+      </div>
+      <div class="card">
+        <h4>Comments that apologise</h4>
+        <p>&ldquo;TODO: this is ugly.&rdquo; &ldquo;Hack &mdash; fix later.&rdquo;<br><strong>Why:</strong> apologies that don&rsquo;t get fixed rot into folklore.<br><strong>Move:</strong> either fix it now, or convert the apology into a tracked ticket (see <a href="delivery-ownership.html#tech-debt">tech debt tracking</a>) with an owner and a date.</p>
+      </div>
+    </div>
+
+    <h3>Couplers &mdash; things stuck together that shouldn&rsquo;t be</h3>
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>Feature envy</h4>
+        <p>A method that keeps reaching into another object&rsquo;s fields. It wants to live on that other object.<br><strong>Move:</strong> Move Method to where the data is. This is &ldquo;Tell, Don&rsquo;t Ask&rdquo; applied in refactor form.</p>
+      </div>
+      <div class="card">
+        <h4>Inappropriate intimacy</h4>
+        <p>Two classes know each other&rsquo;s internals. Every change in one forces the other to change.<br><strong>Move:</strong> Move Method / Move Field; or introduce a cleaner interface between them.</p>
+      </div>
+      <div class="card">
+        <h4>Message chains</h4>
+        <p><code>a.getB().getC().getD().doThing()</code>. Violates Law of Demeter; couples the caller to the whole chain.<br><strong>Move:</strong> Hide Delegate &mdash; expose a single method on <code>a</code> that returns what the caller needs.</p>
+      </div>
+      <div class="card">
+        <h4>Middle man</h4>
+        <p>A class whose methods all just delegate to another class.<br><strong>Move:</strong> Remove Middle Man; let callers talk to the real class, or justify why the wrapper adds value.</p>
+      </div>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128218;</span>
+      <div>
+        <p><strong>Deeper reading:</strong> <a href="https://refactoring.guru/refactoring/smells" target="_blank" rel="noopener">refactoring.guru/refactoring/smells</a> illustrates each smell with before/after code in multiple languages. <a href="https://martinfowler.com/bliki/" target="_blank" rel="noopener">martinfowler.com/bliki</a> covers named concepts like AnemicDomainModel, TellDontAsk, and many more in short, clear entries. Both are free and worth an afternoon.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 9. Boundaries -->
+  <section class="fade-in" id="boundaries">
+    <span class="section-num">09 &middot; Structure</span>
+    <h2>Boundaries &amp; Layering</h2>
+    <p class="section-intro">A codebase that holds up over years has clear boundaries. Domain logic doesn&rsquo;t reach into HTTP specifics; persistence doesn&rsquo;t reach into UI state; each layer depends only on the layer below it.</p>
+
+    <div class="framework">
+      <h4>The dependency rule</h4>
+      <p>Draw an arrow from each layer to what it depends on. The arrows should point inward &mdash; toward the domain &mdash; never outward. The domain should know nothing about the HTTP framework, the database, or the UI. The adapters know about both sides; the domain knows only itself.</p>
+      <p>When you see a domain class importing <code>javax.servlet</code> or <code>fastapi</code> or <code>@angular/core</code>, that&rsquo;s a boundary violation. Fix it before it spreads.</p>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">&#129693;</span>
+      <div>
+        <p><strong>Signal of good layering:</strong> you could rewrite the HTTP framework, swap the database, or change the UI, and the business logic would barely change. You probably won&rsquo;t do any of those &mdash; but the code that was written as if you might is almost always the cleaner code.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 10. Six month -->
+  <section class="fade-in" id="six-month">
+    <span class="section-num">10 &middot; Self-Check</span>
+    <h2>The Six-Month Test</h2>
+    <p class="section-intro">Before you mark a PR ready, ask: if I came back to this file in six months, with no memory of writing it, would I thank past-me or curse them?</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>The six-month test is a stand-in for &ldquo;would a teammate thank me?&rdquo; You&rsquo;re the fairest reviewer of your own work because you can&rsquo;t hide behind knowing what you meant. Six-month-you doesn&rsquo;t remember what you meant either.</p>
+    </div>
+
+    <div class="framework">
+      <h4>Questions for the test</h4>
+      <ul>
+        <li>Can I tell what this function does from its name alone?</li>
+        <li>Can I tell why this class exists from its module&rsquo;s top comment or the surrounding code?</li>
+        <li>If this code breaks in production, would I know where to look?</li>
+        <li>If I need to change one thing here next quarter, is the blast radius small?</li>
+        <li>Is there any cleverness that a tired teammate would misread?</li>
+      </ul>
+    </div>
+
+    <p class="section-intro" style="margin-top:40px;">Next: <a href="debugging-reading.html">Debugging &amp; Reading</a> &mdash; the skills that go with writing clean code.</p>
+  </section>
+
+  <div class="try-this">
+    <p><strong>Pick one this week:</strong></p>
+    <ul>
+      <li>Find an anemic class in your codebase (only getters/setters). Move one piece of logic from a service onto the class itself. Notice what it changes in the callers.</li>
+      <li>Spot a recent PR of yours where you extracted a helper on the second duplicate. Ask yourself whether a third occurrence would have looked the same. If not, consider inlining.</li>
+      <li>Read one smell from <a href="https://refactoring.guru/refactoring/smells" target="_blank" rel="noopener">refactoring.guru</a> during lunch. Look for it in your codebase the rest of the week.</li>
+    </ul>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="requirements-design.html">Requirements &amp; Design</a>
+      <a href="clean-code.html">Clean Code</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="data-api.html">Data &amp; APIs</a>
+      <a href="testing-observability.html">Testing &amp; Observability</a>
+      <a href="code-reviews.html">Code Reviews</a>
+      <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+      <a href="mentoring-peers.html">Mentoring Peers</a>
+      <a href="influence-communication.html">Influence &amp; Communication</a>
+      <a href="communication-docs.html">Comms &amp; Docs</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for senior engineers who own what they ship. One feature at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

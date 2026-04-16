@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delivery &amp; Ownership &mdash; Craft &amp; Ownership</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="delivery-ownership.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Craft &amp; Ownership</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="requirements-design.html">Requirements &amp; Design</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="data-api.html">Data &amp; APIs</a>
+            <a href="testing-observability.html">Testing &amp; Observability</a>
+            <a href="code-reviews.html">Code Reviews</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Ownership</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+            <a href="mentoring-peers.html">Mentoring Peers</a>
+            <a href="influence-communication.html">Influence &amp; Communication</a>
+            <a href="communication-docs.html">Comms &amp; Docs</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Delivery &amp; Ownership</h1>
+    <p class="subtitle">The practice of driving a feature from merged code to quietly-running-in-production &mdash; and keeping the whole delivery machine healthy while you do it.</p>
+  </div>
+
+  <!-- ─── How much of this is mine? ─── -->
+  <section class="fade-in">
+    <div class="key-insight">
+      <h4>Before you start: how much of this is mine?</h4>
+      <p>This page has fourteen sections. You don&rsquo;t own all fourteen on day one of taking on ownership &mdash; and nobody expects you to. It grows in layers as you grow into the work:</p>
+      <ul style="margin:12px 0 8px 20px;">
+        <li><strong>When you&rsquo;re new to owning a feature end-to-end:</strong> sections 1&ndash;5. Track progress honestly, run the almost-done check, flag risks early, break work down when stuck, dogfood your own feature before shipping. That&rsquo;s a full plate.</li>
+        <li><strong>Once that&rsquo;s second nature:</strong> sections 6, 11&ndash;14. Measure delivery across all six dimensions, track tech debt, run blameless post-mortems, get incident-ready, write handovers the on-call can live with.</li>
+        <li><strong>As you grow into platform-wide ownership:</strong> sections 7&ndash;10. CI/CD hygiene, hunting waste in the dev loop, automating what you&rsquo;d do twice, watching cost. This isn&rsquo;t the new owner&rsquo;s first job &mdash; it&rsquo;s what you pick up once your own feature runs cleanly and you have attention to spare for the team&rsquo;s pipeline.</li>
+      </ul>
+      <p>Read the whole page so you know what&rsquo;s ahead &mdash; but practise in that order. The depth comes from owning one feature really well before trying to own the whole delivery machine.</p>
+    </div>
+  </section>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#tracking">1. Tracking Progress without a PM Hat</a></li>
+      <li><a href="#almost-done">2. The &ldquo;Almost Done&rdquo; Check</a></li>
+      <li><a href="#risk">3. Risk Flagging Early</a></li>
+      <li><a href="#stuck">4. Breaking-in-Half When Stuck</a></li>
+      <li><a href="#dogfood">5. Dogfooding Before Ship</a></li>
+      <li><a href="#excellence">6. The Six Dimensions of Delivery Excellence</a></li>
+      <li><a href="#cicd">7. CI/CD &amp; Release Hygiene</a></li>
+      <li><a href="#waste">8. Identifying &amp; Removing Waste</a></li>
+      <li><a href="#automate">9. Automate What You&rsquo;d Otherwise Do Twice</a></li>
+      <li><a href="#cost">10. Cost Awareness</a></li>
+      <li><a href="#tech-debt">11. Tech Debt as Strategy</a></li>
+      <li><a href="#incidents">12. Incident Readiness</a></li>
+      <li><a href="#post-mortem">13. Post-Mortem Practice</a></li>
+      <li><a href="#handover">14. Handover &amp; Runbooks</a></li>
+    </ul>
+  </section>
+
+  <!-- 1. Tracking -->
+  <section class="fade-in" id="tracking">
+    <span class="section-num">01 &middot; Progress</span>
+    <h2>Tracking Progress without a PM Hat</h2>
+    <p class="section-intro">You don&rsquo;t need Gantt charts and status meetings to own delivery. What you need is a simple, honest read on where the feature is, what&rsquo;s blocked, and what&rsquo;s next &mdash; updated often enough that surprises don&rsquo;t pile up.</p>
+
+    <div class="framework">
+      <h4>A lightweight weekly ritual &mdash; 15 minutes</h4>
+      <ol>
+        <li><strong>Flow:</strong> what shipped last week, what&rsquo;s in flight, what&rsquo;s queued.</li>
+        <li><strong>Burn:</strong> how the remaining work compares with the time you&rsquo;ve got.</li>
+        <li><strong>Risks:</strong> what could still bite you &mdash; unknown unknowns included.</li>
+        <li><strong>Decisions needed:</strong> what you&rsquo;ll pull a leader or stakeholder in on this week.</li>
+      </ol>
+      <p>Write it as four bullets. Share it with the team &mdash; in a channel or a short message. If it&rsquo;s worth knowing, it&rsquo;s worth saying out loud.</p>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128269;</span>
+      <div>
+        <p><strong>Scenario:</strong> you&rsquo;re two weeks into a four-week feature. Your honest read says you&rsquo;re actually one week in &mdash; the unknowns cost you more than expected. The temptation is to hope you&rsquo;ll catch up. The senior move is to say so in the weekly note: &ldquo;realistic finish is now week 5, not week 4 &mdash; here&rsquo;s why, here&rsquo;s the risk, here&rsquo;s what I&rsquo;d adjust.&rdquo; Predictability beats optimism every time.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2. Almost Done -->
+  <section class="fade-in" id="almost-done">
+    <span class="section-num">02 &middot; Reality Check</span>
+    <h2>The &ldquo;Almost Done&rdquo; Check</h2>
+    <p class="section-intro">&ldquo;Almost done&rdquo; is the most dangerous phrase in delivery. It hides the last 20% that usually takes 80% of the remaining time. Before you say it, run the check.</p>
+
+    <div class="framework">
+      <h4>The Almost-Done Check &mdash; ten questions</h4>
+      <ol>
+        <li>Is the happy path working end-to-end, on a real environment?</li>
+        <li>Are the edge cases you listed at design time actually handled?</li>
+        <li>Are the tests written, green, and testing behavior (not mocks of themselves)?</li>
+        <li>Is it behind a feature flag or similar rollback mechanism?</li>
+        <li>Is it observable &mdash; metrics, logs, dashboard, alert?</li>
+        <li>Has it been security-reviewed at least informally &mdash; inputs validated, authZ in place, secrets clean?</li>
+        <li>Does it meet perf targets under realistic load?</li>
+        <li>Is there a runbook or page in the wiki that covers &ldquo;what to do when&rdquo;?</li>
+        <li>Has it been dogfooded by at least one person who isn&rsquo;t you?</li>
+        <li>Can the on-call rotation triage an incident on this feature without paging you?</li>
+      </ol>
+      <p>If you can&rsquo;t answer &ldquo;yes&rdquo; to all ten, you are not almost done. You&rsquo;re some unknown distance from done.</p>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Teams that slip by a week usually slipped because a senior engineer said &ldquo;almost done&rdquo; three weeks earlier and nobody pushed back. The check protects you and the team from optimistic arithmetic.</p>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3. Risk -->
+  <section class="fade-in" id="risk">
+    <span class="section-num">03 &middot; Honesty</span>
+    <h2>Risk Flagging Early</h2>
+    <p class="section-intro">Flagging a risk early feels bad. Flagging it late feels worse for everyone, including you. The rule: the moment a risk becomes real to you, it becomes real to the team.</p>
+
+    <h3>The 30% rule</h3>
+    <div class="framework">
+      <p>When you estimate you&rsquo;re 30% done with a feature &mdash; enough to have surfaced the real complexity &mdash; revisit the original plan honestly. Are the assumptions holding? Are there new unknowns? Has scope crept?</p>
+      <p>If the 30% point reveals the estimate was wrong, now is when you say so. The earlier the flag, the more options everyone has: adjust scope, get help, change the approach, push the date. The later the flag, the fewer options remain.</p>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>Hoping the risk resolves on its own. &ldquo;I&rsquo;ll figure it out this week.&rdquo; When you don&rsquo;t, you&rsquo;ve spent a week and now the risk is closer to the deadline.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>Name the risk out loud in your weekly update. Include your current mitigation and when you&rsquo;ll know if it&rsquo;s working. Zero drama; just predictability.</p>
+      </div>
+    </div>
+
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#128204;</span>
+      <div>
+        <p><strong>No surprises</strong> is the core rule of professional delivery. A leader or stakeholder who is surprised by a slip, a bug class, or a scope change will remember it for a long time &mdash; not because the slip was fatal, but because the surprise was.</p>
+      </div>
+    </div>
+
+    <div class="tip friction-tip">
+      <span class="tip-icon">&#9888;&#65039;</span>
+      <div>
+        <span class="friction-tip-label">When it&rsquo;s hard</span>
+        <p><strong>&ldquo;The PM keeps slipping scope and my every &lsquo;yes&rsquo; turns into three more.&rdquo;</strong> This isn&rsquo;t a risk problem, it&rsquo;s a trade-off problem &mdash; and the answer is never a flat no. Try: &ldquo;Happy to add notifications. Given our current finish date, adding it means one of three things: we push the date by a week, we drop the CSV export from this release, or we do a cut-down version now and extend later. Which would you prefer?&rdquo; Put the trade-off back in their lap with real options. If they keep saying &ldquo;all three, no slip,&rdquo; that&rsquo;s the moment to bring your lead in with the numbers &mdash; not to block, but so two senior people are sharing the read on what&rsquo;s realistic.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4. Stuck -->
+  <section class="fade-in" id="stuck">
+    <span class="section-num">04 &middot; Unblocking</span>
+    <h2>Breaking-in-Half When Stuck</h2>
+    <p class="section-intro">Getting stuck for more than a day on one problem is a signal, not a moral failure. The move is to break the problem in half &mdash; either in scope or in approach &mdash; so you can ship something and make progress visible.</p>
+
+    <div class="framework">
+      <h4>Four breaking-in-half moves</h4>
+      <ul>
+        <li><strong>Shrink the scope.</strong> What&rsquo;s the smallest useful version that could ship? Build that. Then build more.</li>
+        <li><strong>Spike the unknown.</strong> Spend 2&ndash;4 hours isolating the question that&rsquo;s stopping you, away from the rest of the feature.</li>
+        <li><strong>Pair.</strong> 30 minutes with a peer often moves stuck work faster than a day alone. Ask.</li>
+        <li><strong>Escalate.</strong> If the block is cross-team, political, or above your altitude &mdash; pull the leader in. Don&rsquo;t wait.</li>
+      </ul>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">&#129351;</span>
+      <div>
+        <p><strong>The 24-hour rule:</strong> if you&rsquo;ve been stuck for a working day, pick one of the four moves above. Pride that keeps you stuck is not a senior trait &mdash; it&rsquo;s expensive. Asking is cheap.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 5. Dogfood -->
+  <section class="fade-in" id="dogfood">
+    <span class="section-num">05 &middot; Verification</span>
+    <h2>Dogfooding Before Ship</h2>
+    <p class="section-intro">Before any real user sees the feature, you should have used it yourself &mdash; on a real device, with real data, against a production-like environment &mdash; as a user, not as a developer.</p>
+
+    <div class="framework">
+      <h4>What &ldquo;real&rdquo; dogfooding means</h4>
+      <ul>
+        <li>Real device, real browser, real network &mdash; not just localhost with dev tools open.</li>
+        <li>Realistic data volumes &mdash; not just the 5 seeded rows in your test fixture.</li>
+        <li>The whole flow &mdash; sign in, navigate, use, sign out. Not just the happy path you tested.</li>
+        <li>The back-button, the refresh, the double-submit, the lost network, the expired session.</li>
+      </ul>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#128372;&#65039;</span>
+      <div>
+        <p><strong>Scenario:</strong> your checkout feature tests all pass. You run through it yourself on staging &mdash; with a real test card, on your phone, on a spotty coffee-shop network. On the third try, the network hiccups and you see the double-charge bug nobody caught in review. You fix it, retest, ship clean. That&rsquo;s ten minutes that saved an incident.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 6. Excellence -->
+  <section class="fade-in" id="excellence">
+    <span class="section-num">06 &middot; Definition</span>
+    <h2>The Six Dimensions of Delivery Excellence</h2>
+    <p class="section-intro">&ldquo;Delivery excellence&rdquo; is not &ldquo;on time, no bugs.&rdquo; Treating it as such is the single biggest reason senior engineers ship features that technically work and still leave the team worse off.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>A feature that shipped on its date, with no bugs in QA, that degrades P95 by 200ms, leaks a correlation ID to logs with PII, and can&rsquo;t be rolled back without a deploy &mdash; has not been delivered excellently. It has been delivered adequately. Senior engineers feel the difference.</p>
+    </div>
+
+    <h3>All six dimensions, named</h3>
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>1. Correctness</h4>
+        <p>The feature does what was asked, including the edge cases. Tests prove it. Manual verification on a real environment confirms it.</p>
+      </div>
+      <div class="card">
+        <h4>2. Quality</h4>
+        <p>The code is readable, tested, and easy for the next engineer to change. Naming is clear. Boundaries are respected. Smells are addressed.</p>
+      </div>
+      <div class="card">
+        <h4>3. Performance</h4>
+        <p>It meets latency, throughput, and resource targets under realistic load. P95 isn&rsquo;t worse than before. Cost per request is known.</p>
+      </div>
+      <div class="card">
+        <h4>4. Security</h4>
+        <p>Inputs validated at the boundary. AuthZ checked where it matters. Secrets in the right place. No OWASP-top-ten mistakes.</p>
+      </div>
+      <div class="card">
+        <h4>5. Observability</h4>
+        <p>A dashboard shows health. Alerts fire on the right signal. Logs have enough context to debug. Correlation IDs flow end-to-end.</p>
+      </div>
+      <div class="card">
+        <h4>6. Operability</h4>
+        <p>A runbook exists. The on-call can triage. Rollback is practiced. Deploy is boring. The feature can be disabled without a code change.</p>
+      </div>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">&#127942;</span>
+      <div>
+        <p>Hold yourself to all six. Let teammates see you hold yourself to all six. That is how the team&rsquo;s definition of &ldquo;delivered&rdquo; shifts from &ldquo;merged&rdquo; to &ldquo;actually done.&rdquo;</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 7. CI/CD -->
+  <section class="fade-in" id="cicd">
+    <span class="section-num">07 &middot; Pipeline</span>
+    <h2>CI/CD &amp; Release Hygiene</h2>
+    <p class="section-intro">The pipeline that takes your code from commit to production is part of your feature, not &ldquo;ops&rsquo;s thing.&rdquo; A senior engineer keeps an eye on it, owns fixes when it&rsquo;s broken, and proposes improvements when it&rsquo;s slow or fragile.</p>
+
+    <h3>What to watch on the pipeline</h3>
+    <div class="framework">
+      <h4>The pipeline scan</h4>
+      <ul>
+        <li><strong>Build time.</strong> Is it drifting up? What dependency or stage is dominating it?</li>
+        <li><strong>Test stage time.</strong> Is it parallelised? Are the slow tests at the right layer (see <a href="testing-observability.html#pyramid">test pyramid</a>)?</li>
+        <li><strong>Flakiness rate.</strong> How often does CI fail for a non-real reason? A flaky build is a slow poison &mdash; it trains the team to re-run until green.</li>
+        <li><strong>Deploy safety.</strong> Does the pipeline have canary or progressive rollout? A kill switch? A clean rollback?</li>
+        <li><strong>Gates.</strong> Lint, types, security scan, license check &mdash; which of these are missing? Which pass but don&rsquo;t actually fail the build when they should?</li>
+        <li><strong>Feedback latency.</strong> Time from push to first useful signal. If the developer has to wait 15 minutes for the first failure, they&rsquo;ve context-switched away.</li>
+      </ul>
+    </div>
+
+    <h3>Release hygiene</h3>
+    <div class="framework">
+      <ul>
+        <li>Every deploy is automated &mdash; no hand-edited config, no manual SSH.</li>
+        <li>Rollback is a button, not a re-deploy. Practice it occasionally.</li>
+        <li>Feature flags are scoped, dated, and cleaned up. Old flags are landmines.</li>
+        <li>Migrations are backward-compatible where possible &mdash; so rollback isn&rsquo;t blocked by the schema.</li>
+        <li>The release changelog captures behavior changes, not just commit hashes.</li>
+      </ul>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#9881;&#65039;</span>
+      <div>
+        <p><strong>Scenario:</strong> the build took 6 minutes six months ago. Today it takes 11. Nobody remembers what added the five minutes &mdash; it crept in PR by PR. You take an afternoon, bisect the regressions in CI timing, find that a new linter stage is running on the full repo every time. You scope it to only changed files. Back to 7 minutes. That&rsquo;s four minutes saved on every developer&rsquo;s every push, every day. <em>That is senior-engineer work.</em></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 8. Waste -->
+  <section class="fade-in" id="waste">
+    <span class="section-num">08 &middot; Improvement</span>
+    <h2>Identifying &amp; Removing Waste</h2>
+    <p class="section-intro">Waste in the dev loop is what separates a team that ships confidently from a team that ships heroically. Slow builds, slow tests, slow startup, flaky CI, sluggish local setup &mdash; every one of these is a minute tax paid by every engineer, every day. Senior engineers hunt these and remove them.</p>
+
+    <h3>Common waste points to look for</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Slow build</h4>
+        <p>Dependency graph too broad, parallelism missing, caching broken, monorepo rebuilding everything on every change. Profile first; cut the biggest contributor.</p>
+      </div>
+      <div class="card">
+        <h4>Slow tests</h4>
+        <p>Integration tests doing what unit tests could. DB setup per test. Global fixtures. Network calls in tests. Split by layer; parallelise; inject fakes where you can.</p>
+      </div>
+      <div class="card">
+        <h4>Slow local startup</h4>
+        <p>Service takes 60s to boot. Developers context-switch while it starts; flow is lost. Profile the startup. Defer work. Use hot reload. Often minutes of fix save the team hours a week.</p>
+      </div>
+      <div class="card">
+        <h4>Flaky CI</h4>
+        <p>Tests that fail 5% of the time. Every failure loses an hour of trust. Quarantine the flaky test same-day. Fix root cause or delete it; never re-run-until-green as a habit.</p>
+      </div>
+      <div class="card">
+        <h4>Slow PR feedback</h4>
+        <p>PR sits 2 days waiting for reviewer. Context goes cold. The author context-switches back when the review arrives &mdash; that re-ramp is real cost. See <a href="code-reviews.html#pitfalls">review pitfalls</a>.</p>
+      </div>
+      <div class="card">
+        <h4>Painful dev environment</h4>
+        <p>A new joiner takes 3 days to get running. That&rsquo;s 3 days of their attention, your attention, and your onboarding cost. One good Dockerfile or one good script changes this.</p>
+      </div>
+      <div class="card">
+        <h4>Missing observability</h4>
+        <p>A service you can&rsquo;t see. Every investigation starts from zero. Add the dashboard. Add the metrics. Add the correlation IDs. Then every future incident is 10x cheaper.</p>
+      </div>
+      <div class="card">
+        <h4>Badly written code that nobody touches</h4>
+        <p>The module everyone apologises for and nobody edits. Every change around it is slower. Take a week, refactor it with tests, and the future cost of that area drops forever.</p>
+      </div>
+    </div>
+
+    <div class="framework">
+      <h4>The waste-removal loop</h4>
+      <ol>
+        <li><strong>Measure.</strong> Don&rsquo;t guess. Time the build, profile the test run, watch the CI dashboard for a week. Numbers beat impressions.</li>
+        <li><strong>Attack the biggest contributor first.</strong> One 40% item beats five 5% items.</li>
+        <li><strong>Fix it.</strong> Scope it as an <a href="foundations.html#initiative">ITC loop</a> &mdash; propose, commit, drive, land, report.</li>
+        <li><strong>Publish the win.</strong> &ldquo;Build went from 11m to 7m. Everyone gets four minutes back per push.&rdquo; The team learns that waste is fixable; others start looking too.</li>
+      </ol>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>&ldquo;The build has always been slow&rdquo; is not a fact. It&rsquo;s a habit of not looking. The engineer who looks, measures, and fixes is worth more to the team than three engineers who ship features on a broken pipeline.</p>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 9. Automate -->
+  <section class="fade-in" id="automate">
+    <span class="section-num">09 &middot; Leverage</span>
+    <h2>Automate What You&rsquo;d Otherwise Do Twice</h2>
+    <p class="section-intro">A senior engineer&rsquo;s reflex: notice the thing they just did by hand, then decide whether they&rsquo;ll do it again. If the answer is yes &mdash; or &ldquo;probably someone will&rdquo; &mdash; they turn it into a script, a CI step, a make target, a one-line command.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Most toil in a team isn&rsquo;t a single painful task &mdash; it&rsquo;s a dozen small ones, each done by hand, each taking ten minutes, each repeated weekly across six people. Automating one of them pays back all year. Automation is how senior engineers give leverage back to the team.</p>
+    </div>
+
+    <h3>The &ldquo;twice&rdquo; rule</h3>
+    <div class="framework">
+      <h4>How to decide when to automate</h4>
+      <ul>
+        <li><strong>First time:</strong> do it by hand. Note what was annoying or error-prone.</li>
+        <li><strong>Second time:</strong> pause. Ask: will I (or someone else) do this again? If yes, budget 30&ndash;60 minutes and automate. Often it&rsquo;s done in one sitting.</li>
+        <li><strong>Third time manually:</strong> you&rsquo;ve already paid the cost of the automation &mdash; twice over. That&rsquo;s a smell.</li>
+      </ul>
+    </div>
+
+    <h3>What&rsquo;s worth automating</h3>
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>Release &amp; deploy steps</h4>
+        <p>Tagging, changelog generation, artifact builds, environment promotion. A release that needs a human is one that gets skipped under pressure.</p>
+      </div>
+      <div class="card">
+        <h4>Data setup &amp; cleanup</h4>
+        <p>Seeding a dev database, resetting test state, generating fixtures, wiping staging. Scripts beat wiki pages.</p>
+      </div>
+      <div class="card">
+        <h4>Boilerplate generation</h4>
+        <p>New service scaffolds, new module skeletons, test templates. One generator prevents a year of subtly different starts.</p>
+      </div>
+      <div class="card">
+        <h4>Quality gates</h4>
+        <p>Linting, formatting, security scans, license checks, coverage thresholds &mdash; wire them into CI so nobody has to remember to run them.</p>
+      </div>
+      <div class="card">
+        <h4>Diagnostics</h4>
+        <p>The three commands you always run when the service is misbehaving &mdash; wrap them in a single <code>diagnose</code> script the on-call can run.</p>
+      </div>
+      <div class="card">
+        <h4>Local dev setup</h4>
+        <p>Everything a new teammate needs to get running. A <code>make bootstrap</code> that actually works is worth days of onboarding for every future hire.</p>
+      </div>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#129302;</span>
+      <div>
+        <p><strong>Scenario:</strong> every time a customer support question comes in about subscription state, an engineer opens a psql shell, runs three queries, and pastes the result. It takes 8 minutes, happens twice a week, and every engineer does it slightly differently &mdash; so answers are inconsistent. You spend 45 minutes writing a <code>support-lookup &lt;email&gt;</code> script that runs the three queries and formats the output. Now it takes 20 seconds, everyone gets the same answer, and you&rsquo;ve saved the team roughly an hour a week, forever. <em>Forty-five minutes once, an hour a week paid back &mdash; and nobody forgets what to run.</em></p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>&ldquo;I don&rsquo;t have time to automate it.&rdquo; Said while doing the thing manually for the fifth time this month. The time to automate was earlier; the next-best time is now.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>When you catch yourself repeating, stop. Even a rough script &mdash; one that works for you today &mdash; is better than none. Polish it later if it sticks. Automation is incremental; it doesn&rsquo;t need to be beautiful to be useful.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 10. Cost Awareness -->
+  <section class="fade-in" id="cost">
+    <span class="section-num">10 &middot; Dollars</span>
+    <h2>Cost Awareness</h2>
+    <p class="section-intro">The code you write translates to dollars &mdash; on the cloud bill, the database licence, the observability tool, the third-party API. Senior engineers have a rough sense of that translation; juniors often don&rsquo;t. It&rsquo;s one of the quieter marks of stepping up.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>You don&rsquo;t need to be a finance expert. You need to know, within an order of magnitude, what your feature costs to run. &ldquo;This query costs roughly $X/month at current load&rdquo; is senior thinking. &ldquo;The cloud bill just went up and nobody knows why&rdquo; is a team that doesn&rsquo;t have it.</p>
+    </div>
+
+    <div class="framework">
+      <h4>What cost awareness looks like in practice</h4>
+      <ul>
+        <li><strong>Know your top line items.</strong> Which services dominate the bill? Compute, storage, egress, third-party APIs? You should have a rough intuition.</li>
+        <li><strong>Estimate before you build.</strong> A new endpoint with a JSON blob on every call, hit a million times a day &mdash; think about egress and log volume before the PR.</li>
+        <li><strong>Watch for cost regressions</strong> the same way you watch for latency regressions. A bill that jumped 30% month-over-month is a bug no dashboard will surface automatically.</li>
+        <li><strong>Kill the zombie.</strong> Dev environments running at scale, old branches with live resources, test data in S3 never cleaned up. A Friday afternoon audit often pays for itself.</li>
+        <li><strong>Think per-request, not per-month.</strong> &ldquo;Costs $0.002 per request&rdquo; is easier to reason about than &ldquo;$1,800/month&rdquo;. The first lets you ask: is that justified by the value?</li>
+      </ul>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128176;</span>
+      <div>
+        <p><strong>Scenario:</strong> your service ships a new feature that fans out 10 downstream calls for every incoming request. Works in staging. Lands in prod. Next month, the ops lead flags a 22% jump in egress cost. You trace it &mdash; your feature. A single change &mdash; batching three of those calls into one &mdash; drops cost back to baseline. Thirty minutes of work, thousands saved annually. <em>Cost is a design constraint, not a downstream surprise.</em></p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>&ldquo;That&rsquo;s finance&rsquo;s problem.&rdquo; The finance team can report the bill, but they can&rsquo;t see which code change caused it. If engineers don&rsquo;t watch, nobody does.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>Make cost a standing section in your weekly scan. Not every week will have something &mdash; but the weeks that do will save the team real money.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 11. Tech Debt -->
+  <section class="fade-in" id="tech-debt">
+    <span class="section-num">11 &middot; Strategy</span>
+    <h2>Tech Debt as Strategy</h2>
+    <p class="section-intro">Refactoring-as-you-go (covered in <a href="clean-code.html#refactoring">clean code</a>) handles the small debt. The big debt &mdash; the one that&rsquo;s going to slow the team for years if nobody does anything &mdash; needs a different treatment. Senior engineers keep a <em>ledger</em>, pay strategically, and talk about debt in terms the team and the business can weigh.</p>
+
+    <div class="framework">
+      <h4>Three kinds of debt &mdash; handled differently</h4>
+      <ul>
+        <li><strong>Deliberate, short-term debt.</strong> &ldquo;We&rsquo;re hacking this to ship; we&rsquo;ll clean it up next sprint.&rdquo; Fine &mdash; if the clean-up actually happens. Track it explicitly; a deliberate debt with no follow-up is a promise broken.</li>
+        <li><strong>Accidental debt.</strong> Code that seemed right at the time, that later context made wrong. Pay it opportunistically, while you&rsquo;re in the area.</li>
+        <li><strong>Structural debt.</strong> The old architecture, the cross-cutting hack, the duplicated logic across 12 services. Too big to fold into feature work. Needs its own plan, its own advocate, its own budget.</li>
+      </ul>
+    </div>
+
+    <h3>Keep a ledger, not a complaint list</h3>
+    <p>A debt ledger is a visible list of known debts, with three columns: <strong>what, cost to carry, cost to fix.</strong> Kept in the team wiki, reviewed each quarter. It turns hallway grumbling into a shared picture the team and stakeholders can act on.</p>
+
+    <div class="tip">
+      <span class="tip-icon">&#128203;</span>
+      <div>
+        <p><strong>Example entry:</strong> &ldquo;Legacy payment retry code. <em>Cost to carry:</em> ~4 hours of dev time per incident, 1&ndash;2 incidents per quarter. <em>Cost to fix:</em> ~3 weeks to adopt Resilience4j across the 4 affected services. <em>Recommendation:</em> fund this in Q3.&rdquo; Stakeholders can weigh that against the features they&rsquo;d trade it for. Without the ledger, it&rsquo;s just &ldquo;engineers complaining again.&rdquo;</p>
+      </div>
+    </div>
+
+    <div class="framework">
+      <h4>Paying structural debt &mdash; the campaign</h4>
+      <ol>
+        <li><strong>Propose it.</strong> The <a href="influence-communication.html#propose">one-page proposal</a>: what, why, effort, benefit.</li>
+        <li><strong>Fund it.</strong> Negotiate for the time. This is where you need to pair cost-to-carry with cost-to-fix.</li>
+        <li><strong>Scope it to ship.</strong> Break the campaign into landable chunks. Each chunk leaves the system better than before &mdash; even if you stop.</li>
+        <li><strong>Run in parallel with features where possible.</strong> 70/30 between features and debt pay-down is a common realistic split.</li>
+        <li><strong>Report the results.</strong> &ldquo;Since we paid this debt, incidents in this area dropped from 2/quarter to 0. Next debt I&rsquo;d recommend paying is&hellip;&rdquo;</li>
+      </ol>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>The team that never pays structural debt eventually can&rsquo;t ship features at a reasonable pace &mdash; the codebase has become the bottleneck. The team that constantly pays structural debt never ships features either. Senior engineers steward the balance, deliberately.</p>
+    </div>
+
+    <h3>Tracking debt &mdash; tricks that actually work</h3>
+    <p>Debt you can&rsquo;t see is debt you can&rsquo;t pay. The goal is a trail from the code where the debt lives, to a backlog where it can be funded, to a conversation where it gets prioritised. The common failure is breakage between those three steps &mdash; TODOs in code that nobody ever reads, or a backlog that nobody revisits, or conversations with no follow-through.</p>
+
+    <div class="framework">
+      <h4>TODO comments done right</h4>
+      <ul>
+        <li><strong>Include a ticket ID or owner.</strong> <code>// TODO(JIRA-4821): move to async path</code> is actionable; <code>// TODO: fix this</code> is folklore.</li>
+        <li><strong>Include a reason.</strong> What&rsquo;s wrong <em>and</em> what would be better. Future readers shouldn&rsquo;t have to guess.</li>
+        <li><strong>Include a date if it&rsquo;s time-bound.</strong> <code>// FIXME(2025-09): remove fallback after legacy clients migrate</code>. CI can grep for past-due FIXMEs.</li>
+        <li><strong>Grep regularly.</strong> <code>grep -r TODO src/</code> or an editor plugin. An unread TODO is worse than no TODO &mdash; it gives the illusion something is tracked.</li>
+        <li><strong>Distinguish TODO vs FIXME vs HACK.</strong> Pick team conventions: <em>TODO</em> = future improvement, <em>FIXME</em> = known defect, <em>HACK</em> = deliberate workaround with a reason. A simple shared convention makes <code>grep</code> vastly more useful.</li>
+      </ul>
+    </div>
+
+    <div class="code-pair">
+      <div>
+        <span class="label bad">Useless TODO</span>
+        <pre class="code-block">// TODO: refactor this
+function processOrder(o) { ... }</pre>
+      </div>
+      <div>
+        <span class="label good">Actionable TODO</span>
+        <pre class="code-block">// TODO(PLAT-2104, 2025-10):
+//   extract payment retry into Resilience4j.
+//   Current inline retry misses the jitter case.
+function processOrder(o) { ... }</pre>
+      </div>
+    </div>
+
+    <div class="framework">
+      <h4>Promoting debt from code to backlog</h4>
+      <ul>
+        <li><strong>Every serious TODO gets a Jira (or equivalent) ticket.</strong> Tag it with a <code>tech-debt</code> label &mdash; searchable, reportable, countable.</li>
+        <li><strong>Use a standing epic or project.</strong> &ldquo;Tech Debt 2025&rdquo; or &ldquo;Platform Pay-down&rdquo;. Gives stakeholders one place to see what&rsquo;s outstanding.</li>
+        <li><strong>Include cost-to-carry and cost-to-fix in the ticket.</strong> Even rough estimates. Without them, the prioritisation conversation has nothing to weigh.</li>
+        <li><strong>Link the ticket back from the code.</strong> <code>// TODO(PLAT-2104)</code> connects the reader from file to ticket in one click.</li>
+        <li><strong>Review the tech-debt backlog monthly.</strong> Unreviewed backlogs rot; their existence starts working against you.</li>
+      </ul>
+    </div>
+
+    <h3>Keep debt visible in the team&rsquo;s conversations</h3>
+    <div class="framework">
+      <h4>Where and how to surface debt</h4>
+      <ul>
+        <li><strong>Standing agenda item in the weekly huddle.</strong> &ldquo;Any tech debt we&rsquo;re hitting this week?&rdquo; &mdash; even if the answer is &ldquo;no&rdquo;, asking the question builds the habit.</li>
+        <li><strong>Sprint retro &mdash; one column for debt.</strong> What did we add, what did we pay, what hurt us this sprint? Five minutes; shifts the team&rsquo;s relationship with debt over a quarter.</li>
+        <li><strong>Incident post-mortems.</strong> Every incident should produce a debt entry if a cleaner design would have prevented or mitigated it. See <a href="#post-mortem">post-mortem practice</a>.</li>
+        <li><strong>Quarterly review with your leader.</strong> Top five debts, cost-to-carry, cost-to-fix, recommendation. Turns debt from hallway grumbling into a budgeted conversation.</li>
+        <li><strong>Celebrate payment.</strong> When you pay a debt, report the win. &ldquo;We killed the legacy retry code. Last quarter it caused 2 incidents; this quarter, zero.&rdquo; The team learns that paying debt pays back.</li>
+      </ul>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">&#128197;</span>
+      <div>
+        <p><strong>Scenario:</strong> a team ran a weekly &ldquo;debt stand-up&rdquo; &mdash; 10 minutes, Fridays. Each senior brought one item, spoke to it, decided: <em>fund now</em>, <em>add to ledger</em>, or <em>accept and live with</em>. Over a year, they paid 40+ small debts and three structural ones. Nobody called it a crusade; it was just a slot in the calendar. The codebase at the end of the year was visibly healthier than at the start &mdash; while still shipping features.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>TODOs everywhere, tickets for none. A new engineer joins, can&rsquo;t tell which TODOs matter. The senior engineers have retained the folklore but nobody else has access to it.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>Every TODO that&rsquo;s worth keeping becomes a ticket. The code comment links to the ticket. The ticket has cost/benefit. The backlog is reviewed monthly. The trail is visible to anyone who cares to look.</p>
+      </div>
+    </div>
+
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#9200;</span>
+      <div>
+        <p><strong>FIXMEs with expiry dates</strong> work wonders as a forcing function. A CI step grepping for <code>FIXME\((\d{4}-\d{2}-\d{2})\)</code> and failing the build when a date is past-due turns the comment from folklore into a deadline. Use sparingly &mdash; on genuine time-bound items &mdash; so the mechanism retains teeth.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 12. Incidents -->
+  <section class="fade-in" id="incidents">
+    <span class="section-num">12 &middot; Response</span>
+    <h2>Incident Readiness</h2>
+    <p class="section-intro">Incidents are when observability, runbooks, and delivery excellence get their report card. A senior engineer&rsquo;s feature is one that can be triaged by someone else at 3am without a phone call to you.</p>
+
+    <div class="framework">
+      <h4>The &ldquo;ready for an incident&rdquo; checklist</h4>
+      <ul>
+        <li>A dashboard exists and is linked in the runbook.</li>
+        <li>The alerts are real &mdash; they fire on user-visible problems, not internal noise.</li>
+        <li>The runbook has at least: &ldquo;what this feature does&rdquo;, &ldquo;how to check it&rsquo;s healthy&rdquo;, &ldquo;top 3 failure modes and what to do about each&rdquo;.</li>
+        <li>The kill switch is documented. The rollback is documented.</li>
+        <li>Contact list is current. Escalation path is clear.</li>
+        <li>The on-call rotation has been briefed &mdash; not just &ldquo;here&rsquo;s a doc&rdquo;, but 15 minutes of walkthrough.</li>
+      </ul>
+    </div>
+
+    <h3>When the incident happens</h3>
+    <div class="framework">
+      <h4>Your posture</h4>
+      <ul>
+        <li><strong>Mitigate first, diagnose second.</strong> Is the kill switch flipped? Is traffic shifted? Only then investigate.</li>
+        <li><strong>Communicate often, briefly.</strong> A status message every 15 minutes beats a brilliant post-mortem after silence.</li>
+        <li><strong>Write while you work.</strong> Capture timestamps, actions, and observations as they happen. You&rsquo;ll need them for the post-mortem.</li>
+        <li><strong>Blameless post-mortem.</strong> What broke, why, what would have caught it earlier, what changes now. Not who.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 13. Post-mortem -->
+  <section class="fade-in" id="post-mortem">
+    <span class="section-num">13 &middot; Learning</span>
+    <h2>Post-Mortem Practice</h2>
+    <p class="section-intro">An incident is a tuition payment. The team already paid &mdash; the question is whether anyone learns. A good post-mortem turns the cost into a permanent capability; a bad one leaves the team to pay the same tuition again next quarter.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Blameless doesn&rsquo;t mean soft. It means asking &ldquo;what conditions let this happen?&rdquo; instead of &ldquo;who did this?&rdquo; &mdash; because humans acting reasonably inside a system that let them make this mistake is the universal story of incidents. Fix the conditions; the humans take care of themselves.</p>
+    </div>
+
+    <div class="framework">
+      <h4>A post-mortem template that actually teaches</h4>
+      <ol>
+        <li><strong>Summary.</strong> One paragraph: what happened, when, who was affected, how long.</li>
+        <li><strong>Impact.</strong> Numbers where possible &mdash; requests failed, users affected, revenue impact, SLA burn.</li>
+        <li><strong>Timeline.</strong> Key events with timestamps: first alert, first response, mitigation, resolution. Readers need to see the shape.</li>
+        <li><strong>Root cause &mdash; five whys.</strong> Don&rsquo;t stop at the proximate cause. Keep asking &ldquo;and why did that happen?&rdquo; until you hit a systemic answer.</li>
+        <li><strong>What went well.</strong> Genuine credit &mdash; fast detection, clean mitigation, good comms. People repeat what&rsquo;s praised.</li>
+        <li><strong>What didn&rsquo;t go well.</strong> Honest, not blamey. &ldquo;Our alert fired 20 minutes after the user-visible impact began&rdquo; not &ldquo;the alert was set up poorly by Raj.&rdquo;</li>
+        <li><strong>Action items.</strong> Each one: owner, due date, measurable done condition. Without these, the document is a diary, not a practice.</li>
+        <li><strong>Lessons for the wider team.</strong> What should engineers working on unrelated features take away from this?</li>
+      </ol>
+    </div>
+
+    <h3>Five Whys on an incident &mdash; an example</h3>
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128269;</span>
+      <div>
+        <p><strong>Incident:</strong> checkout failed for 20 minutes.<br>
+        <strong>Why?</strong> Payment service returned 500s.<br>
+        <strong>Why?</strong> It was calling an expired third-party API key.<br>
+        <strong>Why?</strong> The key rotated two weeks ago and we missed the renewal.<br>
+        <strong>Why?</strong> The renewal process was a calendar reminder in one engineer&rsquo;s calendar, and they were on leave.<br>
+        <strong>Why?</strong> We never automated it because it felt like &ldquo;once a year, no big deal.&rdquo;<br>
+        <strong>Action:</strong> Automate API-key rotation with 30-day expiry alert and a backup on-call responsible for it &mdash; plus an integration test that fails 60 days before any key expires.</p>
+        <p>The proximate cause (bad API key) would have taught nothing. The systemic cause (unscalable manual process, single point of failure) teaches the whole team.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>Post-mortems with action items that nobody tracks. Three quarters later, the same incident happens because the action item was never done. The ritual is worse than no ritual, because it creates the illusion of learning.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>Every action item has an owner and a date. Revisit the list at the monthly engineering review. Close items or re-own them explicitly. The post-mortem is done when the actions are done, not when the document is written.</p>
+      </div>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#128202;</span>
+      <div>
+        <p><strong>Publish them.</strong> Post-mortems locked in a private folder teach only the team that wrote them. Shared post-mortems &mdash; internal and, when appropriate, external &mdash; teach the whole engineering organisation. Gitlab and Cloudflare have built reputations partly on excellent public post-mortems.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 14. Handover -->
+  <section class="fade-in" id="handover">
+    <span class="section-num">11 &middot; Completion</span>
+    <h2>Handover &amp; Runbooks</h2>
+    <p class="section-intro">A feature isn&rsquo;t fully shipped until the team that operates it can do so without you. The runbook is the artifact that proves it.</p>
+
+    <div class="framework">
+      <h4>A useful runbook &mdash; one page</h4>
+      <ol>
+        <li><strong>What it does</strong> &mdash; two sentences, plain English.</li>
+        <li><strong>How to know it&rsquo;s healthy</strong> &mdash; link to dashboard, named metrics, what &ldquo;good&rdquo; looks like.</li>
+        <li><strong>Top 3 failure modes</strong> &mdash; the most likely things that go wrong and exactly what to do.</li>
+        <li><strong>How to disable it</strong> &mdash; the kill switch, the rollback.</li>
+        <li><strong>Where the code lives</strong> &mdash; repo, main module, key files.</li>
+        <li><strong>Who to page</strong> &mdash; primary, secondary, escalation.</li>
+      </ol>
+    </div>
+
+    <div class="tip purple-tip">
+      <span class="tip-icon">&#128221;</span>
+      <div>
+        <p><strong>Test the runbook:</strong> hand it to a peer and ask them to pretend it&rsquo;s 2am, the alert just fired, and you&rsquo;re on holiday. Can they figure out what to do from the runbook alone? Whatever they can&rsquo;t &mdash; that&rsquo;s what to add.</p>
+      </div>
+    </div>
+
+    <p class="section-intro" style="margin-top:40px;">Next: <a href="mentoring-peers.html">Mentoring Peers</a> &mdash; growing the engineers around you without being their manager.</p>
+  </section>
+
+  <div class="try-this">
+    <p><strong>Pick one this week:</strong></p>
+    <ul>
+      <li>Open your cloud billing for the past three months. Find the biggest line item and spend 30 minutes understanding what drives it.</li>
+      <li>Pick one old tech-debt grumble. Write a one-page proposal with cost-to-carry and cost-to-fix. Share it with your leader.</li>
+      <li>Next time CI flakes on a PR, don&rsquo;t just re-run. Spend 20 minutes finding why. Then decide whether to fix or quarantine.</li>
+      <li>Run an &ldquo;almost-done check&rdquo; on a feature you think is almost done. Notice what you couldn&rsquo;t tick yes to.</li>
+    </ul>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="requirements-design.html">Requirements &amp; Design</a>
+      <a href="clean-code.html">Clean Code</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="data-api.html">Data &amp; APIs</a>
+      <a href="testing-observability.html">Testing &amp; Observability</a>
+      <a href="code-reviews.html">Code Reviews</a>
+      <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+      <a href="mentoring-peers.html">Mentoring Peers</a>
+      <a href="influence-communication.html">Influence &amp; Communication</a>
+      <a href="communication-docs.html">Comms &amp; Docs</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for senior engineers who own what they ship. One feature at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resources &mdash; Craft &amp; Ownership</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="resources.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Craft &amp; Ownership</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="requirements-design.html">Requirements &amp; Design</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="data-api.html">Data &amp; APIs</a>
+            <a href="testing-observability.html">Testing &amp; Observability</a>
+            <a href="code-reviews.html">Code Reviews</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Ownership</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+            <a href="mentoring-peers.html">Mentoring Peers</a>
+            <a href="influence-communication.html">Influence &amp; Communication</a>
+            <a href="communication-docs.html">Comms &amp; Docs</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Resources</h1>
+    <p class="subtitle">Books, talks, and writers worth your hours. This is the short list &mdash; picked to go deep on the themes of this guide, not to be exhaustive.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#coding">1. Coding &amp; Craft</a></li>
+      <li><a href="#clean">2. Clean Code in Practice</a></li>
+      <li><a href="#patterns">3. Design Patterns</a></li>
+      <li><a href="#architecture">4. Architecture &amp; Principles</a></li>
+      <li><a href="#testing">5. Testing</a></li>
+      <li><a href="#delivery-book">6. Delivery, Ops &amp; Career</a></li>
+      <li><a href="#talks">7. Talks to Watch</a></li>
+      <li><a href="#blogs">8. Blogs &amp; Newsletters</a></li>
+      <li><a href="#frameworks">9. Framework Quick-Reference</a></li>
+    </ul>
+  </section>
+
+  <section class="fade-in">
+    <div class="section-intro">
+      <p>Treat this page as a curated bookshelf, not a reading list. You won&rsquo;t get through all of it this year &mdash; nobody does. Pick the book whose topic matches the thing you&rsquo;re currently struggling with, read it, let it reshape how you work for a few months, then come back.</p>
+    </div>
+  </section>
+
+  <!-- 1. Coding & Craft -->
+  <section class="fade-in" id="coding">
+    <span class="section-num">01 &middot; Foundations</span>
+    <h2>Coding &amp; Craft</h2>
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>The Pragmatic Programmer &mdash; Hunt &amp; Thomas</h4>
+        <p>The starting point. Short chapters, each a habit. Covers DRY, orthogonality, tracer bullets, rubber-duck debugging. If a senior engineer hasn&rsquo;t read it, it&rsquo;s the first book to hand them.</p>
+      </div>
+      <div class="card">
+        <h4>Clean Code &mdash; Robert C. Martin</h4>
+        <p>Opinionated and sometimes dated, but the core lessons on naming, function length, and readability remain load-bearing. Read it as a starting point, not a rulebook.</p>
+      </div>
+      <div class="card">
+        <h4>Code Complete &mdash; Steve McConnell</h4>
+        <p>A heavier read &mdash; the &ldquo;everything about software construction&rdquo; book. Dip in by chapter; a chapter a month for a year will shift how you code.</p>
+      </div>
+      <div class="card">
+        <h4>The Software Craftsman &mdash; Sandro Mancuso</h4>
+        <p>On professional attitude, learning relentlessly, and treating code as a craft. Especially valuable for the stage between &ldquo;competent&rdquo; and &ldquo;senior.&rdquo;</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2. Clean code in practice -->
+  <section class="fade-in" id="clean">
+    <span class="section-num">02 &middot; Practice</span>
+    <h2>Clean Code in Practice</h2>
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>A Philosophy of Software Design &mdash; John Ousterhout</h4>
+        <p>The book to read after Clean Code &mdash; and, frankly, the better one. Ousterhout argues that complexity is the enemy and reframes design around depth, not just cleanliness. Short, rereadable, changes how you think.</p>
+      </div>
+      <div class="card">
+        <h4>Refactoring &mdash; Martin Fowler</h4>
+        <p>A catalogue of small, safe, mechanical transformations you can apply to code without changing its behavior. The second edition (JavaScript examples) is the one to get. Pair it with the book below.</p>
+      </div>
+      <div class="card">
+        <h4>Working Effectively with Legacy Code &mdash; Michael Feathers</h4>
+        <p>The practical companion. How to get a test around code that wasn&rsquo;t designed to be tested, so you can refactor without fear. Essential for anyone inheriting a non-trivial codebase.</p>
+      </div>
+      <div class="card">
+        <h4>Tidy First? &mdash; Kent Beck</h4>
+        <p>A short modern treatise on when to clean up and when to plough on. Beck&rsquo;s recent framing of the economics of refactoring &mdash; small, reversible, valuable.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3. Design Patterns -->
+  <section class="fade-in" id="patterns">
+    <span class="section-num">03 &middot; Vocabulary</span>
+    <h2>Design Patterns</h2>
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>Design Patterns (GoF) &mdash; Gamma, Helm, Johnson, Vlissides</h4>
+        <p>The original patterns catalogue. Dense and dated in notation, but the patterns themselves (Strategy, Observer, Composite, Command) are the shared vocabulary of the industry. Know them by name even if you read them through a modern explainer.</p>
+      </div>
+      <div class="card">
+        <h4>Head First Design Patterns &mdash; Freeman et al.</h4>
+        <p>The gentle on-ramp to the same material. Strong visual explanations, Java examples. Good book to put in front of someone learning the patterns for the first time.</p>
+      </div>
+      <div class="card">
+        <h4>Patterns of Enterprise Application Architecture &mdash; Martin Fowler</h4>
+        <p>Patterns for backend systems: Repository, Unit of Work, Active Record, Data Mapper, Service Layer. The names you&rsquo;ll keep encountering in any serious codebase.</p>
+      </div>
+      <div class="card">
+        <h4>Refactoring to Patterns &mdash; Joshua Kerievsky</h4>
+        <p>Bridge between Fowler&rsquo;s Refactoring and GoF. When you recognise a smell, what pattern does it suggest you refactor toward? Shows the patterns as destinations, not starting points.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4. Architecture -->
+  <section class="fade-in" id="architecture">
+    <span class="section-num">04 &middot; Systems</span>
+    <h2>Architecture &amp; Principles</h2>
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>Designing Data-Intensive Applications &mdash; Martin Kleppmann</h4>
+        <p>If you read only one book about distributed systems, this. Covers replication, consistency, stream processing, batch, partitioning &mdash; in prose even a non-specialist can follow. Essential for anyone whose system ever has a database.</p>
+      </div>
+      <div class="card">
+        <h4>Clean Architecture &mdash; Robert C. Martin</h4>
+        <p>The dependency rule: outer layers depend on inner ones, never the reverse. The book is uneven, but the core model &mdash; entities, use cases, adapters &mdash; is the cleanest articulation of why boundaries matter.</p>
+      </div>
+      <div class="card">
+        <h4>Fundamentals of Software Architecture &mdash; Richards &amp; Ford</h4>
+        <p>A modern textbook on architectural thinking, trade-offs, and styles (monolith, microservices, event-driven). Reads like a structured course; good for filling in gaps.</p>
+      </div>
+      <div class="card">
+        <h4>Building Evolutionary Architectures &mdash; Ford, Parsons, Kua</h4>
+        <p>Architecture as a property that has to survive change, not a picture drawn at the start. Introduces fitness functions &mdash; automated checks that your architecture still holds up.</p>
+      </div>
+      <div class="card">
+        <h4>Domain-Driven Design &mdash; Eric Evans (&ldquo;the blue book&rdquo;)</h4>
+        <p>The language and tactical patterns of modelling a domain well: bounded context, aggregates, ubiquitous language. Dense; pair with Vaughn Vernon&rsquo;s <em>Implementing Domain-Driven Design</em> for practical examples.</p>
+      </div>
+      <div class="card">
+        <h4>Software Architecture: The Hard Parts &mdash; Ford, Richards et al.</h4>
+        <p>A decision-heavy book about the trade-offs that don&rsquo;t have clean answers: distributed data, coupling, transactions in microservices. Sobering and realistic.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 5. Testing -->
+  <section class="fade-in" id="testing">
+    <span class="section-num">05 &middot; Confidence</span>
+    <h2>Testing</h2>
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>Growing Object-Oriented Software, Guided by Tests &mdash; Freeman &amp; Pryce</h4>
+        <p>The book that turned TDD from a discipline into a design method. Walks an end-to-end example and shows how tests pull you toward better abstractions.</p>
+      </div>
+      <div class="card">
+        <h4>Unit Testing Principles, Practices, and Patterns &mdash; Vladimir Khorikov</h4>
+        <p>The clearest modern articulation of what unit tests should actually look like. Cuts through the mock-everything habits and shows the shape of maintainable tests.</p>
+      </div>
+      <div class="card">
+        <h4>Working Effectively with Legacy Code &mdash; Michael Feathers</h4>
+        <p>(Also listed above.) If your legacy code has no tests, this is the book for getting seams in and confidence up.</p>
+      </div>
+      <div class="card">
+        <h4>Test-Driven Development: By Example &mdash; Kent Beck</h4>
+        <p>The original. Short, readable, and pairs the mechanics of TDD with the thinking behind it. Still the best starting point for the practice.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 6. Delivery -->
+  <section class="fade-in" id="delivery-book">
+    <span class="section-num">06 &middot; Shipping</span>
+    <h2>Delivery, Ops &amp; Career</h2>
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>Accelerate &mdash; Forsgren, Humble, Kim</h4>
+        <p>The research-backed case for why deployment frequency, lead time, MTTR, and change-fail rate are the metrics that actually correlate with software performance. The numbers that put teeth behind the DevOps argument.</p>
+      </div>
+      <div class="card">
+        <h4>Continuous Delivery &mdash; Humble &amp; Farley</h4>
+        <p>The canonical text on the pipeline, deployment practices, and release engineering. Still the most practical book on the topic.</p>
+      </div>
+      <div class="card">
+        <h4>Site Reliability Engineering &mdash; Google</h4>
+        <p>Free online. The SRE book &mdash; on SLIs/SLOs, error budgets, on-call, incident management. Read the first ten chapters; the rest is for specialists.</p>
+      </div>
+      <div class="card">
+        <h4>The Staff Engineer&rsquo;s Path &mdash; Tanya Reilly</h4>
+        <p>The book for engineers who want to grow senior without becoming managers. Practical, warm, and sharp on scope, influence, and the parts of the job nobody writes job descriptions for.</p>
+      </div>
+      <div class="card">
+        <h4>The Software Engineer&rsquo;s Guidebook &mdash; Gergely Orosz</h4>
+        <p>A career map for every level of engineering, with specific advice for each stage. Modern, industry-tested, and direct.</p>
+      </div>
+      <div class="card">
+        <h4>Thinking, Fast and Slow &mdash; Daniel Kahneman</h4>
+        <p>Not about code &mdash; about how you make decisions, including the coding ones. Reshapes how you hear &ldquo;I think this will take a day.&rdquo;</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 7. Talks -->
+  <section class="fade-in" id="talks">
+    <span class="section-num">07 &middot; Watch</span>
+    <h2>Talks to Watch</h2>
+    <p class="section-intro">Each of these is an hour or less, mostly available on YouTube. Pick one for a lunchtime and come back with something to change on Monday.</p>
+
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>&ldquo;Simple Made Easy&rdquo; &mdash; Rich Hickey</h4>
+        <p>The clearest 60 minutes on the difference between <em>simple</em> and <em>easy</em>. Required viewing for anyone making architectural decisions.</p>
+      </div>
+      <div class="card">
+        <h4>&ldquo;Nothing is Something&rdquo; &mdash; Sandi Metz</h4>
+        <p>On polymorphism, null objects, and seeing the abstractions hiding in your conditionals. Metz is one of the clearest teachers working today.</p>
+      </div>
+      <div class="card">
+        <h4>&ldquo;Seven Ineffective Coding Habits of Many Programmers&rdquo; &mdash; Kevlin Henney</h4>
+        <p>A tour of the small habits that compound into bad code, delivered with a clarity that stays with you.</p>
+      </div>
+      <div class="card">
+        <h4>&ldquo;Turning the IDE Inside Out&rdquo; &mdash; Dan North</h4>
+        <p>A rethink of how we structure code for readability. North is worth watching on any topic, but this is a strong starter.</p>
+      </div>
+      <div class="card">
+        <h4>&ldquo;Is It Still Testing If It&rsquo;s in Production?&rdquo; &mdash; Charity Majors</h4>
+        <p>On observability, production being the only reality, and the limits of pre-prod testing. Core viewing for ownership-minded engineers.</p>
+      </div>
+      <div class="card">
+        <h4>&ldquo;Programming as Theory Building&rdquo; &mdash; Peter Naur (essay; talks adapted)</h4>
+        <p>The essay that reframes software: the code is an artifact of a shared mental theory. When the theory leaves the team, the code is effectively dead. Deep and short.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 8. Blogs -->
+  <section class="fade-in" id="blogs">
+    <span class="section-num">08 &middot; Regular Reading</span>
+    <h2>Blogs &amp; Newsletters</h2>
+    <p class="section-intro">A small, strong list beats a sprawling feed. Pick two or three and read them when they publish.</p>
+
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>martinfowler.com</h4>
+        <p>Still the central reference site for patterns, architecture, and refactoring terminology. Dip in when you hit a concept you want the canonical version of.</p>
+      </div>
+      <div class="card">
+        <h4>Dan Luu &mdash; danluu.com</h4>
+        <p>Rigorous, data-driven essays on engineering practice, hiring, performance, and career. Dense but unusually honest.</p>
+      </div>
+      <div class="card">
+        <h4>Julia Evans &mdash; jvns.ca</h4>
+        <p>The best explainer-blogger on systems, networking, debugging, and the internals most engineers wave their hands at. Short posts, zines, and printable cheat sheets.</p>
+      </div>
+      <div class="card">
+        <h4>The Pragmatic Engineer &mdash; Gergely Orosz</h4>
+        <p>A subscription newsletter on how senior engineering actually works inside companies &mdash; comp, engineering practices, hiring, trends. Industry-current.</p>
+      </div>
+      <div class="card">
+        <h4>Increment magazine</h4>
+        <p>Quarterly long-form pieces on single topics (on-call, testing, dev tools, databases). Deeper than a blog; focused enough to finish.</p>
+      </div>
+      <div class="card">
+        <h4>High Scalability &mdash; highscalability.com</h4>
+        <p>Case studies of how real systems scale. The &ldquo;How X handled Y&rdquo; posts are worth reading to build architectural intuition.</p>
+      </div>
+      <div class="card">
+        <h4>Charity Majors &mdash; charity.wtf</h4>
+        <p>Observability, on-call, and the people side of production ownership. Blunt, practical, quotable.</p>
+      </div>
+      <div class="card">
+        <h4>Will Larson &mdash; lethain.com</h4>
+        <p>Engineering-strategy and staff-plus career writing. Pairs well with Reilly&rsquo;s <em>Staff Engineer&rsquo;s Path</em>.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 9. Frameworks -->
+  <section class="fade-in" id="frameworks">
+    <span class="section-num">09 &middot; Reference</span>
+    <h2>Framework Quick-Reference</h2>
+    <p class="section-intro">The named frameworks in this guide, collected in one place for when you want to recall one quickly.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <h4><a href="foundations.html#the-scan">The Scan</a></h4>
+        <p>Five surfaces to scan weekly for pain points: Code, Observability, Product, Operations, CI/CD &amp; Dev Loop.</p>
+      </div>
+      <div class="card">
+        <h4><a href="foundations.html#initiative">The ITC Loop</a></h4>
+        <p>Notice &rarr; Propose &rarr; Commit &rarr; Drive &rarr; Land &rarr; Report. How initiatives turn into landed improvement.</p>
+      </div>
+      <div class="card">
+        <h4><a href="foundations.html#pull-based">Working with Your Lead</a></h4>
+        <p>You drive the work; you bring your lead in when you genuinely need them. They don&rsquo;t chase you through the basics.</p>
+      </div>
+      <div class="card">
+        <h4><a href="requirements-design.html#clarify">5 Whys on Requirements</a></h4>
+        <p>Why is this being asked? Why now? Why this shape? Why can&rsquo;t we do less? Why is this our team&rsquo;s work?</p>
+      </div>
+      <div class="card">
+        <h4><a href="requirements-design.html#estimation">3-Point Estimate</a></h4>
+        <p>Best case, realistic case, worst case. One number lies; three tell the truth.</p>
+      </div>
+      <div class="card">
+        <h4><a href="clean-code.html#six-month">The Six-Month Test</a></h4>
+        <p>Would you thank past-you for this code in six months, with no memory of writing it?</p>
+      </div>
+      <div class="card">
+        <h4><a href="delivery-ownership.html#excellence">Six Dimensions of Delivery Excellence</a></h4>
+        <p>Correctness, Quality, Performance, Security, Observability, Operability.</p>
+      </div>
+      <div class="card">
+        <h4><a href="delivery-ownership.html#almost-done">The Almost-Done Check</a></h4>
+        <p>Ten questions to run before saying &ldquo;almost done.&rdquo; If you can&rsquo;t answer yes to all ten, you aren&rsquo;t.</p>
+      </div>
+      <div class="card">
+        <h4><a href="delivery-ownership.html#automate">The Twice Rule</a></h4>
+        <p>First time, do it by hand. Second time, automate. Third time manually is a smell.</p>
+      </div>
+      <div class="card">
+        <h4><a href="mentoring-peers.html#feedback">SBI Feedback</a></h4>
+        <p>Situation &middot; Behavior &middot; Impact. Specific, short, kind, useful &mdash; in all three directions.</p>
+      </div>
+      <div class="card">
+        <h4><a href="influence-communication.html#updates">The Four-Line Update</a></h4>
+        <p>Done &middot; In flight &middot; Risks &middot; Decisions needed. Weekly. Respectful of the reader&rsquo;s time.</p>
+      </div>
+      <div class="card">
+        <h4><a href="influence-communication.html#saying-no">Saying No with Data</a></h4>
+        <p>Acknowledge &rarr; Name the cost &rarr; Offer the trade-off &rarr; Give the decision back.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="requirements-design.html">Requirements &amp; Design</a>
+      <a href="clean-code.html">Clean Code</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="data-api.html">Data &amp; APIs</a>
+      <a href="testing-observability.html">Testing &amp; Observability</a>
+      <a href="code-reviews.html">Code Reviews</a>
+      <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+      <a href="mentoring-peers.html">Mentoring Peers</a>
+      <a href="influence-communication.html">Influence &amp; Communication</a>
+      <a href="communication-docs.html">Comms &amp; Docs</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for senior engineers who own what they ship. One feature at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

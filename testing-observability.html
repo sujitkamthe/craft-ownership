@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Testing &amp; Observability &mdash; Craft &amp; Ownership</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="testing-observability.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Craft &amp; Ownership</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="requirements-design.html">Requirements &amp; Design</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="data-api.html">Data &amp; APIs</a>
+            <a href="testing-observability.html">Testing &amp; Observability</a>
+            <a href="code-reviews.html">Code Reviews</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Ownership</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+            <a href="mentoring-peers.html">Mentoring Peers</a>
+            <a href="influence-communication.html">Influence &amp; Communication</a>
+            <a href="communication-docs.html">Comms &amp; Docs</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Testing &amp; Observability</h1>
+    <p class="subtitle">Confidence in what you shipped, and visibility into how it&rsquo;s doing. These two practices are what turn &ldquo;it works on my machine&rdquo; into &ldquo;it works in production, and I can prove it.&rdquo;</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#pyramid">1. Test Strategy per Layer</a></li>
+      <li><a href="#testable">2. Writing Testable Code</a></li>
+      <li><a href="#tdd">3. TDD &mdash; When It Helps</a></li>
+      <li><a href="#brittle">4. Integration Tests That Aren&rsquo;t Brittle</a></li>
+      <li><a href="#observability">5. Observability Baked In</a></li>
+      <li><a href="#security">6. The Security Mindset</a></li>
+      <li><a href="#feature-flags">7. Feature Flags for Safe Rollout</a></li>
+    </ul>
+  </section>
+
+  <!-- 1. Pyramid -->
+  <section class="fade-in" id="pyramid">
+    <span class="section-num">01 &middot; Strategy</span>
+    <h2>Test Strategy per Layer</h2>
+    <p class="section-intro">The test pyramid isn&rsquo;t a rule about counts &mdash; it&rsquo;s a rule about where each test should live. Different kinds of bugs want different kinds of tests. Putting the test at the wrong layer is how teams end up with suites that are slow, flaky, and still let bugs through.</p>
+
+    <div class="framework">
+      <h4>What each layer is for</h4>
+      <ul>
+        <li><strong>Unit tests</strong> &mdash; for branching logic, math, parsing, calculation. Cheap, millisecond-fast, run on every save. If the bug lives in a pure function, this is its home.</li>
+        <li><strong>Integration tests</strong> &mdash; for the wiring: your service talking to the database, the queue, the auth provider. Confirms the glue works. Slower, but catches the failures unit tests can&rsquo;t see.</li>
+        <li><strong>Contract tests</strong> &mdash; for &ldquo;do the shapes match&rdquo; across service boundaries. Much cheaper than full end-to-end.</li>
+        <li><strong>End-to-end tests</strong> &mdash; for the few critical user journeys. Expensive and flaky &mdash; use sparingly, keep them to the journeys where a break would embarrass the team.</li>
+      </ul>
+    </div>
+
+    <h3>Why the pyramid matters in practice</h3>
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128269;</span>
+      <div>
+        <p><strong>Scenario:</strong> you want to verify that an invalid discount code shows an error. Three places could host the test &mdash; a unit test on the validator, an integration test on the API, or an end-to-end test that opens a browser, logs in, and clicks. The unit test runs in 2ms, never flakes, and pinpoints the bug. The end-to-end test runs in 45 seconds, fails twice a week for unrelated reasons, and when it fails you still don&rsquo;t know why. <em>Same bug. Vastly different test cost.</em> Put the test where the bug actually lives.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>Inverted pyramid: thousands of slow end-to-end tests, few unit tests, flaky CI. The team loses faith in the suite; failures are re-run until green instead of investigated.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>Match each kind of risk to the cheapest layer that can catch it. Re-home tests that live at the wrong layer as you find them &mdash; it&rsquo;s a legitimate ITC loop.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2. Testable -->
+  <section class="fade-in" id="testable">
+    <span class="section-num">02 &middot; Design</span>
+    <h2>Writing Testable Code</h2>
+    <p class="section-intro">Code that&rsquo;s hard to test is usually code that&rsquo;s hard to reason about. If adding a test feels painful, the test is showing you a design problem &mdash; listen to it.</p>
+
+    <div class="framework">
+      <h4>Three moves that make code testable</h4>
+      <ol>
+        <li><strong>Separate pure logic from side effects.</strong> Put the decision in a pure function; let the caller do the IO. The decision is trivially testable; the IO can be tested once, separately.</li>
+        <li><strong>Inject dependencies at the boundary.</strong> Don&rsquo;t reach for a global clock, a static database connection, or <code>new</code>&rsquo;d collaborators inside a method. Receive them. Tests can pass fakes.</li>
+        <li><strong>Make time, randomness, and IO explicit.</strong> A function that calls <code>LocalDateTime.now()</code> internally is a nightmare to test. A function that takes a <code>Clock</code> argument is trivial.</li>
+      </ol>
+    </div>
+
+    <h3>Scenario</h3>
+    <div class="tip">
+      <span class="tip-icon">&#129504;</span>
+      <div>
+        <p>You have a <code>TrialExpirationService</code> that reads &ldquo;now&rdquo; from the system clock. To test what happens when a trial expires, your test has to freeze real time, or run against mocked static methods, or &mdash; the honest option &mdash; refactor the service to accept a <code>Clock</code>. The refactor takes 10 minutes and every test after it becomes easy.</p>
+      </div>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>If you find yourself reaching for heavy mocking frameworks to test ordinary code, pause. The test is trying to tell you the design is too coupled. Fix the design; the test will become simple.</p>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3. TDD -->
+  <section class="fade-in" id="tdd">
+    <span class="section-num">03 &middot; Practice</span>
+    <h2>TDD &mdash; When It Helps</h2>
+    <p class="section-intro">Test-driven development is not a universal rule. It&rsquo;s a tool with a sharp point. Used where it fits, it&rsquo;s the fastest way to write small, correct code. Used where it doesn&rsquo;t fit, it feels like overhead.</p>
+
+    <h3>Where TDD earns its keep</h3>
+    <div class="framework">
+      <ul>
+        <li><strong>Pure logic with clear inputs and outputs</strong> &mdash; pricing, validation, state machines, parsers.</li>
+        <li><strong>Bug fixes</strong> &mdash; write the failing test first; the fix must make it green.</li>
+        <li><strong>API contracts</strong> &mdash; start from the interface a caller wants, then implement behind it.</li>
+        <li><strong>Refactoring behind green</strong> &mdash; having a test to hold your hand through a structural change is worth the investment.</li>
+      </ul>
+    </div>
+
+    <h3>Where TDD fights you</h3>
+    <div class="framework">
+      <ul>
+        <li><strong>Early exploration</strong> &mdash; you don&rsquo;t yet know what the code should do. Sketch first, tests after.</li>
+        <li><strong>UI visuals</strong> &mdash; a test can&rsquo;t tell you whether the layout is right.</li>
+        <li><strong>Spikes and prototypes</strong> &mdash; tests on throwaway code waste time.</li>
+      </ul>
+    </div>
+
+    <div class="tip purple-tip">
+      <span class="tip-icon">&#128302;</span>
+      <div>
+        <p><strong>The realistic compromise:</strong> rough out the shape in a sketch; once you know what the function should be, switch to TDD for the logic. You get the guided feel of TDD without paying for it on the parts of the problem where it doesn&rsquo;t help.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4. Brittle -->
+  <section class="fade-in" id="brittle">
+    <span class="section-num">04 &middot; Quality</span>
+    <h2>Integration Tests That Aren&rsquo;t Brittle</h2>
+    <p class="section-intro">An integration test fails for a real reason or for no reason at all. The first kind teaches you something; the second destroys trust in the whole suite. A good senior engineer refuses to ship flaky tests &mdash; including their own.</p>
+
+    <div class="framework">
+      <h4>Rules that cut flakiness</h4>
+      <ul>
+        <li><strong>Test behavior, not implementation.</strong> Assert on what the caller can observe, not on how the internals arrived there.</li>
+        <li><strong>No shared mutable state between tests.</strong> Each test sets up its own fixtures and tears them down. No &ldquo;test order matters.&rdquo;</li>
+        <li><strong>No sleeping for timing.</strong> Use event hooks or polling with a sensible timeout.</li>
+        <li><strong>Control time, randomness, and IDs.</strong> Inject them. A flaky test that passes on Monday and fails on Tuesday is usually one of these three.</li>
+        <li><strong>Zero tolerance for &ldquo;re-run and move on.&rdquo;</strong> If a test flaked, quarantine it, investigate, fix root cause. Every re-run-until-green normalises the noise.</li>
+      </ul>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>The test that asserts the exact SQL that was executed, or the exact sequence of internal calls. Any refactor breaks it, even when behavior is unchanged. The suite becomes an obstacle to change.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>Assert on the result &mdash; &ldquo;after this call, user X has Y rows&rdquo; or &ldquo;the response matches this shape.&rdquo; Refactors can happen freely; only real behavior changes fail the test.</p>
+      </div>
+    </div>
+
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#128165;</span>
+      <div>
+        <p><strong>Why this matters:</strong> every team with a flaky suite eventually pays for it &mdash; in the bug that slipped through the noise, in the hours spent re-running CI, in engineers who stop trusting red builds. Brittle tests rot the team&rsquo;s feedback loop.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 5. Observability -->
+  <section class="fade-in" id="observability">
+    <span class="section-num">05 &middot; Production</span>
+    <h2>Observability Baked In</h2>
+    <p class="section-intro">Observability is not &ldquo;ops&rsquo;s job.&rdquo; It&rsquo;s part of shipping a feature. If your feature runs in production and you can&rsquo;t tell whether it&rsquo;s healthy without re-reading the code, you haven&rsquo;t finished shipping it.</p>
+
+    <h3>The three signals</h3>
+    <div class="card-grid three-col">
+      <div class="card">
+        <h4>Logs</h4>
+        <p>Structured (JSON or key-value). Include correlation IDs. Enough context to answer &ldquo;what happened to this request?&rdquo; &mdash; no more. No PII, no secrets, no &ldquo;entering method.&rdquo;</p>
+      </div>
+      <div class="card">
+        <h4>Metrics</h4>
+        <p>Counters and histograms for the outcomes the business or the operator cares about: requests per second, P95 latency, error rate per endpoint, queue depth, time-to-first-byte.</p>
+      </div>
+      <div class="card">
+        <h4>Traces</h4>
+        <p>A single request&rsquo;s path through services. Essential when a call crosses three services and takes too long &mdash; a trace tells you which hop is slow in seconds, not in grep.</p>
+      </div>
+    </div>
+
+    <div class="framework">
+      <h4>The observability checklist before you call a feature done</h4>
+      <ul>
+        <li>There is a dashboard showing the health of this feature at a glance.</li>
+        <li>An alert fires on the signal a human would need to respond to &mdash; no more, no less.</li>
+        <li>A correlation ID flows from entry point to any downstream call.</li>
+        <li>Error logs include enough context to debug without a replay.</li>
+        <li>The on-call can answer &ldquo;is this feature healthy right now?&rdquo; without asking you.</li>
+      </ul>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">&#128203;</span>
+      <div>
+        <p><strong>Scenario:</strong> at 2am, a page fires: the payment feature is failing for 8% of users. You&rsquo;re the on-call&rsquo;s friend. If you wired in clean logs with correlation IDs, clear metric names, and a trace on the critical path, they find the root cause in 15 minutes. If you didn&rsquo;t, they&rsquo;re still grepping at 4am. <em>Observability is a gift to future-you and future-teammate.</em></p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>&ldquo;I&rsquo;ll add logs if something breaks.&rdquo; Logs added after an incident are always partial &mdash; you can only log what you remember was involved. By then, you&rsquo;ve already lost the first incident.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>Decide the observability plan during design, not during incident. Know what dashboard, what alerts, and what log fields you&rsquo;ll need &mdash; before the feature ships.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 6. Security -->
+  <section class="fade-in" id="security">
+    <span class="section-num">06 &middot; Safety</span>
+    <h2>The Security Mindset</h2>
+    <p class="section-intro">Security isn&rsquo;t a specialist topic for a specialist team. It&rsquo;s a set of habits every senior engineer carries into every feature. Most breaches are not exotic &mdash; they are the OWASP basics not being honoured.</p>
+
+    <div class="framework">
+      <h4>Security habits that belong in every feature</h4>
+      <ul>
+        <li><strong>Validate input at the boundary.</strong> Assume callers are hostile until proven otherwise. Use a parser (Zod, Pydantic, Jackson) rather than hand-rolled checks.</li>
+        <li><strong>Authenticate, then authorise.</strong> Who are they, and are they allowed to do <em>this specific thing</em>? Never skip the second half.</li>
+        <li><strong>Never trust the frontend.</strong> Any check you do in the browser, re-do on the server.</li>
+        <li><strong>Parameterise queries.</strong> String-built SQL is a CVE waiting to happen. Use the parameterised form of your driver, always.</li>
+        <li><strong>Escape on output.</strong> Context-appropriate: HTML, attribute, URL, JSON. Use the framework&rsquo;s built-in escaping; don&rsquo;t reinvent it.</li>
+        <li><strong>Secrets live in a secret manager.</strong> Not in code, not in env files committed to git, not in Slack. And &mdash; don&rsquo;t log them.</li>
+        <li><strong>Keep dependencies patched.</strong> Dependabot or equivalent. A six-month-old known CVE is your fault, not the vendor&rsquo;s.</li>
+        <li><strong>Rate limit user-facing endpoints.</strong> You don&rsquo;t want a simple script to take down your service.</li>
+      </ul>
+    </div>
+
+    <div class="tip danger-tip">
+      <span class="tip-icon">&#128274;</span>
+      <div>
+        <p><strong>Scenario:</strong> you&rsquo;re adding an &ldquo;admin deletes user&rdquo; endpoint. The obvious thing is to check that the caller&rsquo;s token says &ldquo;admin.&rdquo; The non-obvious thing: log who deleted whom and when, make the action undoable for 30 days, and rate limit it. If you ever face a rogue insider or a stolen admin token, those three details are what save you.</p>
+      </div>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Security is a habit, not a phase. The engineer who remembers to parameterise the query at write-time doesn&rsquo;t need a security audit to catch it at review-time. Build the habit once; it protects every feature after.</p>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 7. Feature flags -->
+  <section class="fade-in" id="feature-flags">
+    <span class="section-num">07 &middot; Rollout</span>
+    <h2>Feature Flags for Safe Rollout</h2>
+    <p class="section-intro">A feature flag lets you ship the code without turning on the feature. That decoupling is the difference between &ldquo;we can deploy any time&rdquo; and &ldquo;we need a two-hour maintenance window.&rdquo;</p>
+
+    <div class="framework">
+      <h4>Patterns that pay off</h4>
+      <ul>
+        <li><strong>Dark launch.</strong> The new code path runs, its result is compared to the old path, but only the old path is served. You get real production data before your users see anything change.</li>
+        <li><strong>Progressive rollout.</strong> 1%, 10%, 50%, 100%. At each step, watch the metrics. If the error rate or latency moves, you roll back to the last safe percentage.</li>
+        <li><strong>Kill switch.</strong> The production setting that disables the feature instantly, without a deploy. Every non-trivial feature should have one.</li>
+        <li><strong>Flag hygiene.</strong> Every new flag has a removal date. Old flags are as dangerous as bad dependencies &mdash; they add surface area and rot the code.</li>
+      </ul>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#128736;&#65039;</span>
+      <div>
+        <p><strong>Scenario:</strong> you&rsquo;re swapping the checkout total calculation. The old one has edge cases you don&rsquo;t fully understand; the new one is cleaner. You deploy dark: for 48 hours both run, but only the old number is shown to users, and you log divergences. You find two edge cases the old code handled accidentally-correctly. You fix the new code. You flip the flag. Zero customer impact. <em>This is what real &ldquo;deliver without bugs&rdquo; looks like</em> &mdash; it&rsquo;s not brilliance at code review; it&rsquo;s discipline at rollout.</p>
+      </div>
+    </div>
+
+    <p class="section-intro" style="margin-top:40px;">Next: <a href="code-reviews.html">Code Reviews</a> &mdash; the daily practice that shapes your team&rsquo;s standard.</p>
+  </section>
+
+  <div class="try-this">
+    <p><strong>Pick one this week:</strong></p>
+    <ul>
+      <li>Find a feature you shipped that has no dashboard. Build one. Note the metric that matters most and the signal you&rsquo;d alert on.</li>
+      <li>On your next bug, write the failing test <em>before</em> you fix. Feel the difference in confidence when it goes green.</li>
+      <li>Pick one test in your suite that you&rsquo;ve re-run to pass before. Fix it or quarantine it today &mdash; not next sprint.</li>
+      <li>Pick one non-trivial feature shipping this month. Decide what flag, canary, or rollout safety net it will have &mdash; before the deploy PR.</li>
+    </ul>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="requirements-design.html">Requirements &amp; Design</a>
+      <a href="clean-code.html">Clean Code</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="data-api.html">Data &amp; APIs</a>
+      <a href="testing-observability.html">Testing &amp; Observability</a>
+      <a href="code-reviews.html">Code Reviews</a>
+      <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+      <a href="mentoring-peers.html">Mentoring Peers</a>
+      <a href="influence-communication.html">Influence &amp; Communication</a>
+      <a href="communication-docs.html">Comms &amp; Docs</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for senior engineers who own what they ship. One feature at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

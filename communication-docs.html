@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Communication &amp; Documentation &mdash; Craft &amp; Ownership</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="communication-docs.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Craft &amp; Ownership</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="requirements-design.html">Requirements &amp; Design</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="data-api.html">Data &amp; APIs</a>
+            <a href="testing-observability.html">Testing &amp; Observability</a>
+            <a href="code-reviews.html">Code Reviews</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Ownership</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+            <a href="mentoring-peers.html">Mentoring Peers</a>
+            <a href="influence-communication.html">Influence &amp; Communication</a>
+            <a href="communication-docs.html">Comms &amp; Docs</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Communication &amp; Documentation</h1>
+    <p class="subtitle">Communication that lands beyond your team &mdash; with clients, stakeholders, and future readers. Documentation that saves time instead of gathering dust. Product sense that turns you from a feature-builder into a feature-partner.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#client">1. Client Communication</a></li>
+      <li><a href="#structured">2. Structured Communication &mdash; Pyramid &amp; SCR</a></li>
+      <li><a href="#docs">3. Documentation People Actually Read</a></li>
+      <li><a href="#product">4. Product &amp; Business Sense</a></li>
+    </ul>
+  </section>
+
+  <!-- 1. Client Communication -->
+  <section class="fade-in" id="client">
+    <span class="section-num">01 &middot; Outside Voices</span>
+    <h2>Client Communication</h2>
+    <p class="section-intro">When your team ships to a client &mdash; a paying customer, an internal partner team, an external org &mdash; your communication is part of the product. The code can be excellent; a client left in the dark about what changed and why will still feel let down. Senior engineers own that experience alongside the code.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Clients don&rsquo;t measure engineers primarily on code. They measure on <em>predictability</em>: do I know what&rsquo;s coming, when, and what to expect if it slips? The engineer who delivers average code with clockwork communication earns more trust than the engineer who delivers brilliant code and goes silent for three weeks.</p>
+    </div>
+
+    <h3>Habits that build trust with clients</h3>
+    <div class="framework">
+      <h4>The client-communication baseline</h4>
+      <ul>
+        <li><strong>Predictable updates.</strong> Weekly or bi-weekly, same cadence, same format. Clients stop worrying when they can count on it.</li>
+        <li><strong>Flag risks early, not late.</strong> The &ldquo;no surprises&rdquo; rule matters double for clients. A slip flagged two weeks out is a conversation; a slip flagged on the promised date is a crisis.</li>
+        <li><strong>Translate tech to impact.</strong> &ldquo;We refactored the payment module&rdquo; means nothing to them. &ldquo;We eliminated a class of bugs that caused 3 outages last quarter&rdquo; means everything.</li>
+        <li><strong>Respect their time.</strong> 20-minute meetings that could be a Slack message. 50-slide decks with one useful slide. Senior communication is brief.</li>
+        <li><strong>Be present when it&rsquo;s hard.</strong> After an incident, after a slip, after a push-back &mdash; show up, own it, own the fix. Easy communication in good times is worth little; honest communication in hard times earns years of trust.</li>
+      </ul>
+    </div>
+
+    <h3>Saying no to clients &mdash; with grace</h3>
+    <p>Clients ask for things that don&rsquo;t fit the plan. &ldquo;Yes&rdquo; to everything breaks the plan; blunt &ldquo;no&rdquo; breaks the relationship. Senior engineers find the honest middle: name the trade-off, give them the choice.</p>
+
+    <div class="tip">
+      <span class="tip-icon">&#128172;</span>
+      <div>
+        <p><strong>Weak no:</strong> &ldquo;We can&rsquo;t do that.&rdquo;</p>
+        <p><strong>Strong no:</strong> &ldquo;We can do that &mdash; but it means feature X slips two weeks, or we cut the edge-case handling we&rsquo;d planned for Y. I&rsquo;d lean against option 2 because we&rsquo;d likely see an incident within a month. Which trade-off do you prefer?&rdquo;</p>
+        <p>The strong version treats the client as a partner and gives them agency. You&rsquo;ve also modelled the thinking so they can make the next call themselves.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>Going silent during a hard period. &ldquo;We&rsquo;re heads down; I&rsquo;ll update when we have news.&rdquo; Clients hear: &ldquo;something&rsquo;s wrong and they don&rsquo;t want to say.&rdquo; Trust drops fast during silence.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>Over-communicate through hard periods. &ldquo;No news this week, still working through the unknowns we flagged last Friday, expect substantive update Monday.&rdquo; Even &ldquo;no news&rdquo; is news when said on time.</p>
+      </div>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128100;</span>
+      <div>
+        <p><strong>A working note on consulting contexts:</strong> if your team works at a client site or as an embedded partner, you are <em>both</em> a team member and a guest. The guest half means extra care with tone: suggest before insist, ask before assume, teach before critique. Over a year, this earns the kind of trust where clients start asking your opinion on things you weren&rsquo;t even contracted for &mdash; which is where the most interesting work happens.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2. Structured Communication -->
+  <section class="fade-in" id="structured">
+    <span class="section-num">02 &middot; Clarity</span>
+    <h2>Structured Communication &mdash; Pyramid &amp; SCR</h2>
+    <p class="section-intro">Most engineering communication buries the important thing at the bottom of a long build-up. Structured communication inverts that: the conclusion comes first, the supporting logic follows, and the reader can stop reading when they&rsquo;re satisfied. It&rsquo;s the single highest-leverage skill for talking to busy stakeholders.</p>
+
+    <h3>The Pyramid Principle</h3>
+    <div class="framework">
+      <h4>Lead with the answer; support it after</h4>
+      <p>Barbara Minto&rsquo;s Pyramid Principle: start with the main point, then give three or so supporting arguments, then the evidence under each argument. The reader always knows what you&rsquo;re saying; they choose how deep to go.</p>
+      <p>The opposite &mdash; narrative order, background first, conclusion last &mdash; works for stories and wastes the reader&rsquo;s time in business communication.</p>
+    </div>
+
+    <div class="code-pair">
+      <div>
+        <span class="label bad">Narrative &mdash; conclusion last</span>
+        <pre class="code-block">Last quarter we started seeing P95
+latency drift. We investigated several
+options. After benchmarking we tried
+approach A, which didn't help. Then we
+tried B, which helped but introduced
+complexity. Eventually we landed on C.
+
+Recommendation: adopt C.</pre>
+      </div>
+      <div>
+        <span class="label good">Pyramid &mdash; conclusion first</span>
+        <pre class="code-block">Recommendation: adopt C for P95 latency.
+
+- C cuts P95 by 40% with minimal ongoing
+  complexity.
+- We ruled out A (no effect) and B (helpful
+  but adds complexity we'd regret).
+- Benchmark data, cost, and risk below.
+
+[details follow]</pre>
+      </div>
+    </div>
+
+    <h3>SCR &mdash; Situation, Complication, Resolution</h3>
+    <div class="framework">
+      <p>SCR is a lightweight version of the pyramid for short communications &mdash; emails, update posts, a 2-minute verbal update.</p>
+      <ul>
+        <li><strong>Situation:</strong> one line on what&rsquo;s true / what we agreed.</li>
+        <li><strong>Complication:</strong> what&rsquo;s changed or broken.</li>
+        <li><strong>Resolution:</strong> what you propose / what&rsquo;s being done.</li>
+      </ul>
+      <p>Three sentences. Works for a Slack update, a status post, a meeting opener. The reader knows in 15 seconds what they need to know.</p>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">&#128221;</span>
+      <div>
+        <p><strong>SCR example:</strong></p>
+        <p><em>Situation:</em> Payment migration was tracking to ship Friday.<br>
+        <em>Complication:</em> Two edge cases surfaced in staging this morning that weren&rsquo;t in the original scope.<br>
+        <em>Resolution:</em> I&rsquo;m extending by two days, shipping Monday. The edge cases are real; rushing Friday risks incident. I&rsquo;ll send a fuller note at standup.</p>
+      </div>
+    </div>
+
+    <h3>MECE &mdash; Mutually Exclusive, Collectively Exhaustive</h3>
+    <p>When you present options, the set should be MECE: each option distinct from the others (mutually exclusive), and together covering the real space (collectively exhaustive). &ldquo;We could do A, B, or C&rdquo; is useless if A and B overlap, or if D was the obviously-right option you forgot.</p>
+
+    <div class="framework">
+      <h4>Check a list of options against MECE</h4>
+      <ul>
+        <li><strong>Mutually exclusive:</strong> could the reader pick two of them and not be contradicting themselves?</li>
+        <li><strong>Collectively exhaustive:</strong> is there a reasonable path the reader might ask about that&rsquo;s missing? Usually &ldquo;do nothing&rdquo; or &ldquo;wait and reassess&rdquo; deserves to be in the set.</li>
+      </ul>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128218;</span>
+      <div>
+        <p><strong>Deeper reading:</strong> <em>The Pyramid Principle</em> by Barbara Minto is the original; dense but influential. For a short, modern treatment, read the &ldquo;Pyramid Principle&rdquo; section of <em>The McKinsey Way</em>. For day-to-day practice: writing your next Slack status update in SCR will teach you more than reading either.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3. Documentation -->
+  <section class="fade-in" id="docs">
+    <span class="section-num">03 &middot; Written</span>
+    <h2>Documentation People Actually Read</h2>
+    <p class="section-intro">Most engineering documentation goes unread. The ones that get read share a few properties: they&rsquo;re written for a specific reader, they answer the question the reader came with, and they&rsquo;re kept alive &mdash; not preserved as monuments. Senior engineers treat documentation as craft, not a side-tax on the &ldquo;real&rdquo; work.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Write every document for a named reader doing a named task. &ldquo;An engineer joining the project&rdquo;, &ldquo;an on-call responding to an alert&rdquo;, &ldquo;a PM evaluating feasibility.&rdquo; Generic documentation &mdash; written for nobody in particular &mdash; stays generically unread.</p>
+    </div>
+
+    <h3>The documents worth writing well</h3>
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>README</h4>
+        <p>The first thing a new reader sees. Must answer: what is this, how do I run it, where do I go next. If your <code>make dev</code> doesn&rsquo;t work from a fresh checkout by following the README alone, the README is wrong &mdash; fix it before the next new-joiner hits it.</p>
+      </div>
+      <div class="card">
+        <h4>Architecture overview</h4>
+        <p>One page with a diagram and a paragraph per major component. Helps a new engineer build a mental model in 15 minutes instead of three days. Update when shape changes; don&rsquo;t let it lie.</p>
+      </div>
+      <div class="card">
+        <h4>Runbook</h4>
+        <p>For an on-call under pressure. Name the symptom, give the diagnostic steps, list the top failure modes. See <a href="delivery-ownership.html#handover">handover</a>.</p>
+      </div>
+      <div class="card">
+        <h4>Onboarding guide</h4>
+        <p>&ldquo;Your first two weeks.&rdquo; What to install, what to read, what small PR to aim for. Saves every future hire days of groping around.</p>
+      </div>
+      <div class="card">
+        <h4>Design doc</h4>
+        <p>For a decision being weighed. Covered in <a href="requirements-design.html#design-doc">requirements &amp; design</a>.</p>
+      </div>
+      <div class="card">
+        <h4>ADR</h4>
+        <p>For a decision already made. Covered in <a href="requirements-design.html#adr">requirements &amp; design</a>.</p>
+      </div>
+      <div class="card">
+        <h4>Post-mortem</h4>
+        <p>After an incident. Covered in <a href="delivery-ownership.html#post-mortem">post-mortem practice</a>.</p>
+      </div>
+      <div class="card">
+        <h4>How-to guides</h4>
+        <p>Specific task-based docs: &ldquo;How to add a new payment provider&rdquo;, &ldquo;How to roll a secret&rdquo;. Written once, saves the team the Slack thread every time someone new needs to do the thing.</p>
+      </div>
+    </div>
+
+    <h3>Writing docs that stay useful</h3>
+    <div class="framework">
+      <h4>Habits that keep docs alive</h4>
+      <ul>
+        <li><strong>Write for the task, not the topic.</strong> &ldquo;How to deploy&rdquo; beats &ldquo;Deployment system.&rdquo; Task docs are read; topic docs are archived.</li>
+        <li><strong>Put a &ldquo;last reviewed&rdquo; date at the top.</strong> Forces periodic re-read; signals to readers how fresh the content is.</li>
+        <li><strong>One source of truth per topic.</strong> Four docs on deploying means readers find the wrong one and follow stale steps. Consolidate; link rather than duplicate.</li>
+        <li><strong>Link rather than embed.</strong> If another doc already explains a prerequisite, link; don&rsquo;t paste. When the original changes, the link stays current; the paste goes stale.</li>
+        <li><strong>Delete docs that have rotted past repair.</strong> Out-of-date docs are worse than no docs &mdash; they mislead. Mark or remove them.</li>
+        <li><strong>Review docs on PR that changed the underlying thing.</strong> &ldquo;Does this PR require a doc update?&rdquo; in your review checklist. Close the loop.</li>
+      </ul>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#128221;</span>
+      <div>
+        <p><strong>Scenario:</strong> a team audits its docs folder. Half the pages are 2+ years old, contradicting each other, mentioning systems that have been deleted. They delete about 60% and consolidate the rest into six &ldquo;canonical&rdquo; pages with clear readers and last-reviewed dates. Readership of the remaining pages triples in the next quarter. <em>Fewer, better docs beat more, stale ones.</em></p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>Writing comprehensive documentation in one big push when a service ships. Nobody reads the 40-page PDF; it ages quickly; the team quietly stops trusting docs in general.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>Write docs in small pieces, keyed to specific reader tasks. Update them as the code changes. Treat a PR that touches behavior but not its doc as half-done.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4. Product & Business -->
+  <section class="fade-in" id="product">
+    <span class="section-num">04 &middot; Why</span>
+    <h2>Product &amp; Business Sense</h2>
+    <p class="section-intro">Most engineers can build what they&rsquo;re told. Senior engineers push further: they know <em>why</em> they&rsquo;re building it, who benefits, what problem it solves, what success looks like. That understanding shapes better decisions at every step &mdash; from API design to how much test coverage is enough.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>The engineer who asks &ldquo;who is this for?&rdquo; before coding often discovers that half the proposed scope is unnecessary, or that a simpler solution would better serve the real user. That discovery is senior-engineer value &mdash; unlocked by curiosity, not by more code.</p>
+    </div>
+
+    <h3>Questions to ask yourself on every feature</h3>
+    <div class="framework">
+      <ul>
+        <li><strong>Who is this for?</strong> Real users, not personas. If you can&rsquo;t name three, do you actually know?</li>
+        <li><strong>What problem is it solving?</strong> In one sentence. Not &ldquo;the feature&rdquo; &mdash; the underlying pain it removes.</li>
+        <li><strong>What&rsquo;s the evidence the problem matters?</strong> Support tickets, revenue impact, user research, competitive pressure. If no evidence, is the priority justified?</li>
+        <li><strong>What happens if we don&rsquo;t do it?</strong> Often the honest answer is &ldquo;not much&rdquo; &mdash; which is useful information.</li>
+        <li><strong>What does success look like in a month? In a year?</strong> A number, a behaviour change, something measurable.</li>
+        <li><strong>What&rsquo;s the simplest version that would still work?</strong> Often smaller than the original proposal.</li>
+      </ul>
+    </div>
+
+    <h3>Partnering with PMs instead of being managed by them</h3>
+    <p>The best engineer-PM relationships are partnerships. The PM brings customer insight, market context, prioritisation judgment. The engineer brings feasibility, trade-offs, and a sense of what&rsquo;s actually expensive. Together they shape the feature. Senior engineers show up to that partnership prepared &mdash; with questions, with alternatives, with honest costs.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; order-taker mode</h5>
+        <p>&ldquo;PM said build X. I built X.&rdquo; The feature ships, the PM is happy in the short term, but the engineer never added value beyond execution. Over time, their scope stays narrow; the PM stops asking for opinions.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach &mdash; partner mode</h5>
+        <p>&ldquo;PM said build X. I asked why, and what they&rsquo;d measure. I proposed X-minus (smaller, faster) and X-plus (handles an edge case they hadn&rsquo;t mentioned). We landed on X-minus for now, X-plus on the roadmap. I&rsquo;ll know in 3 weeks if we need X-plus sooner.&rdquo; The engineer shaped the outcome.</p>
+      </div>
+    </div>
+
+    <div class="tip purple-tip">
+      <span class="tip-icon">&#128640;</span>
+      <div>
+        <p><strong>Watch the metrics after ship.</strong> Did users adopt it? Did the metric you predicted move? If yes, you learn something about what works; if no, you learn something important about what doesn&rsquo;t. Either way, you&rsquo;re now a better partner for the next feature. Most engineers ship and move on &mdash; and stay mediocre at product sense forever.</p>
+      </div>
+    </div>
+
+    <h3>Translating engineering impact for the business</h3>
+    <p>When you explain a piece of engineering work to stakeholders, translate at least once from tech-words to business-words. Not as dumbing down &mdash; as respect for their time and your shared goal.</p>
+
+    <div class="code-pair">
+      <div>
+        <span class="label bad">Engineering-speak</span>
+        <pre class="code-block">We refactored the ingestion pipeline
+from a monolithic lambda to a set
+of composable stages with typed
+intermediaries and retry boundaries.</pre>
+      </div>
+      <div>
+        <span class="label good">Translated for impact</span>
+        <pre class="code-block">We rebuilt the data import so that
+when one step fails, the rest keep
+running. It's about 3x faster for
+typical files, and we stopped losing
+a day whenever the largest customer's
+upload had a single bad row.</pre>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <div class="try-this">
+    <p><strong>Pick one this week:</strong></p>
+    <ul>
+      <li>Rewrite your next status update in SCR (Situation-Complication-Resolution). Notice how much shorter it gets and how much faster the reader lands on what matters.</li>
+      <li>Open your project&rsquo;s README. Try to set up the project on a fresh machine following <em>only</em> what&rsquo;s written there. Fix every step that fails.</li>
+      <li>On your next feature, ask your PM: &ldquo;who is this for, what problem does it solve, and what would success look like in a month?&rdquo; See what the conversation opens up.</li>
+    </ul>
+  </div>
+
+  <section class="fade-in">
+    <p class="section-intro">Back to: <a href="influence-communication.html">Influence &amp; Communication</a> for internal team influence &mdash; or pick another path from <a href="index.html">home</a>.</p>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="requirements-design.html">Requirements &amp; Design</a>
+      <a href="clean-code.html">Clean Code</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="data-api.html">Data &amp; APIs</a>
+      <a href="testing-observability.html">Testing &amp; Observability</a>
+      <a href="code-reviews.html">Code Reviews</a>
+      <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+      <a href="mentoring-peers.html">Mentoring Peers</a>
+      <a href="influence-communication.html">Influence &amp; Communication</a>
+      <a href="communication-docs.html">Comms &amp; Docs</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for senior engineers who own what they ship. One feature at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

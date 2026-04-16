@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foundations &mdash; Craft &amp; Ownership</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="foundations.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Craft &amp; Ownership</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="requirements-design.html">Requirements &amp; Design</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="data-api.html">Data &amp; APIs</a>
+            <a href="testing-observability.html">Testing &amp; Observability</a>
+            <a href="code-reviews.html">Code Reviews</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Ownership</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+            <a href="mentoring-peers.html">Mentoring Peers</a>
+            <a href="influence-communication.html">Influence &amp; Communication</a>
+            <a href="communication-docs.html">Comms &amp; Docs</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Foundations</h1>
+    <p class="subtitle">The mindset shift from ticket-closer to feature-owner. If only one chapter landed with you, make it this one.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#ownership-shift">1. The Ownership Shift</a></li>
+      <li><a href="#end-to-end">2. End-to-End Thinking</a></li>
+      <li><a href="#the-scan">3. The Scan &mdash; Finding Problems Worth Fixing</a></li>
+      <li><a href="#initiative">4. Initiative-to-Completion</a></li>
+      <li><a href="#craft-mindset">5. The Craft Mindset</a></li>
+      <li><a href="#pull-based">6. Working with Your Lead</a></li>
+      <li><a href="#focus">7. Time &amp; Focus</a></li>
+      <li><a href="#exploration">8. The Exploration Mindset</a></li>
+      <li><a href="#t-shaped">9. Depth &amp; Breadth &mdash; The T-Shaped Engineer</a></li>
+    </ul>
+  </section>
+
+  <!-- ─── 1. Ownership Shift ─── -->
+  <section class="fade-in" id="ownership-shift">
+    <span class="section-num">01 &middot; Mindset</span>
+    <h2>The Ownership Shift</h2>
+    <p class="section-intro">A junior engineer closes tickets. A senior engineer owns a feature. The work looks similar from the outside &mdash; both write code, both push PRs. The difference is everything that happens around the code.</p>
+
+    <h3>Two ways to read the same assignment</h3>
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Ticket-closer reading</h5>
+        <p>&ldquo;I was assigned stories TICK-401 to TICK-406. I&rsquo;ll implement them, get them reviewed, merge them, and move on. If anything else is needed, someone will tell me.&rdquo;</p>
+      </div>
+      <div class="better">
+        <h5>Feature-owner reading</h5>
+        <p>&ldquo;This feature is mine. I&rsquo;ll make sure we understood the problem, the stories cover it, the code is good, it&rsquo;s tested, it&rsquo;s observable, it ships safely, and operations know how to run it. If something is missing, I&rsquo;ll raise it.&rdquo;</p>
+      </div>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>The feature is your baby. Everything between &ldquo;we discussed the idea&rdquo; and &ldquo;it&rsquo;s safely running in production and the team knows how to operate it&rdquo; is your responsibility &mdash; not because anyone handed it to you, but because you chose to take it.</p>
+    </div>
+
+    <h3>What the shift actually changes</h3>
+    <table class="comparison">
+      <tr><th>Area</th><th>Ticket-closer</th><th>Feature-owner</th></tr>
+      <tr><td>Requirements</td><td>Reads the Jira ticket</td><td>Asks why, talks to the PM, confirms the real problem</td></tr>
+      <tr><td>Design</td><td>Starts coding</td><td>Sketches the approach, flags trade-offs, invites review</td></tr>
+      <tr><td>Unknowns</td><td>Hopes they resolve</td><td>Spikes them early, narrows the risk</td></tr>
+      <tr><td>Testing</td><td>Adds unit tests because the template requires it</td><td>Chooses the test layer that catches the real risk</td></tr>
+      <tr><td>Observability</td><td>Logs &ldquo;entering method&rdquo;</td><td>Emits metrics and traces that will help debug production</td></tr>
+      <tr><td>Review</td><td>Submits and waits</td><td>Self-reviews first, writes a description that makes review easy</td></tr>
+      <tr><td>Delivery</td><td>&ldquo;My part is done&rdquo;</td><td>Tracks the whole feature to production, dogfoods it</td></tr>
+      <tr><td>Handover</td><td>Someone else&rsquo;s job</td><td>Writes the runbook, briefs the on-call</td></tr>
+      <tr><td>After ship</td><td>Next ticket</td><td>Watches the metrics for a week, fixes what surfaces</td></tr>
+    </table>
+
+    <div class="tip">
+      <span class="tip-icon">&#128161;</span>
+      <div>
+        <p><strong>Why this matters:</strong> Features that feel &ldquo;orphaned&rdquo; in production are almost always features where nobody took ownership past the merge. The bug count, the rework, the late-night pages &mdash; they come from that gap. Closing the gap is senior work.</p>
+      </div>
+    </div>
+
+    <h3>Questions to sit with</h3>
+    <div class="framework">
+      <ul>
+        <li>If the feature broke in production tonight, would I know before the user does?</li>
+        <li>Could a teammate on-call confidently triage it without me?</li>
+        <li>Did I ship the whole thing, or just my slice of it?</li>
+        <li>Would I use this feature if I were the customer?</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 2. End-to-End Thinking ─── -->
+  <section class="fade-in" id="end-to-end">
+    <span class="section-num">02 &middot; Thinking</span>
+    <h2>End-to-End Thinking</h2>
+    <p class="section-intro">End-to-end is not a tech stack phrase. It&rsquo;s a responsibility phrase. Your thinking should cover the entire path &mdash; from the moment the problem surfaces to the moment it&rsquo;s quietly running well in production.</p>
+
+    <h3>The full arc of a feature</h3>
+    <div class="framework">
+      <h4>What &ldquo;end-to-end&rdquo; actually covers</h4>
+      <ol>
+        <li><strong>Problem framing</strong> &mdash; Why are we doing this? Whose problem is it? What happens if we don&rsquo;t?</li>
+        <li><strong>Requirements</strong> &mdash; What does &ldquo;done&rdquo; mean? What are the edge cases? What&rsquo;s out of scope?</li>
+        <li><strong>Design</strong> &mdash; Architecture sketch, data model, APIs, trade-offs, an ADR if the decision is irreversible.</li>
+        <li><strong>Breakdown</strong> &mdash; Stories that slice vertically, parallelise where possible, unblock each other.</li>
+        <li><strong>Build</strong> &mdash; Clean code, small PRs, self-reviewed, well-tested at the layer that matters.</li>
+        <li><strong>Verify</strong> &mdash; Integration tests, dogfood, edge cases, failure modes.</li>
+        <li><strong>Observe</strong> &mdash; Logs, metrics, traces, alerts on the right signals.</li>
+        <li><strong>Secure</strong> &mdash; Input validation, authZ checks, secret handling, OWASP basics.</li>
+        <li><strong>Perform</strong> &mdash; P95 latency, resource cost, load characteristics.</li>
+        <li><strong>Ship</strong> &mdash; Dark launch, feature flag, progressive rollout, rollback plan.</li>
+        <li><strong>Operate</strong> &mdash; Runbook, dashboards, on-call handover, known failure modes.</li>
+        <li><strong>Learn</strong> &mdash; Watch the metrics, read the logs, harvest what the feature taught you.</li>
+      </ol>
+    </div>
+
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#9888;&#65039;</span>
+      <div>
+        <p>&ldquo;Not my job&rdquo; creeps in at almost every step on this list. The senior engineer is the one who refuses to drop the baton between steps &mdash; even when it&rsquo;s inconvenient, even when someone else &ldquo;should&rdquo; catch it.</p>
+      </div>
+    </div>
+
+    <h3>Delivery excellence is more than &ldquo;on time, no bugs&rdquo;</h3>
+    <p>When you ask whether a feature shipped well, the answer isn&rsquo;t binary and it isn&rsquo;t only about the schedule. It&rsquo;s a bundle.</p>
+
+    <div class="framework">
+      <h4>The Six Dimensions of Delivery Excellence</h4>
+      <ul>
+        <li><strong>Correctness</strong> &mdash; The feature does what was asked, including the edge cases.</li>
+        <li><strong>Quality</strong> &mdash; The code is readable, tested, and easy for the next engineer to change.</li>
+        <li><strong>Performance</strong> &mdash; It meets latency, throughput, and cost targets under realistic load.</li>
+        <li><strong>Security</strong> &mdash; Inputs are validated, secrets are handled, the OWASP basics are covered.</li>
+        <li><strong>Observability</strong> &mdash; Operators can see what&rsquo;s happening without rebuilding the service.</li>
+        <li><strong>Operability</strong> &mdash; Runbooks exist, alerts fire on the right thing, rollback is practiced.</li>
+      </ul>
+      <p>A feature that ships on time but degrades P95 latency, or leaks PII in logs, or can&rsquo;t be rolled back cleanly, has not shipped well. Senior engineers feel responsible for all six dimensions &mdash; not just the first two.</p>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>If your definition of &ldquo;successful delivery&rdquo; stops at &ldquo;on time and no bugs in QA&rdquo;, you&rsquo;re shipping on the weakest definition in the industry. The delivery you&rsquo;re proud of includes performance you measured, security you verified, and observability you wired in before ship &mdash; not after the first incident.</p>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 3. The Scan ─── -->
+  <section class="fade-in" id="the-scan">
+    <span class="section-num">03 &middot; Habit</span>
+    <h2>The Scan &mdash; Finding Problems Worth Fixing</h2>
+    <p class="section-intro">Senior engineers keep a running mental scan: what&rsquo;s quietly hurting in this codebase, product, or ops setup? The scan is what turns a strong individual contributor into someone the team genuinely relies on.</p>
+
+    <h3>Five surfaces to scan regularly</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>The Code</h4>
+        <p>The module you touch every week that everyone apologises for. The test that flakes. The function that&rsquo;s 300 lines because nobody refactored it. The dependency pinned to a version from two years ago. Badly written code that nobody wants to touch &mdash; and therefore keeps getting worse.</p>
+      </div>
+      <div class="card">
+        <h4>Observability</h4>
+        <p>Dashboards that show a slow climb in P95. Error logs that spike every Thursday. A queue depth metric that nobody watches. The silent alert that fires every night. The endpoint with no metrics at all &mdash; you just hope it&rsquo;s working.</p>
+      </div>
+      <div class="card">
+        <h4>The Product</h4>
+        <p>The UX that confuses every new user. The workflow that takes six clicks for a job that should take two. The error message that reads &ldquo;Something went wrong.&rdquo; The form that loses data on back-button.</p>
+      </div>
+      <div class="card">
+        <h4>Operations</h4>
+        <p>The runbook that&rsquo;s out of date. The incident you&rsquo;ve seen twice that has no post-mortem. The deployment step that still needs a human. The dev environment that takes a day to set up.</p>
+      </div>
+      <div class="card">
+        <h4>CI/CD &amp; the Dev Loop</h4>
+        <p>The build that takes 11 minutes. The test suite that takes 40. The pipeline that fails at the deploy stage once a week. The local startup that takes 90 seconds. The flaky integration test everyone re-runs. These are not facts of life &mdash; they are waste that a senior engineer hunts and removes. Every minute cut here is paid back by the whole team, every day.</p>
+      </div>
+    </div>
+
+    <h3>The Scan Cadence &mdash; build the habit on a schedule</h3>
+    <p>The scan doesn&rsquo;t happen if you wait to &ldquo;feel like it.&rdquo; Like exercise, it needs a schedule. The following cadence has worked across many teams. Steal it, adapt it, but schedule it.</p>
+
+    <div class="framework">
+      <h4>A lightweight weekly habit</h4>
+      <ol>
+        <li><strong>Monday, 15 minutes &mdash; observability scan.</strong> Open the dashboards for your feature. What changed week-over-week? Any slow drift in latency, error rate, queue depth? Any alert that fires regularly but has become background noise?</li>
+        <li><strong>Tuesday or Wednesday, 20 minutes &mdash; code scan.</strong> Open two or three modules you touch often. Read with a hunter&rsquo;s eye: where&rsquo;s the function nobody wants to edit? The abstraction that doesn&rsquo;t pay for itself? The commented-out block that&rsquo;s been there since 2023?</li>
+        <li><strong>During work &mdash; catch-as-you-go.</strong> Every time a teammate apologises for a piece of code, or says &ldquo;yeah that&rsquo;s a known issue&rdquo;, write it down. Every time you work around something instead of fixing it, write it down.</li>
+        <li><strong>After every incident &mdash; lessons entry.</strong> Note the root cause and one nearby thing that would have helped detect it sooner. Often the same gap that caused this incident is waiting to cause the next one.</li>
+        <li><strong>Before every huddle &mdash; review the list.</strong> Is there one item worth raising this week? You don&rsquo;t have to raise every item every week &mdash; but the list should be in your head when you walk in.</li>
+      </ol>
+      <p>You don&rsquo;t need a fancy system. A single note titled &ldquo;Things that hurt&rdquo; in whatever tool you already use is enough. The value is in the repetition, not the tooling.</p>
+    </div>
+
+    <div class="tip purple-tip">
+      <span class="tip-icon">&#127922;</span>
+      <div>
+        <p><strong>Scenario:</strong> a senior engineer on a team kept a weekly 20-minute calendar block called &ldquo;look at code &amp; graphs.&rdquo; Over six months, that block produced: a P95 regression caught before it hit customers, two flaky tests found and fixed, an unused cron job deleted (saving $240/month), and three refactor proposals &mdash; one of which became a real initiative. The block was the habit; the outcomes were compound interest.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>Seeing problems but staying silent. &ldquo;Someone will fix it.&rdquo; &ldquo;It&rsquo;s not my story.&rdquo; &ldquo;Maybe the leader knows already.&rdquo; Meanwhile the problem keeps quietly costing the team hours every week.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>See a problem, name it. Even if you can&rsquo;t fix it today, write it up. In the next huddle, raise it with a proposed fix and a rough effort estimate. You don&rsquo;t need permission to point at what&rsquo;s broken.</p>
+      </div>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">&#127919;</span>
+      <div>
+        <p><strong>The one-question test:</strong> &ldquo;If I kept doing what I&rsquo;m doing for six more months, would the codebase be noticeably better, or roughly the same?&rdquo; If the answer is &ldquo;the same&rdquo;, you&rsquo;re not scanning.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 4. Initiative-to-Completion ─── -->
+  <section class="fade-in" id="initiative">
+    <span class="section-num">04 &middot; Follow-Through</span>
+    <h2>Initiative-to-Completion</h2>
+    <p class="section-intro">Scanning finds problems. Initiative-to-Completion is what turns the scan into actual improvement. Most initiatives fail not because the idea was wrong but because nobody drove them to done.</p>
+
+    <h3>Why initiatives stall</h3>
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>They live on the side</h4>
+        <p>&ldquo;I&rsquo;ll pick it up when I have time.&rdquo; Nobody has time. Side work stays on the side.</p>
+      </div>
+      <div class="card">
+        <h4>No owner</h4>
+        <p>The idea is raised in a huddle, everyone nods, nobody claims it. It evaporates by the next huddle.</p>
+      </div>
+      <div class="card">
+        <h4>No deadline</h4>
+        <p>&ldquo;Let&rsquo;s do this eventually.&rdquo; Without a rough date, the thing never starts.</p>
+      </div>
+      <div class="card">
+        <h4>Scope drift</h4>
+        <p>What started as &ldquo;fix the flaky test&rdquo; becomes &ldquo;rebuild the test framework&rdquo;. The big version never ships.</p>
+      </div>
+    </div>
+
+    <div class="framework">
+      <h4>The ITC Loop &mdash; Initiative-to-Completion</h4>
+      <ol>
+        <li><strong>Notice</strong> &mdash; You see the problem on one of the four scan surfaces.</li>
+        <li><strong>Propose</strong> &mdash; You write 5&ndash;10 lines: what&rsquo;s wrong, what you&rsquo;d do, rough effort, expected benefit. Post it, don&rsquo;t just think it.</li>
+        <li><strong>Commit</strong> &mdash; You claim it out loud: &ldquo;I&rsquo;ll land this by end of next sprint.&rdquo; Name a date.</li>
+        <li><strong>Drive</strong> &mdash; You make weekly progress, even if small. You fold it into your normal work rhythm, not a side track.</li>
+        <li><strong>Land</strong> &mdash; You ship the actual fix. You verify it worked.</li>
+        <li><strong>Report</strong> &mdash; You show the team what changed &mdash; the metric that moved, the time saved, the bug class eliminated.</li>
+      </ol>
+      <p>The whole loop takes one owner. That owner is you.</p>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#9989;</span>
+      <div>
+        <p><strong>Why this matters:</strong> When you drive three ITC loops to completion in a year, you stop being known as &ldquo;a good coder&rdquo;. You start being known as &ldquo;someone who makes things better around here.&rdquo; That reputation compounds.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>Mistaking &ldquo;I raised it&rdquo; for &ldquo;I did it.&rdquo; Pointing at a problem is the first 5% of the loop, not the last.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>Default assumption: if you noticed it and proposed it, you probably own it. If you don&rsquo;t want to own it, be explicit: &ldquo;I can&rsquo;t drive this; can someone else?&rdquo; Don&rsquo;t let it float.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 5. Craft Mindset ─── -->
+  <section class="fade-in" id="craft-mindset">
+    <span class="section-num">05 &middot; Mindset</span>
+    <h2>The Craft Mindset</h2>
+    <p class="section-intro">Craft is the refusal to let work leave your hands in a state you&rsquo;re not proud of &mdash; even when nobody would notice. It&rsquo;s a private standard, held in public only when someone asks.</p>
+
+    <h3>Why craft compounds</h3>
+    <p>Sloppy code has a seductive pitch: &ldquo;It works. Ship it. We&rsquo;ll clean it up later.&rdquo; The problem is that &ldquo;later&rdquo; never arrives, and the next change on top of the sloppy code is harder, and the one after that harder still. This is technical debt, and it compounds exactly like financial debt.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Every piece of code you write will be read ten times for every time it&rsquo;s written. If you optimise for writing speed, you pay for it ten times over in reading and changing time. If you optimise for readability, you get the compound in reverse &mdash; every future change is slightly cheaper.</p>
+    </div>
+
+    <h3>Craft as a daily practice</h3>
+    <div class="framework">
+      <h4>What craft looks like in the small</h4>
+      <ul>
+        <li>Renaming a variable before you submit the PR, because the better name just occurred to you.</li>
+        <li>Deleting the commented-out block instead of &ldquo;leaving it just in case.&rdquo;</li>
+        <li>Adding the missing test for the edge case you almost got bitten by.</li>
+        <li>Fixing the typo in the log message while you&rsquo;re there.</li>
+        <li>Writing a one-line comment explaining <em>why</em> this hack was needed, so the next reader doesn&rsquo;t think it was a mistake.</li>
+        <li>Reading your own PR as if you&rsquo;d never seen it before.</li>
+      </ul>
+      <p>None of these take more than two minutes. All of them compound.</p>
+    </div>
+
+    <div class="tip purple-tip">
+      <span class="tip-icon">&#128301;</span>
+      <div>
+        <p>Craft is contagious. When you write tidy code consistently, your reviewers start catching themselves before they submit something messy. The team&rsquo;s bar rises without anyone issuing a policy.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 6. Working with Your Lead ─── -->
+  <section class="fade-in" id="pull-based">
+    <span class="section-num">06 &middot; Working With Leaders</span>
+    <h2>Working with Your Lead</h2>
+    <p class="section-intro">The working model that works best for both of you: you own the feature end-to-end, and you bring your lead in when you actually need their time &mdash; not one where they chase you through the basics. Their time is most valuable on the problems only they can solve; yours is most valuable on the ones only you can.</p>
+
+    <h3>Who does what</h3>
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>When they&rsquo;re chasing you</h5>
+        <p>Your lead chases you for updates. Nudges you to self-review. Reminds you to add tests. Asks whether the metric dashboard is set up. Prompts you to follow up with the PM. You&rsquo;re waiting to be told; they&rsquo;re waiting for you to lead your own work.</p>
+      </div>
+      <div class="better">
+        <h5>When you&rsquo;re running it</h5>
+        <p>You drive the work end-to-end. You send updates before they&rsquo;re asked for. When you hit something genuinely ambiguous &mdash; a tough trade-off, a political wall, a decision above your altitude &mdash; you bring them in with a crisp ask. They trust you with the rest.</p>
+      </div>
+    </div>
+
+    <div class="framework">
+      <h4>When to bring them in</h4>
+      <ul>
+        <li><strong>Genuine ambiguity.</strong> Two reasonable paths, both expensive. You want their read.</li>
+        <li><strong>Cross-team friction.</strong> Another team is blocking you and the conversation isn&rsquo;t moving at your level.</li>
+        <li><strong>Scope change.</strong> The work you committed to is no longer the work that makes sense. Flag it early, don&rsquo;t absorb it quietly.</li>
+        <li><strong>Risk they need to see.</strong> You spotted a real risk to delivery, quality, or people. Don&rsquo;t let them be surprised.</li>
+        <li><strong>Personal bandwidth.</strong> You&rsquo;re stretched past what you can sustain. Name it before it becomes a missed commitment.</li>
+      </ul>
+    </div>
+
+    <div class="framework">
+      <h4>When NOT to bring them in</h4>
+      <ul>
+        <li>A decision you could make with a 10-minute think.</li>
+        <li>A code question a teammate can answer.</li>
+        <li>&ldquo;Permission&rdquo; to do something you already know is right.</li>
+        <li>An update with nothing new in it.</li>
+      </ul>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Every minute your lead spends chasing you is a minute they aren&rsquo;t spending where only they can help. The respectful move is to do the work they&rsquo;d otherwise have to do for you &mdash; think through the trade-off, write the summary, propose the decision &mdash; and bring them in clean.</p>
+    </div>
+
+    <h3>What a good ask looks like</h3>
+    <div class="tip">
+      <span class="tip-icon">&#128172;</span>
+      <div>
+        <p><strong>Weak:</strong> &ldquo;Not sure what to do about the payment flow, can we talk?&rdquo;</p>
+        <p><strong>Strong:</strong> &ldquo;On the payment flow, I&rsquo;m stuck between two approaches. Option A: synchronous retry &mdash; simpler code, worse P95. Option B: async with a reconciliation job &mdash; better P95, more moving parts. My lean is A unless the latency hit is a dealbreaker. Can I get 10 minutes to check?&rdquo;</p>
+        <p>The strong version respects their time: you&rsquo;ve done the thinking, you have a lean, you&rsquo;re asking for a specific decision.</p>
+      </div>
+    </div>
+
+    <div class="tip friction-tip">
+      <span class="tip-icon">&#9888;&#65039;</span>
+      <div>
+        <span class="friction-tip-label">When it&rsquo;s hard</span>
+        <p><strong>&ldquo;I&rsquo;ve raised this twice and my lead keeps deferring it.&rdquo;</strong> First, check whether you really have brought it in clean &mdash; &ldquo;we should look at the auth module&rdquo; is a prompt, not an ask. If the framing was tight and they&rsquo;re still deferring, there&rsquo;s usually a reason you can&rsquo;t see: a parallel priority, a cost you don&rsquo;t know about, a political angle. Try once more with: &ldquo;I&rsquo;ve raised the auth refactor twice. I want to understand &mdash; is it not landing as a priority for you, or is there something I&rsquo;m missing? If it&rsquo;s lower than I think, I&rsquo;ll let it rest.&rdquo; That sentence usually gets a real answer. If it still doesn&rsquo;t, you&rsquo;ve flagged it clearly &mdash; and the decision to not act is now theirs to own, not yours to carry.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 7. Focus ─── -->
+  <section class="fade-in" id="focus">
+    <span class="section-num">07 &middot; Energy</span>
+    <h2>Time &amp; Focus</h2>
+    <p class="section-intro">Owning a feature requires real thinking time &mdash; deep work, not shallow work. If you don&rsquo;t deliberately protect time for it, the day fills up with interruptions and you end the week wondering where it went.</p>
+
+    <h3>The energy budget</h3>
+    <div class="framework">
+      <h4>A rough guideline for a senior engineer&rsquo;s week</h4>
+      <ul>
+        <li><strong>~60% build &amp; review</strong> &mdash; writing code, reviewing PRs, pairing. The core of the craft.</li>
+        <li><strong>~20% design &amp; thinking</strong> &mdash; design docs, spikes, reading, sketching approaches, investigating problems.</li>
+        <li><strong>~10% improvement &amp; initiative</strong> &mdash; your ITC loop work, paying down pain points, proposing improvements.</li>
+        <li><strong>~10% people &amp; communication</strong> &mdash; pairing with juniors, huddles, stakeholder updates, knowledge sharing.</li>
+      </ul>
+      <p>These are rough and will vary. The point is that if you&rsquo;re at 95% build and 5% everything else, you&rsquo;re working like a junior. If you&rsquo;re at 40% build and 60% meetings, you&rsquo;ve drifted away from the craft.</p>
+    </div>
+
+    <h3>Protecting deep work</h3>
+    <div class="accordion">
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>Block maker time explicitly</span>
+          <span class="arrow">&#9662;</span>
+        </div>
+        <div class="accordion-body">
+          <p>Put 2&ndash;3 hour blocks on your calendar labelled for the work you&rsquo;re doing. When someone tries to book over them, they see it&rsquo;s taken. If you don&rsquo;t protect the time, someone else will.</p>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>Notifications off during deep blocks</span>
+          <span class="arrow">&#9662;</span>
+        </div>
+        <div class="accordion-body">
+          <p>Slack, email, phone &mdash; all paused for the block. You&rsquo;ll respond within an hour. That&rsquo;s fine for 99% of messages, and you&rsquo;ll save the hour of context-loading your brain needs to get back into the problem.</p>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>One big thing before any small thing</span>
+          <span class="arrow">&#9662;</span>
+        </div>
+        <div class="accordion-body">
+          <p>Before you triage your inbox, make progress on the hardest thing you owe the team this week. Inbox-first mornings feel productive and aren&rsquo;t. The shallow work always finds you; the deep work only gets done if you choose it first.</p>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>Write it down when you interrupt yourself</span>
+          <span class="arrow">&#9662;</span>
+        </div>
+        <div class="accordion-body">
+          <p>The worst interruptions are the ones you cause yourself &mdash; &ldquo;oh, I should look at X.&rdquo; Keep a scratch file. Write the thought. Come back to the real work. Clear the scratch file at the end of the day.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#128293;</span>
+      <div>
+        <p><strong>Watch for:</strong> being in every channel, every meeting, every thread, all day. It feels like you&rsquo;re leading. It&rsquo;s usually the opposite &mdash; you&rsquo;re reacting. Ownership requires enough quiet to actually think.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 8. Exploration Mindset ─── -->
+  <section class="fade-in" id="exploration">
+    <span class="section-num">08 &middot; Curiosity</span>
+    <h2>The Exploration Mindset</h2>
+    <p class="section-intro">A senior engineer stays curious. Not as a hobby &mdash; as an obligation. The library that solves the problem you&rsquo;re currently hacking around probably exists. The tool that would cut your dev loop in half exists. You won&rsquo;t find either if you only look at the code in front of you.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>&ldquo;We don&rsquo;t have time to evaluate new things&rdquo; is usually said by the team that&rsquo;s slowest because they never evaluated new things. The hour you spend on Sunday reading about a new library can save the team a week in the quarter.</p>
+    </div>
+
+    <h3>A scenario to make it real</h3>
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128269;</span>
+      <div>
+        <p>Your team has a hand-rolled retry-with-backoff wrapper scattered across six services, with subtle differences in each. Bugs in it show up once a quarter. You spend two hours on a Saturday looking at what&rsquo;s standard &mdash; Resilience4j for JVM, Polly for .NET, Tenacity for Python. You write a 1-page proposal on Monday: adopt Resilience4j, pilot in one service, measure before/after incident rate. Six weeks later, the quarterly retry bugs stop. That&rsquo;s one loop. Do this three times a year and you&rsquo;re the engineer the team leans on to get unstuck.</p>
+      </div>
+    </div>
+
+    <h3>What exploration looks like in practice</h3>
+    <div class="framework">
+      <h4>A lightweight weekly habit</h4>
+      <ul>
+        <li><strong>1&ndash;2 hours a week</strong> reading, watching, or prototyping something outside the day&rsquo;s ticket.</li>
+        <li><strong>Follow a few strong sources</strong> &mdash; a handful of blogs or newsletters (see the <a href="resources.html">resources page</a>), not a firehose.</li>
+        <li><strong>When you read about something useful, note it</strong> against a problem the team has. That&rsquo;s your adoption backlog.</li>
+        <li><strong>When the match is strong, prototype it</strong> &mdash; an hour, a throwaway branch. Enough to see if the real thing behaves like the docs.</li>
+        <li><strong>If the prototype looks good, write the proposal.</strong> Don&rsquo;t just tell the team in a huddle &mdash; land an <a href="#initiative">ITC loop</a>.</li>
+      </ul>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>Reading a lot, adopting nothing. You know about every new library on Hacker News but the team still uses the hand-rolled version. Exploration without <em>application</em> is entertainment.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>Tie every exploration back to a concrete team problem. &ldquo;This could fix our retry mess.&rdquo; &ldquo;This would cut our dev loop from 2 minutes to 10 seconds.&rdquo; The exploration has a target; the target has a payoff.</p>
+      </div>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#128736;&#65039;</span>
+      <div>
+        <p><strong>Tools count too:</strong> faster profilers, better IDE setups, smarter dev tooling, a new editor macro, a well-configured debugger, a log-query shortcut. These are not distractions from the &ldquo;real work&rdquo; &mdash; they are the real work, compounded. An hour spent fixing your dev loop pays off for months.</p>
+      </div>
+    </div>
+
+    <h3>AI coding tools are part of exploration now</h3>
+    <p>Claude Code, Cursor, Copilot, and their peers have moved from novelty to baseline in most engineering workflows. Senior engineers are expected to use them well: fluently for boilerplate, critically for logic, and never blindly. The ones who have figured out where AI helps and where it hurts are measurably faster than those who haven&rsquo;t.</p>
+
+    <div class="framework">
+      <h4>Using AI tools well &mdash; a short guide</h4>
+      <ul>
+        <li><strong>Prompt with context, not just intent.</strong> Share the relevant code, the constraints, the style of the codebase. Vague prompts give vague code; specific prompts give near-ready code.</li>
+        <li><strong>Read everything it produces.</strong> AI happily generates plausible code that subtly breaks invariants, uses deprecated APIs, or invents library functions that don&rsquo;t exist. Treat its output as a first-draft PR from an unfamiliar contributor &mdash; useful, but always reviewed.</li>
+        <li><strong>Know where it helps most.</strong> Boilerplate, test scaffolding, language-to-language translation, regex, SQL drafts, documentation first drafts. It&rsquo;s a force multiplier on known patterns.</li>
+        <li><strong>Know where it hurts.</strong> Novel domain logic, architectural decisions, security-sensitive code, anything that requires understanding the wider system. Hand-roll these; use AI only as a sparring partner.</li>
+        <li><strong>Never paste production secrets or private client data into a prompt.</strong> Know your company&rsquo;s policies on what tools are approved for what codebases.</li>
+        <li><strong>Share what you learn.</strong> &ldquo;I found Claude is great for drafting Terraform modules but awful at our custom DSL&rdquo; is exactly the kind of team knowledge worth a lightning talk.</li>
+      </ul>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#129302;</span>
+      <div>
+        <p><strong>Scenario:</strong> you need to write 30 unit tests for a parser. By hand, two hours of mostly boilerplate. With AI assist: generate 30 candidate tests in 10 minutes, read and fix them in 20 minutes, leaving you 90 minutes for the hard cases at the edge of the parser that needed real thought. The tool didn&rsquo;t replace thinking; it moved your thinking to where it mattered.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 9. T-shaped -->
+  <section class="fade-in" id="t-shaped">
+    <span class="section-num">09 &middot; Growth</span>
+    <h2>Depth &amp; Breadth &mdash; The T-Shaped Engineer</h2>
+    <p class="section-intro">At the senior level, pure generalist isn&rsquo;t enough and pure specialist isn&rsquo;t enough. The shape the industry calls &ldquo;T-shaped&rdquo; &mdash; deep mastery of at least one area, wide working knowledge of many &mdash; is what lets you own features confidently and help teammates across the surface of a real system. Both axes are deliberate; neither accumulates by accident.</p>
+
+    <pre class="diagram">       BREADTH  (wide working knowledge)
+   &lt;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&gt;
+   frontend  &middot;  backend  &middot;  data  &middot;  ops  &middot;  product
+                         |
+                         |   DEPTH
+                         |   (go-to mastery
+                         |    in at least one area)
+                         |
+                         |
+                         v
+                    e.g. &quot;our distributed-
+                    systems person&quot;, or
+                    &quot;our performance person&quot;</pre>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>You do not have to pick your depth area on day one. But you should pick one by your third or fourth year and start <em>deliberately</em> building it. &ldquo;I&rsquo;m still figuring it out&rdquo; in year eight is a signal that nobody will quite know what to come to you for &mdash; and the career compound you could have had is lost to vague accumulation.</p>
+    </div>
+
+    <h3>Why depth &mdash; becoming a go-to person</h3>
+    <div class="framework">
+      <h4>What depth gives you and the team</h4>
+      <ul>
+        <li><strong>You become the go-to for that topic.</strong> Teammates DM you with hard questions; your opinion carries weight in decisions; you get pulled into the interesting work.</li>
+        <li><strong>You can teach it well.</strong> You can&rsquo;t pass on what you half-know. Real depth is what makes you able to mentor others into the same area.</li>
+        <li><strong>Your time is used where it matters most.</strong> The team protects your focus on your area; you&rsquo;re not spread thin across things anyone could do.</li>
+        <li><strong>Your interviews and writing get sharper.</strong> Depth gives you opinions worth hearing &mdash; and confidence to defend them.</li>
+      </ul>
+    </div>
+
+    <h3>Why breadth &mdash; being useful across the system</h3>
+    <div class="framework">
+      <h4>What breadth gives you and the team</h4>
+      <ul>
+        <li><strong>You can own a feature end-to-end.</strong> Backend + frontend + data + ops + product together &mdash; no handoffs stalling on &ldquo;that&rsquo;s not my area.&rdquo;</li>
+        <li><strong>You make better architectural choices.</strong> You understand the trade-offs at each layer because you&rsquo;ve worked at each layer.</li>
+        <li><strong>You communicate cross-functionally.</strong> You can talk to a frontend engineer in their terms, a DBA in theirs, and a PM in theirs.</li>
+        <li><strong>You unblock teammates.</strong> When someone&rsquo;s stuck in an area outside their depth, you can pair and unstick &mdash; not replace them, but bridge.</li>
+      </ul>
+    </div>
+
+    <h3>How to pick your depth area</h3>
+    <p>No perfect rule. Signals that a depth area is right for you:</p>
+    <ul style="margin:0 0 20px 24px;">
+      <li>You find yourself curious about it even when you don&rsquo;t have to be.</li>
+      <li>The team has a real need for someone to go deep there &mdash; it&rsquo;s a gap, not already covered.</li>
+      <li>It plays to a strength you already have (you&rsquo;re naturally careful with data, or you love debugging, or performance feels intuitive).</li>
+      <li>You can see a path to working on interesting problems in it for the next 3&ndash;5 years.</li>
+      <li>The area still matters to the industry in five years &mdash; don&rsquo;t go deep on a dying technology unless you&rsquo;re happy to be the maintainer forever.</li>
+    </ul>
+
+    <div class="framework">
+      <h4>Common depth areas worth considering</h4>
+      <ul>
+        <li><strong>Distributed systems</strong> &mdash; consistency, partitioning, consensus, messaging.</li>
+        <li><strong>Performance &amp; profiling</strong> &mdash; CPU, memory, I/O, JVM / Go runtime, browser perf.</li>
+        <li><strong>Data</strong> &mdash; databases, query optimisation, data modelling, pipelines.</li>
+        <li><strong>Security</strong> &mdash; threat modelling, authN/authZ, OWASP, appsec.</li>
+        <li><strong>Frontend craft</strong> &mdash; rendering, accessibility, interaction design, component systems.</li>
+        <li><strong>Infrastructure / platform</strong> &mdash; Kubernetes, cloud primitives, networking.</li>
+        <li><strong>Developer tooling</strong> &mdash; build systems, CI, language tooling, IDE.</li>
+        <li><strong>Observability</strong> &mdash; instrumentation, tracing, SLOs, incident practice.</li>
+        <li><strong>Domain craft</strong> &mdash; payments, healthcare, telecom, e-commerce &mdash; where deep domain understanding is itself the rare skill.</li>
+        <li><strong>AI / ML engineering</strong> &mdash; model serving, prompt engineering, evals, retrieval.</li>
+      </ul>
+    </div>
+
+    <h3>Building depth &mdash; the deliberate practice</h3>
+    <div class="framework">
+      <h4>A year&rsquo;s worth of deliberate depth</h4>
+      <ol>
+        <li><strong>Pick the area.</strong> Say it out loud to at least one person you trust &mdash; a mentor, your leader. Commitment becomes real when it&rsquo;s spoken.</li>
+        <li><strong>Read the foundational books.</strong> Every deep area has 2&ndash;3 books everyone in it has read. Read them.</li>
+        <li><strong>Follow the practitioners.</strong> Specific blogs, newsletters, talks, open-source projects. Know who the leading voices are.</li>
+        <li><strong>Do real work in it.</strong> Depth without production experience is brittle. Volunteer for the projects that stretch you in your area.</li>
+        <li><strong>Share what you learn.</strong> Lightning talks, internal blog posts, a named design doc. Teaching forces you to know it; being known as &ldquo;the person&rdquo; is how the depth compounds.</li>
+        <li><strong>Check in at a year.</strong> Have you become more useful in that area than you were? If not, why not? Adjust.</li>
+      </ol>
+    </div>
+
+    <h3>Building breadth &mdash; without becoming a dabbler</h3>
+    <div class="framework">
+      <h4>The breadth strategy</h4>
+      <ul>
+        <li><strong>Contribute to features outside your depth area</strong> a couple of times a year. Not as the lead &mdash; as a learning participant.</li>
+        <li><strong>Pair with specialists in adjacent areas.</strong> Half a day with the frontend lead, the DBA, the SRE. Their working context, not just their output.</li>
+        <li><strong>Own your dev loop across the stack.</strong> Enough comfort with the frontend, backend, data, and infra to set up, run, and debug a full system.</li>
+        <li><strong>Read widely but not deeply outside your depth.</strong> Newsletters, conference talk highlights, the industry&rsquo;s loudest voices &mdash; stay aware without trying to master.</li>
+      </ul>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128200;</span>
+      <div>
+        <p><strong>Scenario:</strong> an engineer picks distributed systems as their depth. Over a year: reads Kleppmann, watches Kingsbury&rsquo;s Jepsen talks, owns the payment retry refactor, writes an internal post on idempotency that circulates to three other teams. At the end of the year, they&rsquo;re the person teammates DM when they&rsquo;re designing anything with retries. That wasn&rsquo;t talent &mdash; that was a year of deliberate moves.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; wide and shallow forever</h5>
+        <p>Five years in, you&rsquo;ve touched every layer of the stack but mastered none. Stakeholders like you because you&rsquo;re helpful on anything, but you&rsquo;re not the go-to for anything. Career stalls quietly; you don&rsquo;t notice because the variety feels like progress.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach &mdash; T-shape</h5>
+        <p>Deep in one area; working competence across the rest. Known for your depth, respected for your breadth. Both are maintained deliberately. Neither one alone is enough.</p>
+      </div>
+    </div>
+
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#9888;&#65039;</span>
+      <div>
+        <p><strong>The other failure mode &mdash; deep and narrow forever.</strong> The opposite risk: you go so deep into one area that you lose touch with the rest of the stack. You become the &ldquo;wizard&rdquo; who solves hard problems but can&rsquo;t own features end-to-end, because the frontend or the ops layer is a mystery. Breadth has to be maintained on purpose even when your identity is built on depth.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <div class="try-this">
+    <p><strong>Pick one this week:</strong></p>
+    <ul>
+      <li>Block a 20-minute &ldquo;look at code &amp; graphs&rdquo; slot on your calendar. Do it this Monday. Write down what you find.</li>
+      <li>Identify one improvement you&rsquo;ve been complaining about. Run it through the ITC loop &mdash; propose it as a one-pager, commit to driving it, name a date.</li>
+      <li>Next time you&rsquo;re tempted to wait for your leader to nudge you on something &mdash; don&rsquo;t. Drive it; pull them in only if you hit something genuinely ambiguous.</li>
+      <li>Try an AI coding tool for one task you&rsquo;d otherwise do by hand. Notice where it helped, where you had to clean up, and what that tells you about where to reach for it again.</li>
+      <li>Name your depth area out loud &mdash; to your mentor, to your leader, in a journal. Pick the one foundational book you&rsquo;ll read in it this quarter.</li>
+    </ul>
+  </div>
+
+  <!-- ─── Closing ─── -->
+  <section class="fade-in">
+    <p class="section-intro">Next: <a href="requirements-design.html">Requirements &amp; Design</a> &mdash; starting a feature by understanding the real problem, not just the ticket.</p>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="requirements-design.html">Requirements &amp; Design</a>
+      <a href="clean-code.html">Clean Code</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="data-api.html">Data &amp; APIs</a>
+      <a href="testing-observability.html">Testing &amp; Observability</a>
+      <a href="code-reviews.html">Code Reviews</a>
+      <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+      <a href="mentoring-peers.html">Mentoring Peers</a>
+      <a href="influence-communication.html">Influence &amp; Communication</a>
+      <a href="communication-docs.html">Comms &amp; Docs</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for senior engineers who own what they ship. One feature at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

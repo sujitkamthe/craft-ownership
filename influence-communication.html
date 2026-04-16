@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Influence &amp; Communication &mdash; Craft &amp; Ownership</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="influence-communication.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Craft &amp; Ownership</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="requirements-design.html">Requirements &amp; Design</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="data-api.html">Data &amp; APIs</a>
+            <a href="testing-observability.html">Testing &amp; Observability</a>
+            <a href="code-reviews.html">Code Reviews</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Ownership</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+            <a href="mentoring-peers.html">Mentoring Peers</a>
+            <a href="influence-communication.html">Influence &amp; Communication</a>
+            <a href="communication-docs.html">Comms &amp; Docs</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Influence &amp; Communication</h1>
+    <p class="subtitle">How to move ideas, people, and teams without a title. Influence at this altitude is built on clear thinking, written artifacts, and the courage to speak &mdash; often, and on the things that matter.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#huddles">1. Dev Huddles &mdash; You Are the Main Voice</a></li>
+      <li><a href="#advocacy">2. Passionate Advocacy for Quality</a></li>
+      <li><a href="#propose">3. Proposing Improvements (Not Just Complaining)</a></li>
+      <li><a href="#artifacts">4. Written Artifacts That Drive Decisions</a></li>
+      <li><a href="#updates">5. Status Updates That Say What Matters</a></li>
+      <li><a href="#saying-no">6. Saying No with Data</a></li>
+      <li><a href="#disagree">7. Disagreeing Well</a></li>
+      <li><a href="#escalate">8. When (and How) to Escalate</a></li>
+      <li><a href="#credibility">9. Credibility Compounds</a></li>
+    </ul>
+  </section>
+
+  <!-- 1. Huddles -->
+  <section class="fade-in" id="huddles">
+    <span class="section-num">01 &middot; The Room</span>
+    <h2>Dev Huddles &mdash; You Are the Main Voice</h2>
+    <p class="section-intro">The engineering huddle is the team&rsquo;s technical conversation. If you&rsquo;re a senior engineer, you are the primary voice in that room &mdash; not because you outrank anyone, but because you have the clearest read on the code, the system, the risks, and what needs to happen next. The leader is there as backup. Pull them in when needed; otherwise, own it.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>A huddle where the leader does most of the talking and the senior engineers nod is a huddle that has lost its point. The leader brought you there because they trust you to drive the technical discussion. Driving it is the job.</p>
+    </div>
+
+    <h3>What &ldquo;being the main voice&rdquo; looks like</h3>
+    <div class="framework">
+      <h4>Habits of an active huddle contributor</h4>
+      <ul>
+        <li><strong>Come prepared.</strong> Glance at the dashboards, the PR queue, your running &ldquo;things that hurt&rdquo; note. Walk in with one or two things you intend to raise.</li>
+        <li><strong>Name what you&rsquo;re seeing.</strong> &ldquo;The checkout flaky test has fired 12 times this sprint &mdash; I think we should fix root cause this week.&rdquo; Specific, current, actionable.</li>
+        <li><strong>Drive to a decision.</strong> Don&rsquo;t let discussions end in &ldquo;let&rsquo;s think about it.&rdquo; Propose the next step: who does what by when.</li>
+        <li><strong>Draw conclusions out loud.</strong> &ldquo;OK, so what I&rsquo;m hearing is: we&rsquo;ll flag the migration risk, I&rsquo;ll spike the rollback question by Thursday, and we&rsquo;ll revisit on Monday. Agreed?&rdquo;</li>
+        <li><strong>Invite quieter voices.</strong> &ldquo;Priya, you&rsquo;ve been close to that module &mdash; what do you think?&rdquo; Senior influence isn&rsquo;t monopolising the room; it&rsquo;s conducting it.</li>
+        <li><strong>Summarise.</strong> At the end, the person who summarises owns the follow-through in people&rsquo;s memory. Be that person.</li>
+      </ul>
+    </div>
+
+    <h3>Who runs the room</h3>
+    <div class="framework">
+      <p>The working model: you run the conversation; your lead contributes when (a) they have information you don&rsquo;t, (b) a decision needs their authority, or (c) the conversation has drifted off useful ground and needs a reset. Otherwise they&rsquo;re quiet &mdash; not because they don&rsquo;t care, but because they trust the room.</p>
+      <p>That&rsquo;s what frees their time for the problems only they can solve. You keep the technical conversation; they keep the people, stakeholder, and escalation work. Both of you are senior, both of you own something, and neither of you is chasing the other.</p>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>You show up, the lead opens with &ldquo;anything else to raise?&rdquo;, the room goes quiet, and you say <em>&ldquo;nothing from me, sounds good&rdquo;</em>. Two sprints later the flaky test is still firing nightly and you&rsquo;re wondering why nothing changes. The lead ends up doing your technical thinking in front of the room, and the huddle gets weaker as a technical forum.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>You open: <em>&ldquo;Three from me. One, the checkout flaky test &mdash; 14 fires this sprint, I want to fix root cause this week, any objections? Two, the build&rsquo;s crept to 11 minutes, I&rsquo;ve got a proposal. Three, Raghav&rsquo;s library upgrade &mdash; I&rsquo;ve read it, I&rsquo;m a +1, let&rsquo;s decide today.&rdquo;</em> The lead corrects you where they must &mdash; but makes you correct, not drive. Over a quarter, the huddle becomes a different kind of meeting.</p>
+      </div>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128483;&#65039;</span>
+      <div>
+        <p><strong>Scenario:</strong> this week&rsquo;s huddle starts. You say: &ldquo;Three things from me: one, the build crept to 11 minutes, I&rsquo;ve got a proposal to cut it back. Two, the payment retry bug surfaced again, I want to finally fix it end-of-sprint. Three, we should decide about the library upgrade Raghav proposed &mdash; I&rsquo;ve read it, I&rsquo;m a +1, here&rsquo;s why.&rdquo; The leader listens, agrees on the first two, asks one clarifying question on the third. Meeting lasts 25 minutes. Clear actions. <em>That&rsquo;s the model.</em></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2. Advocacy -->
+  <section class="fade-in" id="advocacy">
+    <span class="section-num">02 &middot; Voice</span>
+    <h2>Passionate Advocacy for Quality</h2>
+    <p class="section-intro">When something is hurting the team &mdash; missing observability, a badly written module, a quality corner being cut, a flaky test being ignored &mdash; your job is to name it. Kindly, specifically, and often enough that it gets fixed. Silence is how bad practices become house rules.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Your teammates already suspect what&rsquo;s wrong. Your willingness to name it out loud &mdash; clearly, without hedging &mdash; is what turns a shared frustration into a shared fix. That voice is one of the most valuable things a senior engineer brings to a team.</p>
+    </div>
+
+    <h3>What &ldquo;passionate&rdquo; looks like &mdash; and doesn&rsquo;t</h3>
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Not this</h5>
+        <p>Venting in DMs. Sighing in code review. Mumbling &ldquo;this is awful&rdquo; at the end of a huddle. Rolling your eyes and writing around the problem. Letting resentment build until you&rsquo;re complaining about the team instead of advocating for it.</p>
+      </div>
+      <div class="better">
+        <h5>This</h5>
+        <p>&ldquo;I want to raise something. Our on-call has been flooded by checkout alerts for three sprints. I think the alerts are misconfigured and we&rsquo;re ignoring real signals. I&rsquo;ve got a proposal &mdash; can I drive this as an initiative for the next sprint?&rdquo; Clear, warm, actionable, and showing up to do the work.</p>
+      </div>
+    </div>
+
+    <div class="framework">
+      <h4>How to advocate effectively</h4>
+      <ul>
+        <li><strong>Be specific.</strong> Not &ldquo;our code quality is bad&rdquo; &mdash; &ldquo;the <code>OrderProcessor</code> class has five responsibilities; every change there takes twice as long as it should.&rdquo;</li>
+        <li><strong>Bring evidence.</strong> A number, a trend, a recent incident, a concrete example. Conviction backed by data moves teams; conviction alone bounces off.</li>
+        <li><strong>Say it more than once.</strong> A single mention in a huddle isn&rsquo;t advocacy &mdash; it&rsquo;s a remark. Raise it in huddles, in retros, in 1:1s, in design discussions. Keep it in the team&rsquo;s field of view until it gets fixed.</li>
+        <li><strong>Own part of the fix.</strong> Advocacy without offering to do the work lands as complaint. Advocacy with a volunteer (yourself) at the end lands as leadership.</li>
+        <li><strong>Stay warm.</strong> The goal is a better team, not a righteous moment. People follow passion that serves them; they avoid passion that judges them.</li>
+      </ul>
+    </div>
+
+    <div class="tip purple-tip">
+      <span class="tip-icon">&#128293;</span>
+      <div>
+        <p><strong>Scenario:</strong> logs in a critical service are sparse &mdash; every incident is a grep through tea leaves. In three successive huddles, you raise it: &ldquo;We&rsquo;re going to pay for this the next time something goes wrong at 2am. I want to land structured logging across the service this sprint.&rdquo; Nobody pushes back; nobody champions it either. You propose, commit, drive, land, report. Two months later an incident happens and takes 20 minutes instead of 4 hours. That&rsquo;s advocacy that became a gift to the team.</p>
+      </div>
+    </div>
+
+    <div class="tip friction-tip">
+      <span class="tip-icon">&#9888;&#65039;</span>
+      <div>
+        <span class="friction-tip-label">When it&rsquo;s hard</span>
+        <p><strong>&ldquo;I&rsquo;ve raised the flaky test three times. Nobody disagrees, nobody picks it up.&rdquo;</strong> Agreement without movement means you&rsquo;ve named a problem without offering someone a way to act. Stop raising and start proposing: &ldquo;The checkout flaky test has fired 14 times in the last two sprints. I want to fix it this week &mdash; 4 hours of my time. Any objection?&rdquo; Nine times out of ten, silence turns into &ldquo;go for it.&rdquo; If it doesn&rsquo;t &mdash; if you get &ldquo;we don&rsquo;t have capacity for that right now&rdquo; &mdash; you have a real conversation to have with your lead about what it costs the team to keep carrying it. The mistake isn&rsquo;t raising too often; it&rsquo;s raising without offering the first move. Raising without ownership of the fix lands as complaint, even when it&rsquo;s correct.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3. Propose -->
+  <section class="fade-in" id="propose">
+    <span class="section-num">03 &middot; Action</span>
+    <h2>Proposing Improvements (Not Just Complaining)</h2>
+    <p class="section-intro">Complaints drain teams. Proposals energise them. The difference is a few sentences of work &mdash; naming what you&rsquo;d change, how long it&rsquo;d take, what you&rsquo;d expect as the payoff.</p>
+
+    <div class="framework">
+      <h4>The one-page proposal template</h4>
+      <ol>
+        <li><strong>The problem</strong> &mdash; what&rsquo;s hurting, with a concrete example or metric.</li>
+        <li><strong>The proposed change</strong> &mdash; what you&rsquo;d do, in plain language.</li>
+        <li><strong>Rough effort</strong> &mdash; days, not story points. Honest number.</li>
+        <li><strong>Expected benefit</strong> &mdash; what gets better, ideally measurable.</li>
+        <li><strong>Risks &amp; unknowns</strong> &mdash; what could go sideways.</li>
+        <li><strong>Owner</strong> &mdash; almost always you, unless you&rsquo;re explicitly asking someone else.</li>
+      </ol>
+      <p>One page. Written in 20&ndash;40 minutes. Posted to where the team reads. This is the step that turns a hallway complaint into a landed improvement.</p>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; the hallway complaint</h5>
+        <p>&ldquo;Ugh, the build is so slow.&rdquo; Said, nodded at, forgotten. The engineer who said it is now the engineer known for complaining; the problem is unchanged.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach &mdash; the posted proposal</h5>
+        <p>&ldquo;Proposal: cut build from 11m to &lt;7m. Scope: fix linter scope and parallelise the test stage. Effort: 2 days. Owner: me. OK to start Monday?&rdquo; The engineer who wrote that is now the engineer who makes things better.</p>
+      </div>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#128288;</span>
+      <div>
+        <p>The best time to write the proposal is the day after the problem frustrated you. Emotion gives you the specificity; the night&rsquo;s sleep gives you the tone. Write it warm, post it clean, own the fix.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4. Artifacts -->
+  <section class="fade-in" id="artifacts">
+    <span class="section-num">04 &middot; Written</span>
+    <h2>Written Artifacts That Drive Decisions</h2>
+    <p class="section-intro">A good written artifact is force multiplication. It lets a decision be reviewed by people in different time zones, revisited after a year, and disagreed with on specifics instead of feelings. A senior engineer writes more than they realise they do.</p>
+
+    <div class="framework">
+      <h4>The main artifacts and when to reach for each</h4>
+      <ul>
+        <li><strong>Design doc</strong> &mdash; before a non-trivial build. Two pages. See <a href="requirements-design.html#design-doc">requirements &amp; design</a>.</li>
+        <li><strong>ADR (Architecture Decision Record)</strong> &mdash; one page, captures a significant, hard-to-reverse decision. See <a href="requirements-design.html#adr">ADR section</a>.</li>
+        <li><strong>RFC (Request for Comments)</strong> &mdash; for cross-team or wider proposals. Longer than a design doc; shared across groups for structured feedback.</li>
+        <li><strong>Runbook</strong> &mdash; one page, covers how to operate a feature. See <a href="delivery-ownership.html#handover">handover section</a>.</li>
+        <li><strong>Post-mortem</strong> &mdash; after an incident. Blameless; focuses on mechanisms, not people.</li>
+        <li><strong>Proposal</strong> &mdash; the improvement pitch above. One page.</li>
+      </ul>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">&#128221;</span>
+      <div>
+        <p><strong>Writing is thinking, slowed down.</strong> When you can&rsquo;t write it clearly, it&rsquo;s because you don&rsquo;t yet understand it clearly. That&rsquo;s the signal to think more before you build more. The hour you spend writing often saves the week you&rsquo;d spend redoing.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 5. Updates -->
+  <section class="fade-in" id="updates">
+    <span class="section-num">05 &middot; Communication</span>
+    <h2>Status Updates That Say What Matters</h2>
+    <p class="section-intro">A good update isn&rsquo;t a list of things you did. It&rsquo;s a signal about where the work is, what&rsquo;s at risk, and what you need. Written well, it respects the reader&rsquo;s time and earns trust.</p>
+
+    <div class="framework">
+      <h4>The four-line update</h4>
+      <ol>
+        <li><strong>Done this week:</strong> one line &mdash; the shape of what landed.</li>
+        <li><strong>In flight:</strong> one line &mdash; what you&rsquo;re pushing on now.</li>
+        <li><strong>Risks / blockers:</strong> one line &mdash; the real ones, not none-if-you-looked-harder.</li>
+        <li><strong>Decisions needed:</strong> one line &mdash; what you want from the reader.</li>
+      </ol>
+      <p>Four lines. Sent Friday afternoon or Monday morning. Every week. Your leader and stakeholders will stop asking you for updates because they already have them.</p>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; the activity log</h5>
+        <p>&ldquo;On Tuesday I worked on X, on Wednesday I paired with Y, on Thursday I fixed Z&hellip;&rdquo; Nobody needed your calendar &mdash; they needed to know whether the feature is on track.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach &mdash; the signal</h5>
+        <p>&ldquo;Checkout feature is ~70% done, on track for March 20. Main risk: payment gateway retries still unresolved, deciding this week. Need: PM decision on refund edge case by Friday.&rdquo;</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 6. Saying no -->
+  <section class="fade-in" id="saying-no">
+    <span class="section-num">06 &middot; Boundaries</span>
+    <h2>Saying No with Data</h2>
+    <p class="section-intro">Senior engineers say no more than juniors do &mdash; and they do it without drama. The trick isn&rsquo;t the word &ldquo;no&rdquo;; it&rsquo;s the evidence behind it.</p>
+
+    <div class="framework">
+      <h4>The structure of a good no</h4>
+      <ol>
+        <li><strong>Acknowledge the ask.</strong> You heard them; you understand what they want.</li>
+        <li><strong>Name the cost.</strong> Time, scope, quality, risk &mdash; what does saying yes actually mean?</li>
+        <li><strong>Offer the trade-off.</strong> &ldquo;I can do X this week, but it means Y slips two weeks. Which do you want?&rdquo;</li>
+        <li><strong>Give the decision back.</strong> You&rsquo;re not blocking; you&rsquo;re informing. They pick.</li>
+      </ol>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">&#128683;</span>
+      <div>
+        <p><strong>Scenario:</strong> a stakeholder wants a feature in two weeks that realistically takes four. Weak no: &ldquo;That&rsquo;s not possible.&rdquo; Strong no: &ldquo;To hit two weeks we&rsquo;d need to drop the edge case handling and the rollback safety &mdash; I&rsquo;d expect an incident within a month. Four weeks gets it in safely. Six weeks gets it in polished. Which risk profile do you want?&rdquo; The stakeholder picks informedly. You&rsquo;re not a blocker; you&rsquo;re a partner.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 7. Disagree -->
+  <section class="fade-in" id="disagree">
+    <span class="section-num">07 &middot; Debate</span>
+    <h2>Disagreeing Well</h2>
+    <p class="section-intro">Teams that can&rsquo;t disagree make bad decisions quietly. Teams that disagree poorly make bad decisions loudly and then carry the resentment. Teams that disagree well make better decisions and stay intact. Senior engineers learn the third mode.</p>
+
+    <div class="framework">
+      <h4>Disagree and commit &mdash; how it actually works</h4>
+      <ol>
+        <li><strong>Disagree openly, specifically, once.</strong> &ldquo;I&rsquo;d go the other way because of X. Here&rsquo;s the risk I see.&rdquo;</li>
+        <li><strong>Hear the response.</strong> Listen for what you missed, not for rebuttals to fire back.</li>
+        <li><strong>If the group still decides differently, commit.</strong> Not passive-aggressively &mdash; genuinely. Execute as if it had been your idea.</li>
+        <li><strong>If the decision turns out wrong, don&rsquo;t gloat.</strong> Surface it calmly, with what it teaches. &ldquo;The X risk we discussed did materialise; here&rsquo;s what I&rsquo;d adjust.&rdquo;</li>
+      </ol>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall</h5>
+        <p>Re-raising the same argument in every meeting for two months. <em>&ldquo;I know we decided, but I still think&hellip;&rdquo;</em>, <em>&ldquo;Just to revisit the point I made last week&hellip;&rdquo;</em>. The team knows what you think; nothing&rsquo;s added; trust erodes. You&rsquo;ve trained the room to brace when you open your mouth.</p>
+      </div>
+      <div class="better">
+        <h5>Better approach</h5>
+        <p>You make your case once, cleanly: <em>&ldquo;I&rsquo;d go the other way &mdash; here&rsquo;s the risk I see. If we decide to go with option A, I&rsquo;ll commit to it. But I want the risk on the record.&rdquo;</em> Team decides A anyway. You execute A like it was your idea. If the risk materialises later: <em>&ldquo;The thing we discussed has shown up. Here&rsquo;s what I&rsquo;d adjust.&rdquo;</em> No &ldquo;I told you so.&rdquo;</p>
+      </div>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Being right and being constructive are separate skills. You can be right about a design decision and still be a net negative to the team if you can&rsquo;t land it without bruising everyone. Senior engineers develop both.</p>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 8. Escalate -->
+  <section class="fade-in" id="escalate">
+    <span class="section-num">08 &middot; Pull</span>
+    <h2>When (and How) to Escalate</h2>
+    <p class="section-intro">Escalation isn&rsquo;t tattling &mdash; it&rsquo;s the responsible move when a problem is stuck at your level. The test: would a reasonable leader want to know about this before it becomes worse? If yes, escalate; do it calmly, with context.</p>
+
+    <div class="framework">
+      <h4>When to escalate</h4>
+      <ul>
+        <li>A cross-team block has been unanswered for more than a week.</li>
+        <li>Quality is being systematically compromised in ways you can&rsquo;t address alone.</li>
+        <li>A commitment you can&rsquo;t keep, because of scope or resource changes outside your control.</li>
+        <li>A people issue (bullying, persistent underperformance affecting the team) &mdash; escalate to a manager; this is not your work to do alone.</li>
+        <li>A risk the leader should weigh in on &mdash; don&rsquo;t let them be surprised later.</li>
+      </ul>
+    </div>
+
+    <h3>How to escalate without drama</h3>
+    <div class="framework">
+      <ul>
+        <li><strong>Private first.</strong> Start in a 1:1 or DM, not a public thread.</li>
+        <li><strong>Bring facts and context.</strong> What you&rsquo;ve tried, what&rsquo;s stuck, what specifically you need.</li>
+        <li><strong>Propose what you&rsquo;d like to happen.</strong> Don&rsquo;t dump the problem; offer a direction.</li>
+        <li><strong>Stay kind.</strong> Escalation doesn&rsquo;t require blame. &ldquo;I want to flag this because I think it&rsquo;s hitting above my altitude&rdquo; works.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 9. Credibility -->
+  <section class="fade-in" id="credibility">
+    <span class="section-num">09 &middot; Long Game</span>
+    <h2>Credibility Compounds</h2>
+    <p class="section-intro">Influence at this altitude is not given &mdash; it&rsquo;s accrued. Every accurate estimate, every shipped improvement, every warm and honest review, every time you did what you said you&rsquo;d do, adds a small deposit to your credibility account. Over years, the account is what you have.</p>
+
+    <div class="framework">
+      <h4>What builds (and withdraws from) credibility</h4>
+      <ul>
+        <li><strong>Deposits:</strong> honest estimates, predictable delivery, calm under pressure, warm disagreement, landed improvements, reliable reviews, saying what you&rsquo;ll do and doing it.</li>
+        <li><strong>Withdrawals:</strong> surprises late in delivery, hallway complaints, initiatives that stall, reviews that dribble out, being wrong loudly and then unavailable for the cleanup.</li>
+      </ul>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>The senior engineers whose teammates seek them out for advice are not the most clever ones &mdash; they are the most reliable. Over time, reliability is what lets your ideas land before you&rsquo;ve finished making the case.</p>
+    </div>
+
+    <p class="section-intro" style="margin-top:40px;">Next: <a href="communication-docs.html">Comms &amp; Docs</a> for outward-facing communication and documentation craft, or <a href="resources.html">Resources</a> for books and talks. Or try the <a href="self-assessment.html">self-assessment</a>.</p>
+  </section>
+
+  <div class="try-this">
+    <p><strong>Pick one this week:</strong></p>
+    <ul>
+      <li>Walk into your next huddle with 2&ndash;3 specific things you want to raise. Raise them. Drive at least one to a decision with an owner and a date.</li>
+      <li>Pick one quality problem you&rsquo;ve been quietly frustrated about. Write a one-page proposal (problem, change, effort, benefit, owner) and post it.</li>
+      <li>Send a 4-line weekly update (Done / In flight / Risks / Decisions needed) on Friday, even if nobody asked. See what reactions come.</li>
+    </ul>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="requirements-design.html">Requirements &amp; Design</a>
+      <a href="clean-code.html">Clean Code</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="data-api.html">Data &amp; APIs</a>
+      <a href="testing-observability.html">Testing &amp; Observability</a>
+      <a href="code-reviews.html">Code Reviews</a>
+      <a href="delivery-ownership.html">Delivery &amp; Ownership</a>
+      <a href="mentoring-peers.html">Mentoring Peers</a>
+      <a href="influence-communication.html">Influence &amp; Communication</a>
+      <a href="communication-docs.html">Comms &amp; Docs</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for senior engineers who own what they ship. One feature at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
