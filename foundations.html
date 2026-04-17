@@ -98,7 +98,7 @@
     <h3>What the shift actually changes</h3>
     <table class="comparison">
       <tr><th>Area</th><th>Ticket-closer</th><th>Feature-owner</th></tr>
-      <tr><td>Requirements</td><td>Reads the Jira ticket</td><td>Asks why, talks to the PM, confirms the real problem</td></tr>
+      <tr><td>Requirements</td><td>Reads the Jira ticket</td><td>Asks why, talks to whoever brought the story in, confirms the real problem</td></tr>
       <tr><td>Design</td><td>Starts coding</td><td>Sketches the approach, flags trade-offs, invites review</td></tr>
       <tr><td>Unknowns</td><td>Hopes they resolve</td><td>Spikes them early, narrows the risk</td></tr>
       <tr><td>Testing</td><td>Adds unit tests because the template requires it</td><td>Chooses the test layer that catches the real risk</td></tr>
@@ -179,7 +179,7 @@
 
     <div class="key-insight">
       <h4>Key Insight</h4>
-      <p>If your definition of &ldquo;successful delivery&rdquo; stops at &ldquo;on time and no bugs in QA&rdquo;, you&rsquo;re shipping on the weakest definition in the industry. The delivery you&rsquo;re proud of includes performance you measured, security you verified, and observability you wired in before ship &mdash; not after the first incident.</p>
+      <p>If your definition of &ldquo;successful delivery&rdquo; stops at &ldquo;on time and no bugs on handoff&rdquo;, you&rsquo;re shipping on the weakest definition in the industry. The delivery you&rsquo;re proud of includes performance you measured, security you verified, and observability you wired in before ship &mdash; not after the first incident.</p>
     </div>
   </section>
 
@@ -366,7 +366,7 @@
     <div class="pattern-grid">
       <div class="pitfall">
         <h5>When they&rsquo;re chasing you</h5>
-        <p>Your lead chases you for updates. Nudges you to self-review. Reminds you to add tests. Asks whether the metric dashboard is set up. Prompts you to follow up with the PM. You&rsquo;re waiting to be told; they&rsquo;re waiting for you to lead your own work.</p>
+        <p>Your lead chases you for updates. Nudges you to self-review. Reminds you to add tests. Asks whether the metric dashboard is set up. Prompts you to follow up with the stakeholder. You&rsquo;re waiting to be told; they&rsquo;re waiting for you to lead your own work.</p>
       </div>
       <div class="better">
         <h5>When you&rsquo;re running it</h5>
@@ -605,7 +605,7 @@
       <ul>
         <li><strong>You can own a feature end-to-end.</strong> Backend + frontend + data + ops + product together &mdash; no handoffs stalling on &ldquo;that&rsquo;s not my area.&rdquo;</li>
         <li><strong>You make better architectural choices.</strong> You understand the trade-offs at each layer because you&rsquo;ve worked at each layer.</li>
-        <li><strong>You communicate cross-functionally.</strong> You can talk to a frontend engineer in their terms, a DBA in theirs, and a PM in theirs.</li>
+        <li><strong>You communicate cross-functionally.</strong> You can talk to a frontend engineer in their terms, a DBA in theirs, and a business stakeholder in theirs.</li>
         <li><strong>You unblock teammates.</strong> When someone&rsquo;s stuck in an area outside their depth, you can pair and unstick &mdash; not replace them, but bridge.</li>
       </ul>
     </div>
