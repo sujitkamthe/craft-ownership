@@ -1,12 +1,12 @@
 # Craft & Ownership — Project Context
 
 ## What This Is
-A self-guided, multi-page website for **senior engineers who own features end-to-end**. It is a field guide for engineers who take a feature from requirements through design, delivery, and tracking, and who champion engineering craft — clean code, testing, review quality, and observability — for the team.
+A self-guided, multi-page website for **senior engineers who own features end-to-end**. It is a reference for engineers who take a feature from requirements through design, delivery, and tracking, and who champion engineering craft — clean code, testing, review quality, and observability — for the team.
 
 Hosted on GitHub Pages. Built as static HTML/CSS/JS with no build step. Sibling to `../multiplier-playbook/` (Beyond IC), which covers the *next* step after this guide — becoming an engineering leader.
 
 ## Who It's For
-Senior engineers (typically 4–8 years of experience) who are not managers and are not chasing management. They are strong individual contributors ready to take feature-level ownership, raise the craft bar for their team, and mentor peers and juniors — without a leadership title.
+Senior engineers who are not managers and are not chasing management. They are strong individual contributors ready to take feature-level ownership, raise the craft bar for their team, and mentor peers and juniors — without a leadership title. Years of experience is not a criterion — we don't gate seniority on tenure as an org.
 
 ## Tone — This Is Critical
 This is a **learning resource**, not a job description. The tone must be:
